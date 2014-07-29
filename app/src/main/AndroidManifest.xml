@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    package="com.sportxast.SportXast">
+
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
+    <uses-permission android:name="android.permission.CAMERA" />
+
+    <uses-feature android:name="android.hardware.camera" />
+    <uses-feature android:name="android.hardware.camera.autofocus" />
+
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS" />
+    <uses-permission android:name="android.permission.READ_LOGS" />
+
+    <uses-permission android:name="android.permission.WRITE_SETTINGS" />
+
+    <application
+        android:name="com.sportxast.SportXast.Global_Data"
+        android:allowBackup="true"
+        android:icon="@drawable/ic_launcher"
+        android:label="@string/app_name"
+        android:largeHeap="true"
+        android:theme="@android:style/Theme.NoTitleBar">
+
+        <meta-data
+            android:name="com.facebook.sdk.ApplicationId"
+            android:value="@string/app_id" />
+
+        <activity android:name="com.facebook.LoginActivity" />
+
+        <activity
+            android:name="com.sportxast.SportXast.Splash_Activity"
+            android:configChanges="orientation|screenSize"
+            android:label="@string/app_name"
+            android:windowSoftInputMode="stateHidden">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="SportX2_Main"
+            android:configChanges="orientation|screenSize"
+            android:windowSoftInputMode="stateHidden"></activity>
+        <activity android:name="com.sportxast.SportXast.activities2_0.Menu_Activity"></activity>
+
+        <activity
+            android:name="com.sportxast.SportXast.activities2_0.Search_Activity"
+            android:windowSoftInputMode="stateHidden"></activity>
+
+        <activity
+            android:name="com.sportxast.SportXast.activities2_0.Search_Activity_ATAN"
+            android:windowSoftInputMode="stateHidden"></activity>
+
+        <activity android:name="com.sportxast.SportXast.activities2_0.SearchResult_Activity"></activity>
+
+
+        <activity android:name="com.sportxast.SportXast.activities2_0.HighlightResult_Activity"></activity>
+
+
+        <!-- <activity android:name=".fragments.Comment"></activity> -->
+        <activity android:name="com.sportxast.SportXast.activities_old.EventsActivity"></activity>
+        <activity android:name="com.sportxast.SportXast.activities_old.HighlightsActivity"
+
+            ></activity>
+        <activity android:name="com.sportxast.SportXast.activities_old.CaptureActivity"></activity>
+        <activity
+            android:name="com.sportxast.SportXast.activities2_0.Profile_Activity"
+            android:configChanges="orientation|screenSize|keyboardHidden"></activity>
+        <activity android:name="com.sportxast.SportXast.activities_old.ShareActivity"></activity>
+        <activity
+            android:name="com.sportxast.SportXast.activities2_0.Fav_Tag_Comment_Activity"
+            android:windowSoftInputMode="stateHidden"></activity>
+        <activity android:name="com.sportxast.SportXast.activities_old.PopularActivity"></activity>
+        <activity android:name="com.sportxast.SportXast.activities_old.FavoriteActivity"></activity>
+        <activity android:name="com.sportxast.SportXast.activities_old.NearbyActivity"></activity>
+        <activity
+            android:name="com.sportxast.SportXast.activities2_0.ProfileTab_Activity"
+            android:configChanges="orientation|screenSize|keyboardHidden"></activity>
+        <activity android:name="com.sportxast.SportXast.activities2_0.Information_Activity"></activity>
+        <activity android:name="com.sportxast.SportXast.activities_old.EventsMediaActivity"></activity>
+        <activity
+            android:name="com.sportxast.SportXast.activities2_0.ChooseASport_Activity"
+            android:windowSoftInputMode="stateHidden"></activity>
+        <activity android:name="com.sportxast.SportXast.activities_old.CaptureScreenActivity"></activity>
+        <activity android:name="com.sportxast.SportXast.activities2_0.VideoFullScreenActivity"></activity>
+
+        <activity android:name=".activities2_0.Popular_Activity"></activity>
+        <activity android:name=".activities2_0.Nearby_Activity"></activity>
+        <activity android:name=".activities2_0.Favorite_Activity"></activity>
+        <activity
+            android:name=".activities2_0.Highlight_Activity"
+            android:cacheColorHint="#00000000"
+            android:configChanges="orientation|screenSize|keyboardHidden">
+            <!-- android:windowSoftInputMode="stateAlwaysVisible">
+             -->
+
+        </activity>
+        <activity android:name=".activities2_0.Create_Activity">
+            <!-- 
+            android:screenOrientation="portrait"
+   			android:configChanges="orientation|keyboardHidden"> -->
+        </activity>
+        <activity android:name=".activities2_0.Web_Activity"></activity>
+        <activity android:name=".activities2_0.CreateNew_Activity"></activity>
+        <activity
+            android:name=".activities2_0.ChooseAVenue_Activity"
+            android:windowSoftInputMode="stateHidden"></activity>
+        <activity
+            android:name=".activities2_0.ProfileEdit_Activity"
+            android:windowSoftInputMode="stateHidden"></activity>
+        <activity android:name=".activities2_0.ChooseATeam_Activity"></activity>
+        <activity
+            android:name=".activities2_0.VideoCaptureActivity"
+            android:configChanges="keyboard|keyboardHidden|orientation|screenLayout|uiMode|screenSize|smallestScreenSize"
+            android:windowSoftInputMode="adjustResize|stateHidden"></activity>
+
+        <receiver
+            android:name="com.sportxast.SportXast.tasks.Scheduler"
+            android:process=":remote"></receiver>
+
+        <service android:name="com.sportxast.SportXast.tasks.SyncService"></service>
+        |
+        <activity android:name=".crashreporting.ReportActivity"></activity>
+        |
+        <activity
+            android:name=".activities2_0.VideoPreviewActivity"
+            android:screenOrientation="landscape"></activity>
+        <activity
+            android:name=".Tutorial_Activity"
+            android:configChanges="orientation|screenSize"></activity>
+        <activity android:name=".activities2_0.EventDetail_Activity"></activity>
+
+        <provider
+            android:name=".crashreporting.ReportFilesProvider"
+            android:authorities="com.sportxast.SportXast.crashreporting.filesprovider"
+            android:exported="true"
+            android:process=":report_process"
+            tools:ignore="ExportedContentProvider" />
+
+        <service android:name="com.sportxast.SportXast.tasks.BackgroundService"></service>
+
+
+    </application>
+
+</manifest>

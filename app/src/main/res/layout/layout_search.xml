@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+    
+    
+    
+    
+
+  <!-- Header Start -->
+
+    <RelativeLayout
+        android:id="@+id/sx_header_wrapper"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content" >
+    </RelativeLayout>
+
+    <!-- Header End -->
+
+    <RelativeLayout
+        android:id="@+id/layout_search"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:padding="8dp" >
+        
+		 <com.sportxast.SportXast.activities2_0.MyTextView
+		     android:id="@+id/edittext_search"
+		     android:layout_width="match_parent"
+		     android:layout_height="32dp"
+		     android:layout_alignParentLeft="true"
+		     android:layout_centerVertical="true"
+		     android:layout_toLeftOf="@+id/btn_cancel"
+		     android:background="@drawable/shape_btn_white"
+		     android:drawableLeft="@drawable/ic_search_small"
+		     android:drawablePadding="4dp"
+		     android:editable="true"
+		     android:hint="Search"
+		     android:lines="1"
+		     android:maxLines="1"
+		     android:paddingLeft="4dp"
+		     android:textColor="@color/black"
+		     android:textSize="14sp" />
+        
+        <Button
+            android:id="@+id/btn_cancel"
+            android:layout_width="wrap_content"
+            android:layout_height="32dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:background="@android:color/transparent"
+            android:text="Cancel"
+            android:visibility="gone"
+            android:textColor="@color/uni_blue"
+            android:textSize="14sp"/>
+    </RelativeLayout>
+
+    <com.sportxast.SportXast.thirdparty_class.HeaderListView
+        android:id="@+id/headerlistview_events"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/progress_footerloader"
+        android:layout_below="@+id/layout_search" >
+
+        <TabHost
+            android:id="@android:id/tabhost"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
+            android:background="@color/white" >
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical" >
+
+                <TabWidget
+                    android:id="@android:id/tabs"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:layout_marginBottom="8dp"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginRight="16dp"
+                    android:layout_marginTop="8dp"
+                    android:background="@drawable/shape_tabwhite_borderblue"
+                    android:divider="@color/uni_blue"
+                    android:padding="1dp"
+                    >
+                </TabWidget>
+
+                <FrameLayout
+                    android:id="@android:id/tabcontent"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" >
+                </FrameLayout>
+            </LinearLayout>
+        </TabHost>
+    </com.sportxast.SportXast.thirdparty_class.HeaderListView>
+
+</LinearLayout>

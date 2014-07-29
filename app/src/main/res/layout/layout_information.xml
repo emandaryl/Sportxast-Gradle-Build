@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#ffffff"
+    android:orientation="vertical" >
+
+  <!-- Header Start -->
+
+    <RelativeLayout
+        android:id="@+id/sx_header_wrapper"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content" >
+
+    </RelativeLayout>
+
+    <!-- Header End -->
+
+    <ListView
+        android:id="@+id/listvw_infonames"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/sx_header_wrapper"
+        android:divider="@null" >
+
+    </ListView>
+	<RelativeLayout
+	    android:id="@+id/pbLoading_container"
+	    android:layout_width="fill_parent"
+	    android:layout_height="fill_parent"
+	    android:background="@color/opaque_back" 
+	    android:padding="5dip" >
+	      <!-- android:background="#666666" --> 
+	        <ProgressBar
+	            android:id="@+id/pbLoading"
+	            style="?android:attr/progressBarStyleLarge"
+	            android:layout_width="wrap_content"
+	            android:layout_height="wrap_content"
+	            android:layout_centerHorizontal="true"
+	            android:layout_centerVertical="true"
+	            android:visibility="visible" />
+	
+	</RelativeLayout>
+	
+	
+</RelativeLayout>

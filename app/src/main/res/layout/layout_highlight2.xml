@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" android:background="@color/white">
+    
+ 	<!-- HeaderS START -->
+<LinearLayout
+    	android:id="@+id/sx_header_wrapper_cont"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical" >
+    <RelativeLayout
+        android:id="@+id/sx_header_wrapper"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content" >
+    </RelativeLayout>
+
+    <!-- Header1 End -->
+    
+	<!-- Header2 Start -->
+
+    <RelativeLayout
+        android:id="@+id/sx_header_wrapper2"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:visibility="gone" >
+
+    </RelativeLayout>
+
+    <!-- Header2 End -->
+</LinearLayout>
+
+<!-- HeaderS END -->  
+  <RelativeLayout
+      android:id="@+id/ptrListview_cont1"
+      android:layout_width="match_parent"
+      android:layout_height="fill_parent"
+      android:layout_below="@+id/sx_header_wrapper_cont"
+      android:orientation="vertical" >
+
+	<RelativeLayout
+	    android:layout_width="match_parent"
+	    android:layout_height="fill_parent"
+	    android:gravity="center"
+	    android:orientation="vertical"
+	    android:visibility="gone" >
+
+      <TextView
+          android:id="@+id/tv_nohighlights"
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:layout_gravity="center"
+          android:gravity="center"
+          android:text="No Highlights"
+          android:textColor="@color/uni_grey"
+          android:textSize="19sp" />
+
+       </RelativeLayout>
+       
+	<RelativeLayout
+	    android:id="@+id/listview_cont1"
+	    android:layout_width="match_parent"
+	    android:layout_height="fill_parent"
+	    android:gravity="center"
+	    android:orientation="vertical" >
+  
+       </RelativeLayout>
+     <!--  
+	<com.sportxast.SportXast.thirdparty_class.PullToRefreshListView
+         android:id="@+id/ptrListViewHighlight"
+         android:layout_width="match_parent"
+         android:layout_height="wrap_content"
+         android:cacheColorHint="#00000000"
+         >
+	</com.sportxast.SportXast.thirdparty_class.PullToRefreshListView>
+	 
+	<ListView
+         android:id="@+id/ptrListViewHighlight"
+         android:layout_width="match_parent"
+         android:layout_height="wrap_content"
+         android:cacheColorHint="#00000000"
+         >
+	</ListView>
+	
+	<com.sportxast.SportXast.thirdparty_class.ProperListView
+         android:id="@+id/ptrListViewHighlight"
+         android:layout_width="match_parent"
+         android:layout_height="wrap_content"
+         android:cacheColorHint="#00000000">
+	</com.sportxast.SportXast.thirdparty_class.ProperListView>
+	
+	<LinearLayout
+	    android:id="@+id/footer_pb_cont1"
+	    android:layout_width="fill_parent"
+	    android:layout_height="wrap_content"
+	    android:layout_below="@+id/ptrListViewHighlight"
+	    android:gravity="center"
+	    android:orientation="vertical"
+	    android:visibility="gone" >
+
+		<LinearLayout
+		    android:id="@+id/footer_div"
+		    android:layout_width="fill_parent"
+		    android:layout_height="1dp"
+		    android:background="#cccccc"
+		    android:gravity="center"
+		    android:orientation="vertical" >
+		</LinearLayout>
+
+        <ProgressBar
+            android:id="@+id/progressBar1"
+            style="?android:attr/progressBarStyleSmall"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="15dp"
+            android:layout_marginTop="15dp" />
+ 
+	</LinearLayout>
+	
+	 -->
+	
+	
+          <!--
+	
+    <ListView
+          android:id="@+id/ptrListViewHighlight"
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content" >
+      </ListView>
+      
+    
+	 
+      <com.sportxast.SportXast.thirdparty_class.PullToRefreshListView
+          android:id="@+id/ptrListViewHighlight"
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content" >
+      </com.sportxast.SportXast.thirdparty_class.PullToRefreshListView>
+      
+	-->
+
+     	<RelativeLayout
+     	    android:id="@+id/pbLoading_container"
+     	    android:layout_width="fill_parent"
+     	    android:layout_height="fill_parent"
+     	    android:alpha="0.40"
+     	    android:visibility="gone" >
+
+	      <!-- android:background="#666666" --> 
+	        <ProgressBar
+	            android:id="@+id/pbLoading" 
+	            android:layout_width="wrap_content"
+	            android:layout_height="wrap_content"
+	            android:layout_centerHorizontal="true"
+	            android:layout_centerVertical="true"
+	            android:visibility="visible" />
+ 
+	
+	</RelativeLayout>
+	
+     	
+  </RelativeLayout> 
+  
+<RelativeLayout
+    android:id="@+id/layout_commentDelete_field_cont"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:visibility="gone" >
+</RelativeLayout>
+
+  </RelativeLayout>

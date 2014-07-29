@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:android="http://schemas.android.com/apk/res/android">
+     <style name="AppBaseTheme" parent="@android:style/Theme.Black.NoTitleBar">
+
+        <!-- API 14 theme customizations can go here. -->
+
+       
+    </style>
+    
+   <style name="StyleShareImage">
+       <item name="android:background">@android:color/transparent</item>
+       <item name="android:padding">10dp</item>
+   </style>
+   
+   <style name="PopupAnimation">
+       <item name="@android:windowEnterAnimation">@anim/popup_show</item>
+       <item name="@android:windowExitAnimation">@anim/popup_hide</item>
+   </style>
+   
+   <style name="FacebookStyle">
+       <item name="android:textColor">@android:color/white</item>
+       <item name="android:textStyle">bold</item>
+       <item name="android:textSize">18sp</item>
+       <item name="android:background">@drawable/selector_fb_post</item>
+       <item name="android:paddingTop">20dp</item>
+       <item name="android:paddingBottom">20dp</item>
+   </style>
+    
+</resources>

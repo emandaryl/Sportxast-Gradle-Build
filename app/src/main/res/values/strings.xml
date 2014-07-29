@@ -1,0 +1,188 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+  
+    <string name="app_name">SportXast</string>
+    <string name="action_settings">Settings</string>
+    <string name="hello_world">Hello world!</string>
+	<string name="app_id">529434107108789</string>
+
+    <string name="profile_eidt">By clicking Done you are
+         indicating that you have read and agree the <u>Privacy Policy</u> and <u>Terms of Service</u>.</string>
+    <string name="pull_to_refresh_pull_label">Pull to refresh...</string>
+    <string name="pull_to_refresh_release_label">Release to refresh...</string>
+    <string name="pull_to_refresh_refreshing_label">Loading...</string>
+    <string name="pull_to_refresh_tap_label">Tap to refresh...</string>
+   
+    <string name="facebook_permission_user">We will never post anything without your permission.</string>
+    <string name="login_facebook">Login Facebook</string>
+    <string name="post_to_facebook">Post to Facebook</string>
+   
+    <string name="language">language</string>
+    <string name="languageLabels">languageLabels</string>
+    <string name="settings">settings</string> 
+    
+    <string name=" _A_SportXast_highlight_was_shared_by">A SportXast highlight was shared by</string>
+    <string name="_A_new_beta_version_is_available">A new beta version is available!</string>
+    <string name="_A_new_event__Label_your_Event">A new event! Label your Event?</string>
+    <string name="_A_new_version_is_available_in_app_store">A new version is available in app store</string>
+    <string name="_Account">Account</string>
+    <string name="_Add_comment">Add comment...</string>
+    <string name="_Add">Add</string>
+    <string name="_Back">Back</string>
+    <string name="_Cancel">Cancel</string>
+    <string name="_Capture_watch_and_share_sporting_highlights_in_your_community_with_SportXast">Capture, watch and share sporting highlights in your community with SportXast!</string>
+    <string name="_Capture">Capture</string>
+    <string name="_Choose_picture">Choose picture</string>
+    <string name="_Close">Close</string>
+    <string name="_DONE">DONE</string>
+    <string name="_Delete_media">Delete media</string>
+    <string name="_Delete_video">Delete video</string>
+    <string name="_Edit_Profile">Edit Profile</string>
+    <string name="_Edit_Your_Profile">Edit Your Profile</string>
+    <string name="_Enter_your_email">Enter your email</string>
+    <string name="_Enter_your_motto">Enter your motto</string>
+    <string name="_Enter_your_name">Enter your name</string>
+    <string name="_Enter_your_username">Enter your username</string>
+    <string name="_Error">Error</string>
+    <string name="_Events">Events</string>
+    <string name="_Facebook">Facebook</string>
+    <string name="_Failed_to_send_SMS">Failed to send SMS</string>
+    <string name="_From_camera">From camera</string>
+    <string name="_From_photos">From photos</string>
+    <string name="_Go_to_your_iPhone_Settings__Privacy__Location_Services_to_turn_on">Go to your iPhone Settings -> Privacy -> Location Services to turn on</string>
+    <string name="_Highlights">Highlights</string>
+    <string name="_Home">Home</string>
+    <string name="_Import_from_Facebook">Import from Facebook</string>
+    <string name="_Import_from_Twitter">Import from Twitter</string>
+    <string name="_Join_Event">Join Event</string>
+    <string name="_Label_your_event_so_other_people_may_join_to_capture_watch_and_share_highlights">Label your event so other people may join to capture, watch and share highlights</string>
+    <string name="_New_version_available">New version available</string>
+    <string name="_No_internet_connection">No internet connection</string>
+    <string name="_No">No</string>
+    <string name="_On_your_iPhone_go_to_Settings__Facebook_to_sign_in_or_create_a_new_account">On your iPhone go to Settings -> Facebook to sign in or create a new account</string>
+    <string name="_On_your_iPhone_go_to_Settings__Mail_to_add_an_eMail_account">On your iPhone go to Settings -> Mail to add an e-Mail account</string>
+    <string name="_On_your_iPhone_go_to_Settings__Twitter_to_sign_in_or_create_a_new_account">On your iPhone go to Settings -> Twitter to sign in or create a new account</string>
+    <string name="_Profile_and_Account">Profile &amp; Account</string>
+    <string name="_Profile">Profile</string>
+    <string name="_Record">Record</string>
+    <string name="_Register">Register</string>
+    <string name="_Report_Inappropriate">Report Inappropriate</string>
+    <string name="_Report_video_as_innappropiate">Report video as innappropiate?</string>
+    <string name="_Send">Send</string>
+    <string name="_Settings">Settings</string>
+    <string name="_Share">Share</string>
+    <string name="_Skip">Skip</string>
+    <string name="_SportxAst_cannot_access_yor_Twitter_info">SportxAst cannot access yor Twitter info</string>
+    <string name="_To_be_done">To be done</string>
+    <string name="_Twitter_Account_Not_Found">Twitter Account Not Found</string>
+    <string name="_Twitter">Twitter</string>
+    <string name="_Use_facebook_account">Use facebook account</string>
+    <string name="_Use_twitter_account">Use twitter account</string>
+    <string name="_View_all">View all</string>
+    <string name="_Yes">Yes</string>
+    <string name="_Your_device_doesnt_support_SMS">Your device doesn\'t support SMS</string>
+    <string name="_comments">comments</string>
+    <string name="_favorites">favorites</string>
+    <string name="_video">video</string>
+    <string name="_No_Highlights">No Highlights</string>
+    <string name="_No_Notifications">No Notifications</string>
+    <string name="_No_Media_Tag">No Media Tag</string>
+    <string name="_Add_another_Team">Add another Team...</string>
+    <string name="_Add_a_Team">Add a Team</string>
+    <string name="_Sports">Sports</string>
+    <string name="_Venues">Venues</string>
+    <string name="_Done">Done</string>
+    <string name="_Add_more">Add more</string>
+    <string name="_Joined">Joined</string>
+    <string name="_Join">Join</string>
+    <string name="_Getting_Location">Getting Location</string>
+    <string name="_Search">Search</string>
+    <string name="_Following">Following</string>
+    <string name="_Follow">Follow</string>
+    <string name="_Popular">Popular</string>
+    <string name="_Nearby">Nearby</string>
+    <string name="_Favorites">Favorites</string>
+    <string name="_Sport">Sport</string>
+    <string name="_Venue">Venue</string>
+    <string name="_Home_Team">Home Team</string>
+    <string name="_Other_Team">Other Team</string>
+    <string name="_Information">Information</string>
+    <string name="_Select_Venue">Select Venue</string>
+    <string name="_Teams">Teams</string>
+    <string name="_Create">Create</string>
+    <string name="_Menu">Menu</string>
+    <string name="_Followers">Followers</string>
+    <string name="_Other">Other</string>
+    <string name="_Edit">Edit</string>
+    <string name="_Favorite">Favorite</string>
+    <string name="_Notifications">Notifications</string>
+    <string name="_Share_SportXast">Share SportXast</string>
+    <string name="_No_Events">No Events</string>
+    <string name="_Tags">Tags</string>
+    <string name="_Event_Tags">Event Tags</string>
+
+    
+    	<string name="_IS_SECURE_CONNECTION">IS_SECURE_CONNECTION</string>
+		<string name="_MOVIE_DURATION">MOVIE_DURATION</string>
+		<string name="_MOVIE_DELAY">MOVIE_DELAY</string>
+		<string name="_AUTOCOMPLETE_START_AFTER">AUTOCOMPLETE_START_AFTER</string>
+		<string name="_LOG_LEVEL">LOG_LEVEL</string>
+		<string name="_S3_VIDEO_BUCKET">S3_VIDEO_BUCKET</string>
+		<string name="_S3_IMAGE_BUCKET">S3_IMAGE_BUCKET</string>
+		<string name="_S3_VIDEO_UPLOAD_PATH">S3_VIDEO_UPLOAD_PATH</string>
+		<string name="_S3_IMAGE_UPLOAD_PATH">S3_IMAGE_UPLOAD_PATH</string>
+		<string name="_S3_STREAM_BUCKET">S3_STREAM_BUCKET</string>
+		<string name="_APP_SHARE_TEXT">APP_SHARE_TEXT</string>
+		<string name="_APP_SHARE_URL">APP_SHARE_URL</string>
+		<string name="_S3_VIDEO_PUT_URL">S3_VIDEO_PUT_URL</string>
+		<string name="_S3_VIDEO_GET_URL">S3_VIDEO_GET_URL</string>
+		<string name="_S3_IMAGE_PUT_URL">S3_IMAGE_PUT_URL</string>
+		<string name="_S3_IMAGE_GET_URL">S3_IMAGE_GET_URL</string>
+		<string name="_S3_STREAM_PUT_URL">S3_STREAM_PUT_URL</string>
+		<string name="_S3_STREAM_GET_URL">S3_STREAM_GET_URL</string>
+		<string name="_EVENT_SEARCH_RADIUS">EVENT_SEARCH_RADIUS</string>
+		<string name="_SNS_NOTIFICATION_TOPIC">SNS_NOTIFICATION_TOPIC</string>
+		<string name="_S3_THUMBNAIL_FORMAT">S3_THUMBNAIL_FORMAT</string>
+		<string name="_S3_AVATAR_UPLOAD_PATH">S3_AVATAR_UPLOAD_PATH</string>
+		<string name="_S3_PLAYLIST_SEGMENT_DURATION">S3_PLAYLIST_SEGMENT_DURATION</string>
+		<string name="_SPORT_DEFAULT_TAGS">SPORT_DEFAULT_TAGS</string>
+		<string name="_APP_SHARE_MAIL_SUBJECT">APP_SHARE_MAIL_SUBJECT</string>
+		<string name="_MEDIA_SHARE_MAIL_SUBJECT">MEDIA_SHARE_MAIL_SUBJECT</string>
+		<string name="_CHALKBOARD_TIMEOUT">CHALKBOARD_TIMEOUT</string>
+		<string name="_STOP_BROADCAST_BY_ANGLE">STOP_BROADCAST_BY_ANGLE</string>
+		<string name="_STOP_BROADCAST_BY_ANGLE_TIME">STOP_BROADCAST_BY_ANGLE_TIME</string>
+		<string name="_APP_BETA_VERSION">APP_BETA_VERSION</string>
+		<string name="_APP_PRODUCTION_VERSION">APP_PRODUCTION_VERSION</string>
+		<string name="_APP_BETA_VERSION_IS_LOCKED">APP_BETA_VERSION_IS_LOCKED</string>
+		<string name="_APP_BETA_VERSION_DOWNLOAD_URL">APP_BETA_VERSION_DOWNLOAD_URL</string>
+		<string name="_APP_PRODUCTION_VERSION_DOWNLOAD_URL">APP_PRODUCTION_VERSION_DOWNLOAD_URL</string>
+		<string name="_APP_BETA_VERSION_DOWNLOAD_TEXT">APP_BETA_VERSION_DOWNLOAD_TEXT</string>
+		<string name="_APP_PRODUCTION_VERSION_DOWNLOAD_TEXT">APP_PRODUCTION_VERSION_DOWNLOAD_TEXT</string>
+		<string name="_LOCATION_MAX_RADIUS">LOCATION_MAX_RADIUS</string>
+		<string name="_WEBSITE_BASE_URL">WEBSITE_BASE_URL</string>
+		<string name="_REDIS_CONN_HOST">REDIS_CONN_HOST</string>
+		<string name="_REDIS_CONN_PORT">REDIS_CONN_PORT</string>
+		<string name="_REDIS_DB_INDEX">REDIS_DB_INDEX</string>
+		<string name="_FETCH_NOTIFICATION_INTERVAL">FETCH_NOTIFICATION_INTERVAL</string>
+		<string name="_ALERT_MESSAGE_NEW_EVENT">ALERT_MESSAGE_NEW_EVENT</string>
+		<string name="_ALERT_MESSAGE_NEW_HIGHLIGHT">ALERT_MESSAGE_NEW_HIGHLIGHT</string>
+		<string name="_ALERT_MESSAGE_NEW_FAVORITE">ALERT_MESSAGE_NEW_FAVORITE</string>
+		<string name="_ALERT_MESSAGE_NEW_COMMENT">ALERT_MESSAGE_NEW_COMMENT</string>
+		<string name="_ALERT_MESSAGE_NEW_SHARE">ALERT_MESSAGE_NEW_SHARE</string>
+		<string name="_SQS_PUSHNOTIFICATION_QUEUE">SQS_PUSHNOTIFICATION_QUEUE</string>
+		<string name="_IOS_SNS_APP_ARN">IOS_SNS_APP_ARN</string>
+		<string name="_ALERT_MESSAGE_NEW_FRIEND">ALERT_MESSAGE_NEW_FRIEND</string>
+		<string name="_ALERT_MESSAGE_NEW_USER_ON_JOINED_EVENT">ALERT_MESSAGE_NEW_USER_ON_JOINED_EVENT</string>
+		<string name="_TOOLTIP_TIMEOUT">TOOLTIP_TIMEOUT</string>
+		<string name="_SQS_TRANSCODER_JOBSTATUS_QUEUE">SQS_TRANSCODER_JOBSTATUS_QUEUE</string>
+		<string name="_ALERT_MESSAGE_NEW_MEDIA_TAG">SQS_TRANSCODER_JOBSTATUS_QUEUE</string>
+		<string name="_DEFAULT_EVENT_ID">DEFAULT_EVENT_ID</string>
+    
+    
+    
+    
+    
+    
+    
+</resources>

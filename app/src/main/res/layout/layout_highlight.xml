@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" android:background="@color/white">
+    
+ 	<!-- HeaderS START -->
+<LinearLayout
+    	android:id="@+id/sx_header_wrapper_cont"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical" >
+    <RelativeLayout
+        android:id="@+id/sx_header_wrapper"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content" >
+    </RelativeLayout>
+
+    <!-- Header1 End -->
+    
+	<!-- Header2 Start -->
+
+    <RelativeLayout
+        android:id="@+id/sx_header_wrapper2"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:visibility="gone" >
+
+    </RelativeLayout>
+
+    <!-- Header2 End -->
+</LinearLayout>
+
+<!-- HeaderS END -->  
+  <RelativeLayout
+      android:id="@+id/ptrListview_cont1"
+      android:layout_width="match_parent"
+      android:layout_height="fill_parent"
+      android:layout_below="@+id/sx_header_wrapper_cont"
+      android:orientation="vertical" >
+
+	<com.sportxast.SportXast.thirdparty_class.ProperListView
+         android:id="@+id/ptrListViewHighlight"
+         android:layout_width="match_parent"
+         android:layout_height="wrap_content">
+	</com.sportxast.SportXast.thirdparty_class.ProperListView>
+          <!--
+	
+    <ListView
+          android:id="@+id/ptrListViewHighlight"
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content" >
+      </ListView>
+      
+    
+	 
+      <com.sportxast.SportXast.thirdparty_class.PullToRefreshListView
+          android:id="@+id/ptrListViewHighlight"
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content" >
+      </com.sportxast.SportXast.thirdparty_class.PullToRefreshListView>
+      
+	-->
+
+     	<RelativeLayout
+     	    android:id="@+id/pbLoading_container"
+     	    android:layout_width="fill_parent"
+     	    android:layout_height="fill_parent"
+     	    android:alpha=".50"
+     	    android:background="#ffffff"
+     	    android:padding="5dip"
+     	    android:visibility="gone" >
+     
+        <ProgressBar
+            android:id="@+id/webact_pbLoading"
+            style="?android:attr/progressBarStyleLarge"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:visibility="visible" />
+
+	</RelativeLayout>
+  </RelativeLayout> 
+
+  </RelativeLayout>

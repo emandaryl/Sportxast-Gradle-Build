@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white" >
+
+    
+      <!-- Header -->
+
+    <RelativeLayout
+        android:id="@+id/sx_header_wrapper"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content" >
+    </RelativeLayout>
+
+<LinearLayout
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:layout_below="@+id/sx_header_wrapper"
+    android:orientation="vertical" >
+    
+    <RelativeLayout
+        android:id="@+id/layout_search"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="false"
+        android:layout_below="@+id/sx_header_wrapper"
+        android:background="@drawable/layerlist_whiteshapewithlinebelow"
+        android:padding="8dp" >
+
+        <EditText
+            android:id="@+id/edittext_search"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:layout_toLeftOf="@+id/btn_cancel"
+            android:background="@drawable/shape_btn_white"
+            android:drawableLeft="@drawable/ic_search_small"
+            android:hint="Search"
+            android:paddingLeft="4dp"
+            android:textColor="@color/black"
+            android:textSize="14sp" />
+
+        <Button
+            android:id="@+id/btn_cancel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:background="@android:color/transparent"
+            android:padding="4dp"
+            android:text="Cancel"
+            android:textColor="@color/uni_blue"
+            android:textSize="14sp"
+            android:visibility="gone" />
+    </RelativeLayout>
+
+   
+    
+<LinearLayout
+    android:id="@+id/recentteam_cont1"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:visibility="gone" >
+
+     	     <LinearLayout
+		    android:layout_width="fill_parent"
+		    android:layout_height="wrap_content"
+		    android:background="@color/uni_grey_bg"
+		    android:orientation="vertical" >
+     	     
+    		<TextView
+    		    android:id="@+id/textView123"
+    		    android:layout_width="match_parent"
+    		    android:layout_height="wrap_content"
+    		    android:layout_marginBottom="3dp"
+    		    android:layout_marginLeft="10dp"
+    		    android:layout_marginTop="3dp"
+    		    android:text="RECENT"
+    		    android:textColor="#333333"
+    		    android:textStyle="bold" />
+
+	 </LinearLayout>
+	 
+     	     <com.sportxast.SportXast.thirdparty_class.ObservableScrollView
+	          android:id="@+id/scrollViewContainer"
+	          android:layout_width="fill_parent"
+	          android:layout_height="fill_parent"
+	          android:fadingEdge="vertical" >
+	
+		    <LinearLayout
+		        android:id="@+id/recentteam_list_cont1"
+		        android:layout_width="fill_parent"
+		        android:layout_height="wrap_content"
+		        android:orientation="vertical"
+		        android:weightSum="3" >
+		    
+		    </LinearLayout>
+	    
+		</com.sportxast.SportXast.thirdparty_class.ObservableScrollView>
+     	     
+         </LinearLayout>
+         
+ <RelativeLayout
+     android:id="@+id/rl_listvw_cont1"
+     android:layout_width="match_parent"
+     android:layout_height="wrap_content"
+     android:layout_alignParentLeft="true"
+     android:layout_alignParentTop="false"
+     android:layout_below="@+id/suggested_text_cont"
+     android:background="@drawable/layerlist_whiteshapewithlinebelow"
+     android:padding="8dp" >
+
+<RelativeLayout
+    android:id="@+id/suggested_text_cont"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:layout_alignParentLeft="true"
+    android:layout_alignParentTop="false"
+    android:padding="8dp"
+    android:visibility="gone" >
+
+        <TextView
+            android:id="@+id/suggested_text"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="Medium Text"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textColor="@color/uni_orange" />
+
+    </RelativeLayout>
+    <com.sportxast.SportXast.thirdparty_class.HeaderListView
+        android:id="@+id/listvw_sportlists"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" 
+        android:divider="@null" >
+
+    </com.sportxast.SportXast.thirdparty_class.HeaderListView>
+<RelativeLayout
+     android:id="@+id/pbLoading_container"
+     android:layout_width="fill_parent"
+     android:layout_height="fill_parent"
+     android:alpha="0.40"
+     android:background="#ffffff"
+     android:visibility="gone" >
+
+	      <!-- android:background="#666666" --> 
+	        <ProgressBar
+	            android:id="@+id/pbLoading" 
+	            android:layout_width="wrap_content"
+	            android:layout_height="wrap_content"
+	            android:layout_centerHorizontal="true"
+	            android:layout_centerVertical="true"
+	            android:visibility="visible" />
+ 
+	
+	</RelativeLayout>
+    </RelativeLayout>
+</LinearLayout>
+
+ 
+</RelativeLayout>

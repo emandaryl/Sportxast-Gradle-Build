@@ -1,0 +1,47 @@
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:weightSum="4"
+    android:orientation="horizontal">
+    
+    <!-- Mail -->
+    <ImageButton
+        android:id="@+id/imgbtn_share_email"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:src="@drawable/ico_mail"
+        style="@style/StyleShareImage"
+        />
+    
+    <!-- SMS -->
+    <ImageButton
+        android:id="@+id/imgbtn_share_sms"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:src="@drawable/ico_message"
+        style="@style/StyleShareImage"
+        />
+    
+    <!-- Twitter -->
+    <ImageButton
+        android:id="@+id/imgbtn_share_twitter"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:src="@drawable/ico_twitter"
+        style="@style/StyleShareImage"
+        />
+    
+    <!-- Facebook -->
+    <ImageButton
+        android:id="@+id/imgbtn_share_facebook"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:src="@drawable/ico_facebook"
+        style="@style/StyleShareImage"
+        />
+</LinearLayout>

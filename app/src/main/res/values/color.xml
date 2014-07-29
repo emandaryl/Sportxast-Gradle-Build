@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="torquise">#1c7d94</color>
+    <color name="dark_torquise">#2c606c</color>
+    <color name="light_torquise">#61c2d8</color>
+    <color name="white_torquise">#8ecad8</color>
+    <color name="black">#000000</color>
+    <color name="white">#ffffff</color>
+    <color name="light_blue">#6699ff</color>
+    <color name="light_green">#99ff33</color>
+    <color name="light_orange">#ffd200</color>
+    
+    <color name="red">#ff0000</color>
+    
+    <color name="yellow">#ffff33</color>
+    <color name="orange">#ff9966</color>
+    
+    <color name="grey_light">#999999</color> 
+    
+    <color name="grey_darker">#454545</color>
+    <color name="grey_dark">#666666</color>
+	<color name="background">#55000000</color>
+     
+    <color name="opaque_back">#29000000</color>
+    <color name="opaque_black2">#90000000</color>
+     
+    <color name="light_blue1">#0066ff</color>
+    
+    
+    
+    <!-- <color name="uni_blue_ios">#145F99</color> -->
+    <color name="uni_grey">#444444</color>
+    <color name="uni_light_grey">#dddddd</color>
+    <color name="uni_blue">#187fd6</color>
+    <color name="uni_orange">#fc4c06</color> 
+    <color name="uni_grey_bg">#EDEDEE</color>
+    
+    <color name="facebook">#3b5998</color>
+    <color name="facebook_selected">#6d84b4</color>
+    
+</resources>
+

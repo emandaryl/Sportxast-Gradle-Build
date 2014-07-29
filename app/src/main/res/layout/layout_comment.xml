@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white" >
+ 
+       <!-- Header -->
+
+    <RelativeLayout
+        android:id="@+id/sx_header_wrapper"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content" >
+
+    </RelativeLayout>
+
+    <!-- Study Title --> 
+    
+    <RelativeLayout
+        android:id="@+id/layout_comment"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:background="@drawable/layerlist_lightgreyshapewithlineabove"
+        android:padding="4dp" >
+
+        <Button
+            android:id="@+id/btn_send"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:background="@android:color/transparent"
+            android:onClick="onSend"
+            android:text="Send"
+            android:textColor="@drawable/selector_txtvw_blue_greyselected"
+            android:textSize="14sp" />
+
+        <EditText
+            android:id="@+id/edittext_comment"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_alignParentTop="true"
+            android:layout_marginBottom="2dp"
+            android:layout_marginTop="2dp"
+            android:layout_toLeftOf="@+id/btn_send"
+            android:background="@drawable/shape_btn_white"
+            android:hint="Add comment..."
+            android:padding="4dp"
+            android:textColor="@color/black"
+            android:textSize="14sp" />
+    </RelativeLayout>
+
+    <ListView
+        android:id="@+id/listview_comment"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/layout_comment"
+        android:layout_below="@+id/sx_header_wrapper"
+        android:divider="@null" >
+
+    </ListView>
+
+</RelativeLayout>

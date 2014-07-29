@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/selector_bg_listview" >
+
+     <LinearLayout
+         android:layout_width="fill_parent"
+         android:layout_height="wrap_content"
+         android:layout_alignParentTop="false"
+         android:orientation="horizontal"
+         android:padding="10dp" >
+
+    <TextView
+        android:id="@+id/txtvw_hashtag_element"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/txtvw_events_title"
+        android:layout_alignLeft="@+id/txtvw_events_title"
+        android:layout_alignRight="@+id/txtvw_events_title"
+        android:ellipsize="end"
+        android:singleLine="true"
+        android:text="&lt;team name 1>"
+        android:textColor="#fc4c06"
+        android:textSize="16sp" />
+
+	</LinearLayout>
+</RelativeLayout>

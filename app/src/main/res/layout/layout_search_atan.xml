@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#ffffff"
+    android:orientation="vertical" >
+
+  <!-- Header Start -->
+
+    <RelativeLayout
+        android:id="@+id/sx_header_wrapper"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content" >
+    </RelativeLayout>
+
+    <!-- Header End -->
+
+    <RelativeLayout
+        android:id="@+id/layout_search"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:padding="8dp" >
+        
+		 <com.sportxast.SportXast.models.EditTextBackEvent
+		     android:id="@+id/edittext_search"
+		     android:layout_width="match_parent"
+		     android:layout_height="32dp"
+		     android:layout_alignParentLeft="true"
+		     android:layout_centerVertical="true"
+		     android:layout_toLeftOf="@+id/btn_cancel"
+		     android:background="@drawable/shape_btn_white"
+		     android:drawableLeft="@drawable/ic_search_small"
+		     android:drawablePadding="4dp"
+		     android:editable="true"
+		     android:hint="Search"
+		     android:lines="1"
+		     android:maxLines="1"
+		     android:paddingLeft="4dp"
+		     android:textColor="@color/black"
+		     android:textSize="14sp" />
+        
+        <Button
+            android:id="@+id/btn_cancel"
+            android:layout_width="wrap_content"
+            android:layout_height="32dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:background="@android:color/transparent"
+            android:text="Cancel"
+            android:visibility="gone"
+            android:textColor="@color/uni_blue"
+            android:textSize="14sp"/>
+    </RelativeLayout>
+<RelativeLayout
+         android:layout_width="match_parent"
+         android:layout_height="wrap_content"
+         android:orientation="vertical" >
+
+        <LinearLayout
+            android:id="@+id/buttons_cont1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:padding="10dp"
+            android:weightSum="90" >
+            
+            <Button
+                android:id="@+id/btn_tab_events"
+                android:layout_width="fill_parent"
+                android:layout_height="match_parent"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_weight="30"
+                android:background="@drawable/btn_pnl_blue_left1"
+                android:padding="10dp"
+                android:text="Events"
+                android:textColor="#ffffff"
+                android:textSize="14sp" />
+
+            <Button
+                android:id="@+id/btn_tab_fans"
+                android:layout_width="fill_parent"
+                android:layout_height="match_parent"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_weight="30"
+                android:background="@drawable/btn_pnl_white_mid1"
+                android:padding="10dp"
+                android:text="Fans"
+                android:textColor="@color/uni_blue"
+                android:textSize="14sp" />
+
+            <Button
+                android:id="@+id/btn_tab_tags"
+                android:layout_width="fill_parent"
+                android:layout_height="match_parent"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_weight="30"
+                android:background="@drawable/btn_pnl_white_right1"
+                android:padding="10dp"
+                android:text="Tags"
+                android:textColor="@color/uni_blue"
+                android:textSize="14sp" />
+            
+        </LinearLayout>
+
+    <RelativeLayout
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_below="@+id/buttons_cont1"
+        android:background="#ffffff"
+        android:gravity="center|top" >
+
+         <ListView
+             android:id="@+id/ptrListViewHighlight"
+             android:layout_width="match_parent"
+             android:layout_height="wrap_content"
+           
+             android:cacheColorHint="#00000000" >
+
+	</ListView>
+	
+            <RelativeLayout
+             android:id="@+id/pbLoading_container2"
+             android:layout_width="fill_parent"
+             android:layout_height="fill_parent"
+              
+             android:background="#ffffff"
+             android:gravity="center"
+             android:visibility="gone" >
+
+	      <!-- android:background="#666666" --> 
+
+	        <ProgressBar
+	            android:id="@+id/pbLoading2"
+	            android:layout_width="wrap_content"
+	            android:layout_height="wrap_content"
+	            android:layout_centerHorizontal="true"
+	            android:layout_centerVertical="true"
+	            android:visibility="visible" />
+	
+	</RelativeLayout>
+         
+    </RelativeLayout>
+    
+      
+         
+         </RelativeLayout>
+</LinearLayout>

@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:orientation="vertical" >
+ 
+      <!-- Header Start -->
+
+    <RelativeLayout
+        android:id="@+id/sx_header_wrapper"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content" >
+    </RelativeLayout>
+
+    <!-- Header End -->
+     
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal" >
+
+        <com.loopj.android.image.SmartImageView
+            android:id="@+id/imgvw_avatar_profile"
+            android:layout_width="95dp"
+            android:layout_height="95dp"
+            android:adjustViewBounds="true"
+            android:scaleType="centerCrop"
+            android:src="@drawable/ic_avatar_profile" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="95dp"
+            android:layout_toRightOf="@+id/imgvw_avatar_profile"
+            android:gravity="center_vertical"
+            android:orientation="vertical" >
+
+            <TextView
+                android:id="@+id/txtvw_highlightscount"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:drawableLeft="@drawable/ic_highl_orange"
+                android:drawablePadding="2dp"
+                android:gravity="bottom"
+                android:text="0 highlights"
+                android:textColor="@color/uni_grey"
+                android:textSize="14sp" />
+
+            <TextView
+                android:id="@+id/txtvw_followercount"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:drawableLeft="@drawable/ic_follower_orange"
+                android:drawablePadding="2dp"
+                android:gravity="bottom"
+                android:text="0 followers"
+                android:textColor="@color/uni_grey"
+                android:textSize="14sp" />
+
+            <TextView
+                android:id="@+id/txtvw_followingcount"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:drawableLeft="@drawable/ic_following_orange"
+                android:drawablePadding="2dp"
+                android:gravity="bottom"
+                android:text="0 following"
+                android:textColor="@color/uni_grey"
+                android:textSize="14sp" />
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <android.support.v4.app.FragmentTabHost
+        android:id="@android:id/tabhost"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" >
+
+       <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical" >
+
+            <TabWidget
+                android:id="@android:id/tabs"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:layout_marginLeft="12dp"
+                android:layout_marginRight="12dp"
+                android:layout_marginTop="8dp"
+                android:background="@drawable/shape_tabwhite_borderblue"
+                android:divider="@color/uni_blue"
+                android:tabStripEnabled="false"
+                android:padding="1.5dp" >
+            </TabWidget>
+            
+            <FrameLayout
+		        android:id="@android:id/tabcontent"
+		        android:layout_width="0dp"
+		        android:layout_height="0dp"/>
+
+            <FrameLayout
+                android:id="@+id/mytabcontent"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                />
+        </LinearLayout>
+    </android.support.v4.app.FragmentTabHost>
+
+</LinearLayout>

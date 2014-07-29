@@ -1,0 +1,40 @@
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="8dp"
+    >
+    
+    <ImageView
+        android:id="@+id/imgvwProfPic"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:scaleType="fitCenter"
+        android:layout_alignParentLeft="true"
+        android:layout_margin="5dp"
+        />
+    <TextView
+        android:id="@+id/txtUsername"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@+id/imgvwProfPic"
+        android:layout_alignTop="@+id/imgvwProfPic"
+        android:gravity="center"
+        android:textColor="@color/orange"
+        android:textSize="20sp"
+        />
+    <TextView
+        android:id="@+id/txtFollow"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/_Follow"
+        android:textColor="@color/uni_blue"
+        android:textSize="16sp"
+        android:gravity="center"
+        android:padding="8dp"
+        android:background="@drawable/shape_tabwhite_borderblue"
+        android:layout_toRightOf="@+id/imgvwProfPic"
+        android:layout_margin="5dp"
+        android:layout_alignBottom="@+id/imgvwProfPic"
+        />
+</RelativeLayout>

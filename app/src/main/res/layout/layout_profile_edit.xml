@@ -1,0 +1,267 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:orientation="vertical" >
+
+    
+    
+
+  <!-- Header Start -->
+
+    <RelativeLayout
+        android:id="@+id/sx_header_wrapper"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content" >
+    </RelativeLayout>
+
+    <!-- Header End -->
+    
+
+<ScrollView android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/layerlist_lightgreyshapewithlinebelow" >
+    
+      
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical" >
+
+        <TextView
+            android:id="@+id/txtvw_name_event"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/layerlist_lightgreyshapewithlinebelow"
+            android:padding="4dp"
+            android:text="PROFILE"
+            android:textColor="@color/uni_grey"
+            android:textSize="14sp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:background="@color/white"
+            android:gravity="center_vertical" >
+
+            <ImageView
+                android:id="@+id/p5"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingLeft="4dp"
+                android:src="@drawable/ic_facebook_logo" />
+
+            <TextView
+                android:id="@+id/txtvw_tagCount_eventdetail"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/layerlist_whiteshapewithlinebelow"
+                android:gravity="center_vertical"
+                android:paddingLeft="4dp"
+                android:text="Facebook"
+                android:textColor="@color/black"
+                android:textSize="18sp" />
+
+          
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:background="@drawable/layerlist_whiteshapewithlinebelow"
+            android:gravity="center_vertical" >
+
+            <ImageView
+                android:id="@+id/p6"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingLeft="4dp"
+                android:src="@drawable/ic_twitter_logo" />
+
+            <TextView
+                android:id="@+id/TextView02"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center_vertical"
+                android:paddingLeft="4dp"
+                android:text="Twitter"
+                android:textColor="@color/black"
+                android:textSize="18sp" />
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/txtvw_name_event"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/layerlist_lightgreyshapewithlinebelow"
+            android:padding="4dp"
+            android:text="ACCOUNT"
+            android:textColor="@color/uni_grey"
+            android:textSize="14sp" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/layerlist_whiteshapewithlinebelow" >
+
+            <ImageView
+                android:id="@+id/imgvw_photo"
+                android:layout_width="69dp"
+                android:layout_height="69dp"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentTop="true"
+                android:layout_marginLeft="4dp"
+                 android:layout_marginRight="4dp"
+                android:layout_marginTop="1dp"
+                android:adjustViewBounds="true"
+                android:scaleType="centerCrop"
+                android:src="@drawable/ic_avatar_profile" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_toLeftOf="@+id/imgvw_photo"
+                android:layout_height="match_parent"
+                android:layout_centerVertical="true"
+                android:orientation="vertical" >
+
+                <LinearLayout
+                    android:id="@+id/layout_username"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentTop="true"
+                    android:layout_toLeftOf="@+id/imgvw_photo"
+                    android:background="@color/white"
+                    android:gravity="center_vertical" >
+
+                    <ImageView
+                        android:id="@+id/p4"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingLeft="4dp"
+                        android:src="@drawable/ic_profilephoto" />
+
+                    <EditText
+                        android:id="@+id/edittxt_username"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="@drawable/layerlist_whiteshapewithlinebelow"
+                        android:gravity="center_vertical"
+                        android:hint="Enter your username"
+                        android:paddingLeft="4dp"
+                        android:textColor="@color/black"
+                        android:textSize="18sp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:layout_below="@+id/layout_username"
+                    android:layout_toLeftOf="@+id/imgvw_photo"
+                    android:background="@color/white"
+                    android:gravity="center_vertical" >
+
+                    <ImageView
+                        android:id="@+id/p3"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingLeft="4dp"
+                        android:src="@drawable/ic_fullname" />
+
+                    <EditText
+                        android:id="@+id/edittxt_fullname"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="@android:color/transparent"
+                        android:gravity="center_vertical"
+                        android:hint="Enter your name"
+                        android:paddingLeft="4dp"
+                        android:textColor="@color/black"
+                        android:textSize="18sp" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <Button
+                android:id="@+id/btn_editphoto"
+                style="?android:attr/buttonStyleSmall"
+                android:layout_width="wrap_content"
+                android:layout_height="20dp"
+                android:layout_alignLeft="@+id/imgvw_photo"
+                android:layout_alignRight="@+id/imgvw_photo"
+                android:layout_below="@+id/imgvw_photo"
+                android:background="@android:color/transparent"
+                android:text="Edit"
+                android:textColor="@color/uni_blue"
+                android:textSize="12sp" />
+        </RelativeLayout>
+
+        <LinearLayout
+            android:id="@+id/LinearLayout01"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:background="@color/white"
+            android:gravity="center_vertical" >
+
+            <ImageView
+                android:id="@+id/p2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingLeft="4dp"
+                android:src="@drawable/ic_email" />
+
+            <EditText
+                android:id="@+id/edittxt_email"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@drawable/layerlist_whiteshapewithlinebelow"
+                android:gravity="center_vertical"
+                android:hint="Enter your email"
+                android:paddingLeft="4dp"
+                android:textColor="@color/black"
+                android:textSize="18sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/LinearLayout01"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:background="@color/white"
+            android:gravity="center_vertical" >
+
+            <ImageView
+                android:id="@+id/p2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingLeft="4dp"
+                android:src="@drawable/ic_motto" />
+
+            <EditText
+                android:id="@+id/edittxt_motto"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@drawable/layerlist_whiteshapewithlinebelow"
+                android:gravity="center_vertical"
+                android:hint="Enter your motto"
+                android:paddingLeft="4dp"
+                android:textColor="@color/black"
+                android:textSize="18sp" />
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/txtvw_date_event"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="20dp"
+            android:gravity="center"
+            android:text="@string/profile_eidt"
+            android:textColor="#d3d3d3" />
+    </LinearLayout>
+
+</ScrollView>
+
+ </LinearLayout>
