@@ -12,6 +12,7 @@ import android.view.View;
 import android.widget.AbsListView;
 import android.widget.AbsListView.OnScrollListener;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.ListView;
 import android.widget.RelativeLayout;
 
 import com.loopj.android.http.JsonHttpResponseHandler;
@@ -59,6 +60,7 @@ public class SportX2_Main extends Activity {
 	//private GPSTracker gpsTracker;
 
 	private PullToRefreshListView FPullToRefreshListView;
+    private ListView nonRefreshList;
 	View headervw;
 	View footervw;
      
@@ -385,21 +387,37 @@ public class SportX2_Main extends Activity {
 		async_HttpClient = new Async_HttpClient(this);
 
 		FPullToRefreshListView = (PullToRefreshListView) findViewById(R.id.listvw_events);
+        nonRefreshList = (ListView) findViewById(R.id.listvwEvents);
 		headervw = getLayoutInflater().inflate(R.layout.list_header, null);
 		footervw = getLayoutInflater().inflate(R.layout.progressbar_small, null);
 
-		if (FType.length() == 0)
-			FPullToRefreshListView.addHeaderView(headervw);
-		FPullToRefreshListView.addFooterView(footervw);
- 
-		ArrayList<EventLists> xx =  eventLists.eventLists;
-		
-		FAdapter = new EventsAdapter(this, eventLists.eventLists);
-		FPullToRefreshListView.setAdapter(FAdapter);
+        FAdapter = new EventsAdapter(this, eventLists.eventLists);
 
-		FPullToRefreshListView.setOnScrollListener(onScrollListener);
-		FPullToRefreshListView.setOnItemClickListener(onitemListener);
-		FPullToRefreshListView.setOnRefreshListener(onRefreshListener); 
+        if(FType.length() == 0) {
+            FPullToRefreshListView.setVisibility(View.VISIBLE);
+            FPullToRefreshListView.addHeaderView(headervw);
+            FPullToRefreshListView.addFooterView(footervw);
+            FPullToRefreshListView.setAdapter(FAdapter);
+            FPullToRefreshListView.setOnScrollListener(onScrollListener);
+            FPullToRefreshListView.setOnItemClickListener(onitemListener);
+            FPullToRefreshListView.setOnRefreshListener(onRefreshListener);
+
+            nonRefreshList.setVisibility(View.GONE);
+        } else {
+            /*
+            If you are here. Load the default ListView(Non pull-to-refresh).
+            For Popular, Nearby and Favorite pages.
+            Please do not remove!!!!!!!
+             */
+            FPullToRefreshListView.setVisibility(View.GONE);
+            nonRefreshList.setVisibility(View.VISIBLE);
+//            nonRefreshList.addHeaderView(headervw);
+            nonRefreshList.addFooterView(footervw);
+            nonRefreshList.setAdapter(FAdapter);
+
+            nonRefreshList.setOnScrollListener(onScrollListener);
+            nonRefreshList.setOnItemClickListener(onitemListener);
+        }
 	}
 
 	/**@category Custom Method
