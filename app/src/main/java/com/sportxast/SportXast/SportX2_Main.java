@@ -90,7 +90,6 @@ public class SportX2_Main extends Activity {
 		startActivity(intent);   
 	}
 	*/
-	
 	private boolean fromCreateActivity;
 	private boolean heyhey = false;
 	//private SharedPreferences sharedpreferences; 
