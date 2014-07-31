@@ -996,10 +996,14 @@ public class Highlight_Activity extends FragmentActivity{
 	 *           adapter to view updated data.*
 	 */
 	
-	public void reloadListView( ArrayList<MediaList> arrMediaLists ) {  
-		FAdapter.updateListElements( arrMediaLists ); 
+	public void reloadListView( ArrayList<MediaList> arrMediaLists ) {
+        if(FAdapter != null) {
+            FAdapter.updateListElements( arrMediaLists );
+        }
+
 		FPullToRefreshListView.invalidateViews(); 
 		FPullToRefreshListView.setCacheColorHint(Color.TRANSPARENT);
+
 		 
 		//FPullToRefreshListView.scrollTo( 0, sx_header_wrapper.getHeight() );
 		
@@ -1432,6 +1436,11 @@ public class Highlight_Activity extends FragmentActivity{
 	public void onStop() {
 		super.onStop();
 		stopTimer();
+
+        /*
+        Do not remove!
+         */
+        FAdapter = null;
 	}
 
 	public void stopTimer() {
