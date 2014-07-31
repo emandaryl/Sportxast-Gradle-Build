@@ -20,7 +20,7 @@ import com.sportxast.SportXast.activities2_0.Highlight_Activity;
 import com.sportxast.SportXast.activities2_0.Profile_Activity;
 import com.sportxast.SportXast.activities2_0.VideoCaptureActivity;
 import com.sportxast.SportXast.activities2_0.VideoFullScreenActivity;
-import com.sportxast.SportXast.commons.Constant;
+import com.sportxast.SportXast.commons.Constants;
 import com.sportxast.SportXast.test.constants.Values;
 import com.sportxast.SportXast.test.utils.SleepUtils;
 import com.sportxast.SportXast.thirdparty_class.Async_HttpClient;
@@ -76,11 +76,11 @@ public class HighlightActivityTest extends ActivityInstrumentationTestCase2<High
 		
 		// Mock Intent here
 		Intent intentMock = new Intent();
-		intentMock.putExtra(Constant.EXTRA_EVENT_TEAMS, "jennifer");
-		intentMock.putExtra(Constant.EXTRA_IS_TODAY, "1");
-		intentMock.putExtra(Constant.EXTRA_EVENT_DATE, "06.06");
-		intentMock.putExtra(Constant.EXTRA_EVENT_ID, "1496");
-		intentMock.putExtra(Constant.EXTRA_HASHTAG, "");
+		intentMock.putExtra(Constants.EXTRA_EVENT_TEAMS, "jennifer");
+		intentMock.putExtra(Constants.EXTRA_IS_TODAY, "1");
+		intentMock.putExtra(Constants.EXTRA_EVENT_DATE, "06.06");
+		intentMock.putExtra(Constants.EXTRA_EVENT_ID, "1496");
+		intentMock.putExtra(Constants.EXTRA_HASHTAG, "");
 		//intentMock.putExtra(Values.TAG_MEDIA_ID, "2");
 		
 		setActivityIntent(intentMock);
@@ -102,11 +102,11 @@ public class HighlightActivityTest extends ActivityInstrumentationTestCase2<High
 		txtSend = (TextView) highlightActivity.findViewById(com.sportxast.SportXast.R.id.btn_send);
 		
 		// Have to put it here, this variables are used anywhere.
-		extraEventTeams = highlightActivity.getIntent().getStringExtra(Constant.EXTRA_EVENT_TEAMS);
-		extraIsToday = highlightActivity.getIntent().getStringExtra(Constant.EXTRA_IS_TODAY);
-		extraEventDate = highlightActivity.getIntent().getStringExtra(Constant.EXTRA_EVENT_DATE);
-		extraEventId = highlightActivity.getIntent().getStringExtra(Constant.EXTRA_EVENT_ID);
-		extraHashtag = highlightActivity.getIntent().getStringExtra(Constant.EXTRA_HASHTAG);
+		extraEventTeams = highlightActivity.getIntent().getStringExtra(Constants.EXTRA_EVENT_TEAMS);
+		extraIsToday = highlightActivity.getIntent().getStringExtra(Constants.EXTRA_IS_TODAY);
+		extraEventDate = highlightActivity.getIntent().getStringExtra(Constants.EXTRA_EVENT_DATE);
+		extraEventId = highlightActivity.getIntent().getStringExtra(Constants.EXTRA_EVENT_ID);
+		extraHashtag = highlightActivity.getIntent().getStringExtra(Constants.EXTRA_HASHTAG);
 		//extraMediaId = highlightActivity.getIntent().getStringExtra(Values.TAG_MEDIA_ID);
 	}
 	
@@ -133,7 +133,7 @@ public class HighlightActivityTest extends ActivityInstrumentationTestCase2<High
 		
 		//assertNotNull(listView);
 		
-		extraIsToday = highlightActivity.getIntent().getStringExtra(Constant.EXTRA_IS_TODAY); 
+		extraIsToday = highlightActivity.getIntent().getStringExtra(Constants.EXTRA_IS_TODAY);
 		//isToday = Integer.parseInt(extraIsToday);
 //		if(isToday == 1) {
 //			// If 1, expect a headerView added. It should be not 0
@@ -371,12 +371,12 @@ public class HighlightActivityTest extends ActivityInstrumentationTestCase2<High
 		// Assuming that all extras from the intent are all present.
 		// If hashtag's length > 0
 		if(extraHashtag.length() > 0) {
-			params.put(Constant.EXTRA_HASHTAG, extraHashtag);
+			params.put(Constants.EXTRA_HASHTAG, extraHashtag);
 			params.put(Values.TAG_PAGE, (2 + 1)); // bogus value
 			
 			extendedUrl = Values.GET_EXPORT_MEDIA;
 		} else {
-			params.put(Constant.EXTRA_EVENT_ID, "1496");
+			params.put(Constants.EXTRA_EVENT_ID, "1496");
 			params.put(Values.TAG_SINCE_ID, "");
 			params.put(Values.TAG_UNTIL_ID, "");
 			

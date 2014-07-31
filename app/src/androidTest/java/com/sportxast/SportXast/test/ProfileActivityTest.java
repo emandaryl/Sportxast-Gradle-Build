@@ -10,7 +10,7 @@ import com.loopj.android.http.JsonHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
 import com.robotium.solo.Solo;
 import com.sportxast.SportXast.activities2_0.Profile_Activity;
-import com.sportxast.SportXast.commons.Constant;
+import com.sportxast.SportXast.commons.Constants;
 import com.sportxast.SportXast.test.constants.Values;
 import com.sportxast.SportXast.thirdparty_class.Async_HttpClient;
 
@@ -48,7 +48,7 @@ public class ProfileActivityTest extends ActivityInstrumentationTestCase2<Profil
 		setActivityInitialTouchMode(false);
 		
 		Intent mock = new Intent();
-		mock.putExtra(Constant.EXTRA_USER_ID, Values.SAMPLE_USER_ID);
+		mock.putExtra(Constants.EXTRA_USER_ID, Values.SAMPLE_USER_ID);
 		mock.putExtra(Values.TAG_USER_DISPLAY_NAME, Values.SAMPLE_DISPLAY_NAME);
 		mock.putExtra(Values.TAG_IS_MY_PROFILE, true);//true this is my profile
 		setActivityIntent(mock);
@@ -87,17 +87,17 @@ public class ProfileActivityTest extends ActivityInstrumentationTestCase2<Profil
 				 * User display name length > 0, display user display name
 				 */
 				intent.putExtra(Values.TAG_USER_DISPLAY_NAME, Values.SAMPLE_DISPLAY_NAME);	
-				intent.putExtra(Constant.EXTRA_USER_ID, "");
+				intent.putExtra(Constants.EXTRA_USER_ID, "");
 			} else if(i == 1) {
 				/*
 				 * If user id length > 0, this user id should be the one
 				 * to be displayed.
 				 */
 				intent.putExtra(Values.TAG_USER_DISPLAY_NAME, "");
-				intent.putExtra(Constant.EXTRA_USER_ID, Values.SAMPLE_USER_ID);
+				intent.putExtra(Constants.EXTRA_USER_ID, Values.SAMPLE_USER_ID);
 			} else if(i == 2) {
 				intent.putExtra(Values.TAG_USER_DISPLAY_NAME, "");
-				intent.putExtra(Constant.EXTRA_USER_ID, "");
+				intent.putExtra(Constants.EXTRA_USER_ID, "");
 			}
 			
 			setActivityIntent(intent);
@@ -120,7 +120,7 @@ public class ProfileActivityTest extends ActivityInstrumentationTestCase2<Profil
 	}
 	
 	public void testIntents() {
-		String userId = profileActivity.getIntent().getStringExtra(Constant.EXTRA_USER_ID);
+		String userId = profileActivity.getIntent().getStringExtra(Constants.EXTRA_USER_ID);
 		assertEquals(Values.SAMPLE_USER_ID, userId);
 		
 		String displayName = profileActivity.getIntent().getStringExtra(Values.TAG_USER_DISPLAY_NAME);
@@ -139,7 +139,7 @@ public class ProfileActivityTest extends ActivityInstrumentationTestCase2<Profil
 	
 	public void testFetchData() throws Throwable {
 		final RequestParams params = new RequestParams();
-		params.put(Constant.EXTRA_USER_ID, Values.SAMPLE_USER_ID);
+		params.put(Constants.EXTRA_USER_ID, Values.SAMPLE_USER_ID);
 		
 		final CountDownLatch signal = new CountDownLatch(1);
 		runTestOnUiThread(new Runnable() {

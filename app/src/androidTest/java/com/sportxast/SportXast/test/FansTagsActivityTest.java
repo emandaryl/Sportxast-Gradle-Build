@@ -4,7 +4,7 @@ import android.content.Intent;
 import android.test.ActivityInstrumentationTestCase2;
 
 import com.sportxast.SportXast.activities2_0.FansTagsActivity;
-import com.sportxast.SportXast.commons.Constant;
+import com.sportxast.SportXast.commons.Constants;
 import com.sportxast.SportXast.fragments.FansTagsFragment;
 
 public class FansTagsActivityTest extends ActivityInstrumentationTestCase2<FansTagsActivity> {
@@ -24,7 +24,7 @@ public class FansTagsActivityTest extends ActivityInstrumentationTestCase2<FansT
 		setActivityInitialTouchMode(false);
 		
 		Intent intentMock = new Intent();
-		intentMock.putExtra(Constant.EXTRA_EVENT_TYPE, FansTagsActivity.LIST_FANS);
+		intentMock.putExtra(Constants.EXTRA_EVENT_TYPE, FansTagsActivity.LIST_FANS);
 		setActivityIntent(intentMock);
 		
 		try {

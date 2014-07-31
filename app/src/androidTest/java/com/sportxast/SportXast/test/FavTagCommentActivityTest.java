@@ -11,7 +11,7 @@ import com.loopj.android.http.RequestParams;
 import com.robotium.solo.Solo;
 import com.sportxast.SportXast.StaticVariables.KEY;
 import com.sportxast.SportXast.activities2_0.Fav_Tag_Comment_Activity;
-import com.sportxast.SportXast.commons.Constant;
+import com.sportxast.SportXast.commons.Constants;
 import com.sportxast.SportXast.test.constants.Values;
 import com.sportxast.SportXast.thirdparty_class.Async_HttpClient;
 
@@ -56,8 +56,8 @@ public class FavTagCommentActivityTest extends ActivityInstrumentationTestCase2<
 		
 		// Mock Intent
 		Intent intent = new Intent();
-		intent.putExtra(Constant.EXTRA_EVENT_ID, "32");
-		intent.putExtra(Constant.EXTRA_MEDIA_ID, "345");
+		intent.putExtra(Constants.EXTRA_EVENT_ID, "32");
+		intent.putExtra(Constants.EXTRA_MEDIA_ID, "345");
 		intent.putExtra(Values.TAG_LIST_TYPE, "favorite");
 		setActivityIntent(intent);
 		
@@ -106,11 +106,11 @@ public class FavTagCommentActivityTest extends ActivityInstrumentationTestCase2<
 				 * First test is that mediaId is not empty.
 				 * So we will use the mediaId as param.
 				 */
-				params.put(Constant.EXTRA_MEDIA_ID, sampleMediaId);
+				params.put(Constants.EXTRA_MEDIA_ID, sampleMediaId);
 				extendedUrl = Values.GET_EXPORT_USER_IN_MEDIA_FAV;
 			} else {
 				// If i == 1, of course!
-				params.put(Constant.EXTRA_EVENT_ID, sampleEventId);
+				params.put(Constants.EXTRA_EVENT_ID, sampleEventId);
 				extendedUrl = Values.GET_EXPORT_USER_IN_EVENT_FAV;
 			}
 			
@@ -157,11 +157,11 @@ public class FavTagCommentActivityTest extends ActivityInstrumentationTestCase2<
 				 * First test is that mediaId is not empty.
 				 * So we will use the mediaId as param.
 				 */
-				params.put(Constant.EXTRA_MEDIA_ID, sampleMediaId);
+				params.put(Constants.EXTRA_MEDIA_ID, sampleMediaId);
 				extendedUrl = Values.GET_EXPORT_MEDIA_TAG;
 			} else {
 				// If i == 1, of course!
-				params.put(Constant.EXTRA_EVENT_ID, sampleEventId);
+				params.put(Constants.EXTRA_EVENT_ID, sampleEventId);
 				extendedUrl = Values.GET_EXPORT_EVENT_TAG;
 			}
 			
@@ -254,7 +254,7 @@ public class FavTagCommentActivityTest extends ActivityInstrumentationTestCase2<
 	
 	public void testGetFansList() throws Throwable {
 		final RequestParams params = new RequestParams();
-		params.put(Constant.EXTRA_EVENT_ID, sampleEventId);
+		params.put(Constants.EXTRA_EVENT_ID, sampleEventId);
 		params.put(Values.TAG_PAGE, "" + 2);
 		params.put(Values.TAG_PAGE_SIZE, "20");
 		
@@ -300,10 +300,10 @@ public class FavTagCommentActivityTest extends ActivityInstrumentationTestCase2<
 	}
 	
 	public void testIntents() {
-		String eventId = ftcActivity.getIntent().getStringExtra(Constant.EXTRA_EVENT_ID);
+		String eventId = ftcActivity.getIntent().getStringExtra(Constants.EXTRA_EVENT_ID);
 		assertEquals("ExtraIntentId: " + eventId + " and expected 32", "32", eventId);
 		
-		String mediaId = ftcActivity.getIntent().getStringExtra(Constant.EXTRA_MEDIA_ID);
+		String mediaId = ftcActivity.getIntent().getStringExtra(Constants.EXTRA_MEDIA_ID);
 		assertEquals("ExtraMediaId: " + mediaId + " and expected 345", "345", mediaId);
 		
 		String listType = ftcActivity.getIntent().getStringExtra(Values.TAG_LIST_TYPE);

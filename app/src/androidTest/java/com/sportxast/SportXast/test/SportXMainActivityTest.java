@@ -21,7 +21,6 @@ import com.sportxast.SportXast.SportX2_Main;
 import com.sportxast.SportXast.activities2_0.Create_Activity;
 import com.sportxast.SportXast.activities2_0.EventDetail_Activity;
 import com.sportxast.SportXast.activities2_0.Menu_Activity;
-import com.sportxast.SportXast.activities2_0.Search_Activity;
 import com.sportxast.SportXast.models._EventLists;
 import com.sportxast.SportXast.test.constants.Values;
 import com.sportxast.SportXast.test.utils.SleepUtils;
@@ -33,6 +32,8 @@ import org.apache.http.Header;
 import org.json.JSONObject;
 
 import java.util.concurrent.CountDownLatch;
+
+//import com.sportxast.SportXast.activities2_0.Search_Activity;
 
 public class SportXMainActivityTest extends ActivityInstrumentationTestCase2<SportX2_Main> {
 
@@ -201,12 +202,12 @@ public class SportXMainActivityTest extends ActivityInstrumentationTestCase2<Spo
 		solo.goBack();
 	}
 	
-	public void testSearch() {
-		solo.clickOnView(solo.getView(com.sportxast.SportXast.R.id.imgbtn_search));
-		SleepUtils.freeze(getInstrumentation(), 3000);
-		solo.assertCurrentActivity("Search Activity yes", Search_Activity.class);
-		solo.goBack();
-	}
+//	public void testSearch() {
+//		solo.clickOnView(solo.getView(com.sportxast.SportXast.R.id.imgbtn_search));
+//		SleepUtils.freeze(getInstrumentation(), 3000);
+//		solo.assertCurrentActivity("Search Activity yes", Search_Activity.class);
+//		solo.goBack();
+//	}
 	
 	public void testNavigation() {
 		RelativeLayout header = (RelativeLayout) sportMainActivity.findViewById(com.sportxast.SportXast.R.id.sx_header_wrapper);

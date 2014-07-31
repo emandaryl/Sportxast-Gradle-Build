@@ -7,7 +7,7 @@ import android.widget.ListView;
 import com.loopj.android.http.RequestParams;
 import com.sportxast.SportXast.Global_Data;
 import com.sportxast.SportXast.activities2_0.ProfileTab_Activity;
-import com.sportxast.SportXast.commons.Constant;
+import com.sportxast.SportXast.commons.Constants;
 import com.sportxast.SportXast.test.constants.Values;
 
 public class ProfileTabTest extends ActivityInstrumentationTestCase2<ProfileTab_Activity> {
@@ -32,7 +32,7 @@ public class ProfileTabTest extends ActivityInstrumentationTestCase2<ProfileTab_
 		
 		Intent intent = new Intent();
 		intent.putExtra(Values.TAG_USERNAME, "law");
-		intent.putExtra(Constant.EXTRA_USER_ID, Values.SAMPLE_USER_ID);
+		intent.putExtra(Constants.EXTRA_USER_ID, Values.SAMPLE_USER_ID);
 		setActivityIntent(intent);
 		
 		profileTabActivity = getActivity();
@@ -42,7 +42,7 @@ public class ProfileTabTest extends ActivityInstrumentationTestCase2<ProfileTab_
 		listvwProfileTab = (ListView) profileTabActivity.findViewById(com.sportxast.SportXast.R.id.list_profiletab);
 		
 		username = profileTabActivity.getIntent().getStringExtra(Values.TAG_USERNAME);
-		userId = profileTabActivity.getIntent().getStringExtra(Constant.EXTRA_USER_ID);
+		userId = profileTabActivity.getIntent().getStringExtra(Constants.EXTRA_USER_ID);
 	}
 	
 	public void testPreconditions() {

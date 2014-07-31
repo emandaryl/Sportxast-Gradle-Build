@@ -17,7 +17,7 @@ import com.sportxast.SportXast.Global_Data.Coordinate;
 import com.sportxast.SportXast.activities2_0.EventDetail_Activity;
 import com.sportxast.SportXast.activities2_0.Fav_Tag_Comment_Activity;
 import com.sportxast.SportXast.activities2_0.Highlight_Activity;
-import com.sportxast.SportXast.commons.Constant;
+import com.sportxast.SportXast.commons.Constants;
 import com.sportxast.SportXast.models._EventLists.EventLists;
 import com.sportxast.SportXast.test.constants.Values;
 import com.sportxast.SportXast.thirdparty_class.Async_HttpClient;
@@ -82,7 +82,7 @@ public class EventDetailActivityTest extends ActivityInstrumentationTestCase2<Ev
 		
 		// pass a mock intent here bro
 		Intent intentMock = new Intent();
-		intentMock.putExtra(Constant.EXTRA_EVENT_ID, "2323");
+		intentMock.putExtra(Constants.EXTRA_EVENT_ID, "2323");
 		intentMock.putExtra(Values.TAG_IS_OPEN, "0");
 		setActivityIntent(intentMock);
 		
@@ -126,7 +126,7 @@ public class EventDetailActivityTest extends ActivityInstrumentationTestCase2<Ev
 	}
 	
 	public void testIntent() {
-		eventId = eventDetailActivity.getIntent().getStringExtra(Constant.EXTRA_EVENT_ID);
+		eventId = eventDetailActivity.getIntent().getStringExtra(Constants.EXTRA_EVENT_ID);
 		assertEquals("2323", eventId);
 		isOpen = eventDetailActivity.getIntent().getStringExtra(Values.TAG_IS_OPEN);
 		assertEquals("0", isOpen);
@@ -214,7 +214,7 @@ public class EventDetailActivityTest extends ActivityInstrumentationTestCase2<Ev
 		assertEquals(coord.longitude, globalData.getCoordinate().longitude);
 		
 		final RequestParams params = new RequestParams();
-		params.put(Constant.EXTRA_EVENT_ID, eventDetailActivity.getIntent().getStringExtra(Constant.EXTRA_EVENT_ID));
+		params.put(Constants.EXTRA_EVENT_ID, eventDetailActivity.getIntent().getStringExtra(Constants.EXTRA_EVENT_ID));
 		params.put(Values.TAG_LATITUDE, "" + globalData.getCoordinate().latitude);
 		params.put(Values.TAG_LONGITUDE, "" + globalData.getCoordinate().longitude);
 		

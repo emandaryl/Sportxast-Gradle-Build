@@ -8,7 +8,6 @@ import com.sportxast.SportXast.activities2_0.Create_Activity;
 import com.sportxast.SportXast.activities2_0.Information_Activity;
 import com.sportxast.SportXast.activities2_0.Menu_Activity;
 import com.sportxast.SportXast.activities2_0.Profile_Activity;
-import com.sportxast.SportXast.activities2_0.Search_Activity;
 import com.sportxast.SportXast.activities2_0.VideoCaptureActivity;
 import com.sportxast.SportXast.adapter2_0.MenuAdapter;
 import com.sportxast.SportXast.thirdparty_class.HeaderListView;
@@ -60,9 +59,9 @@ public class MenuActivityTest extends ActivityInstrumentationTestCase2<Menu_Acti
 	
 	public void testItems() {
 		// position 2
-		solo.clickOnText("Search");
-		solo.assertCurrentActivity("I should be in Search_Activity", Search_Activity.class);
-		solo.goBack();
+//		solo.clickOnText("Search");
+//		solo.assertCurrentActivity("I should be in Search_Activity", Search_Activity.class);
+//		solo.goBack();
 		
 		// position 3
 		solo.clickOnText("Create");
