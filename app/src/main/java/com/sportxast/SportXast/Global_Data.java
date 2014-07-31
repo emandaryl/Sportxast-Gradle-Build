@@ -1,17 +1,6 @@
 package com.sportxast.SportXast;
 
 
-import java.net.URL;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.concurrent.ArrayBlockingQueue;
-import java.util.concurrent.ThreadPoolExecutor;
-import java.util.concurrent.TimeUnit;
-
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import android.app.Application;
 import android.content.Context;
 import android.content.Intent;
@@ -26,7 +15,6 @@ import android.widget.Toast;
 import com.androidquery.AQuery;
 import com.androidquery.callback.AjaxCallback;
 import com.androidquery.callback.AjaxStatus;
-import com.sportxast.SportXast.activities2_0.Profile_Activity;
 import com.sportxast.SportXast.activities2_0.VideoCaptureActivity;
 import com.sportxast.SportXast.commons.CommonFunctions_1;
 import com.sportxast.SportXast.commons.Constants;
@@ -44,6 +32,16 @@ import com.sportxast.SportXast.tasks.BackgroundService;
 import com.sportxast.SportXast.tasks.BackgroundService2;
 import com.sportxast.SportXast.tasks.RunnableChecker;
 import com.sportxast.SportXast.thirdparty_class.GPSTracker;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.concurrent.ArrayBlockingQueue;
+import java.util.concurrent.ThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
 
 public class Global_Data extends Application {
 

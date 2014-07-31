@@ -38,7 +38,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 
 @SuppressWarnings("deprecation") 
-public class Search_Activity_ATAN extends Activity{
+public class Search_Activity extends Activity{
 	/** Header composition **/
 	private HeaderUIClass headerUIClass;
 	private RelativeLayout sx_header_wrapper; 
@@ -242,7 +242,7 @@ public class Search_Activity_ATAN extends Activity{
 			//FArrEventLists.add(eventLists); 
 		}
 	  
-		FEventsAdapter = new EventsAdapter(Search_Activity_ATAN.this, FArrEventLists);  
+		FEventsAdapter = new EventsAdapter(Search_Activity.this, FArrEventLists);
 		FPullToRefreshListView.setAdapter(FEventsAdapter); 
 		//FPullToRefreshListView.setOnScrollListener(onScrollListener);  
 	}
@@ -269,7 +269,7 @@ public class Search_Activity_ATAN extends Activity{
 		}
 		 
 		FArrFansList.trimToSize(); 
-		FSearchFanAdapter = new ProfileDataAdapter(Search_Activity_ATAN.this, FArrFansList, 3);  
+		FSearchFanAdapter = new ProfileDataAdapter(Search_Activity.this, FArrFansList, 3);
 		FPullToRefreshListView.setAdapter(FSearchFanAdapter); 
 	//	FPullToRefreshListView.setOnScrollListener(onScrollListener);  
 	} 
@@ -299,7 +299,7 @@ public class Search_Activity_ATAN extends Activity{
 		}
 		 
 		FArrTagsList.trimToSize(); 
-		FSearchHashtagAdapter = new HashTagAdapter(Search_Activity_ATAN.this, FArrTagsList);
+		FSearchHashtagAdapter = new HashTagAdapter(Search_Activity.this, FArrTagsList);
 		FPullToRefreshListView.setAdapter(FSearchHashtagAdapter); 
 	//	FPullToRefreshListView.setOnScrollListener(onScrollListener);  
 	} 
@@ -315,7 +315,7 @@ public class Search_Activity_ATAN extends Activity{
 		 
 		showProgressCover(View.VISIBLE, View.VISIBLE);
 		 
-		Async_HttpClient async_HttpClient = new Async_HttpClient(Search_Activity_ATAN.this);
+		Async_HttpClient async_HttpClient = new Async_HttpClient(Search_Activity.this);
 		async_HttpClient = new Async_HttpClient(this);
 		String appendUrl = "";
 		RequestParams requestParams = new RequestParams(); 
@@ -467,7 +467,7 @@ public class Search_Activity_ATAN extends Activity{
 		}
 		showProgressCover(View.VISIBLE, View.VISIBLE);  
 		
-		Async_HttpClient async_HttpClient = new Async_HttpClient(Search_Activity_ATAN.this);
+		Async_HttpClient async_HttpClient = new Async_HttpClient(Search_Activity.this);
 		async_HttpClient = new Async_HttpClient(this);
 		String appendUrl = "";
 		RequestParams requestParams = new RequestParams(); 
@@ -675,7 +675,7 @@ public class Search_Activity_ATAN extends Activity{
 		
 		showProgressCover(View.VISIBLE, View.VISIBLE); 
 		 
-		Async_HttpClient async_HttpClient = new Async_HttpClient(Search_Activity_ATAN.this);
+		Async_HttpClient async_HttpClient = new Async_HttpClient(Search_Activity.this);
 		async_HttpClient = new Async_HttpClient(this);
 		String appendUrl = "";
 		RequestParams requestParams = new RequestParams(); 

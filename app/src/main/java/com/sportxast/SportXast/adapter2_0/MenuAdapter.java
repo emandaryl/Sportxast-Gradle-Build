@@ -19,7 +19,7 @@ import com.sportxast.SportXast.activities2_0.Create_Activity;
 import com.sportxast.SportXast.activities2_0.Information_Activity;
 import com.sportxast.SportXast.activities2_0.Menu_Activity;
 import com.sportxast.SportXast.activities2_0.Profile_Activity;
-import com.sportxast.SportXast.activities2_0.Search_Activity_ATAN;
+import com.sportxast.SportXast.activities2_0.Search_Activity;
 import com.sportxast.SportXast.activities2_0.Share_Class;
 import com.sportxast.SportXast.activities2_0.VideoCaptureActivity;
 import com.sportxast.SportXast.commons.Constants;
@@ -158,7 +158,7 @@ public class MenuAdapter extends SectionAdapter {
 			}
 				break;
 			case 1: {//search
-				((Activity) context).startActivity(new Intent( context, Search_Activity_ATAN.class));
+				((Activity) context).startActivity(new Intent( context, Search_Activity.class));
 			}
 				break;
 			case 2: {//create
