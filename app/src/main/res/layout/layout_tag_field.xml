@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:gravity="center" >
+
+<View
+    android:id="@+id/view_outside"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_above="@+id/layout_comment"
+    android:layout_alignParentTop="true"
+    android:alpha="0.5"
+    android:background="#000000" />
+
+<RelativeLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_centerInParent="true"
+    android:orientation="vertical" >
+ 
+    <LinearLayout
+        android:id="@+id/layout_tag_cont"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:layout_margin="10dp"
+        android:orientation="vertical" >
+
+        <Button
+            android:id="@+id/btn_delete"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/btn_head_white1"
+            android:padding="5dp"
+            android:text="Tags"
+            android:textColor="@color/red"
+            android:textSize="18sp" />
+        
+          <ScrollView
+              android:id="@+id/vc_scrollTagList"
+              android:layout_width="fill_parent"
+              android:layout_height="180dp"
+              android:background="#ffffff"
+              android:fadeScrollbars="false"
+              android:fadingEdge="vertical"
+              android:scrollbarAlwaysDrawVerticalTrack="true"
+              android:scrollbarSize="100dip"
+              android:scrollbarStyle="outsideOverlay"
+              android:scrollbarThumbVertical="@drawable/scrollbar_bg"
+              android:scrollbars="vertical"
+              android:verticalScrollbarPosition="defaultPosition" >
+ 
+    <LinearLayout
+        android:id="@+id/layout_tags_cont1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:background="#ffffff"
+        android:orientation="vertical"
+        android:padding="6dp" >
+    </LinearLayout>
+    
+     </ScrollView>
+    
+    
+		<Button
+		    android:id="@+id/btn_cancel"
+		    android:layout_width="match_parent"
+		    android:layout_height="wrap_content"
+		    android:layout_marginTop="6dp"
+		    android:background="@drawable/btn_bg_white1"
+		    android:text="Cancel"
+		    android:textColor="@color/uni_blue"
+		    android:textSize="18sp"
+		    android:textStyle="bold" />
+
+    </LinearLayout>
+    
+    <RelativeLayout
+        android:id="@+id/pbLoading_container_tag"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:alpha="0.40"
+        android:background="#ffffff" >
+
+	      <!-- android:background="#666666" --> 
+
+	        <ProgressBar
+	            android:id="@+id/pbLoading_tag"
+	            android:layout_width="wrap_content"
+	            android:layout_height="wrap_content"
+	            android:layout_centerHorizontal="true"
+	            android:layout_centerVertical="true"
+	            android:visibility="visible" />
+	
+	</RelativeLayout>
+    
+</RelativeLayout>
+</RelativeLayout>
