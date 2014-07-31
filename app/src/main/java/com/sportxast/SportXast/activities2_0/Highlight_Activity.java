@@ -139,8 +139,7 @@ public class Highlight_Activity extends FragmentActivity{
 		GlobalVariablesHolder.currentActivityContext = Highlight_Activity.this;
 		GlobalVariablesHolder.pauseBackgroundService = false;
 		FGlobal_Data.runThreadUploader(Highlight_Activity.this);  
-		FGlobal_Data.getCurrentLocation();  
-		 
+		FGlobal_Data.getCurrentLocation();
 	}
 	 
 	/** Called when the activity is first created. */

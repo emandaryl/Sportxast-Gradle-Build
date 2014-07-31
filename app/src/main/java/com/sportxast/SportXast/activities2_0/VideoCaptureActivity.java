@@ -468,7 +468,6 @@ public class VideoCaptureActivity extends Activity implements CaptureListener {
         layout_commentDelete_field_cont.setVisibility(View.GONE);
 
 
-
         this.btnShare 	= (ImageButton) findViewById(R.id.btn_share);
         this.btnDelete 	= (ImageButton) findViewById(R.id.btn_delete);
 
