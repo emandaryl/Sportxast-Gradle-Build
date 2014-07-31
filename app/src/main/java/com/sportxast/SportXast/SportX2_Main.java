@@ -20,7 +20,7 @@ import com.sportxast.SportXast.activities2_0.Create_Activity;
 import com.sportxast.SportXast.activities2_0.EventDetail_Activity;
 import com.sportxast.SportXast.activities2_0.Highlight_Activity;
 import com.sportxast.SportXast.activities2_0.Menu_Activity;
-import com.sportxast.SportXast.activities2_0.Search_Activity_ATAN;
+import com.sportxast.SportXast.activities2_0.Search_Activity;
 import com.sportxast.SportXast.adapter2_0.EventsAdapter;
 import com.sportxast.SportXast.commons.CommonFunctions_1;
 import com.sportxast.SportXast.commons.Dialog;
@@ -208,10 +208,8 @@ public class SportX2_Main extends Activity {
 	}	
 	
 	// #######################################################################################################################	
-	   
-	
-	// #######################################################################################################################	
-	 
+
+	// #######################################################################################################################
 	private void prepareHeader(boolean showBackButton, boolean showMenuButton, boolean showSearchButton, String titleText){ 
 		this.sx_header_wrapper = (RelativeLayout)findViewById(R.id.sx_header_wrapper);
 		this.headerUIClass = new HeaderUIClass(this, sx_header_wrapper); 
@@ -236,7 +234,7 @@ public class SportX2_Main extends Activity {
 			public void onSearchClicked() {
 				// TODO Auto-generated method stub 
 				// gatherEventList();
-				startActivity(new Intent(SportX2_Main.this, Search_Activity_ATAN.class));
+				startActivity(new Intent(SportX2_Main.this, Search_Activity.class));
 				overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);      
 			}
 			

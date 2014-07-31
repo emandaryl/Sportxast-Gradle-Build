@@ -1,27 +1,16 @@
 package com.sportxast.SportXast.activities2_0;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.Timer;
-import java.util.TimerTask;
-
-import org.apache.http.Header;
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.content.pm.ActivityInfo;
+import android.content.pm.PackageManager;
+import android.content.pm.ResolveInfo;
 import android.content.res.Configuration;
 import android.graphics.Bitmap;
+import android.graphics.Point;
 import android.graphics.Rect;
 import android.graphics.drawable.AnimationDrawable;
 import android.hardware.Camera;
@@ -31,11 +20,15 @@ import android.media.MediaMetadataRetriever;
 import android.media.MediaPlayer;
 import android.media.MediaPlayer.OnCompletionListener;
 import android.media.MediaRecorder;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentManager;
+import android.util.DisplayMetrics;
 import android.util.Log;
-import android.view.KeyEvent;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.SurfaceView;
 import android.view.View;
@@ -47,40 +40,35 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.PopupWindow;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TableLayout;
 import android.widget.TextView;
 import android.widget.Toast;
-import android.widget.AdapterView.OnItemClickListener;
 
 import com.coremedia.iso.IsoFile;
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
 import com.sportxast.SportXast.Global_Data;
 import com.sportxast.SportXast.R;
-import com.sportxast.SportXast.SportX2_Main;
 import com.sportxast.SportXast.Utils;
 import com.sportxast.SportXast.commons.CommonFunctions_1;
 import com.sportxast.SportXast.commons.Constants;
 import com.sportxast.SportXast.commons.Dialog;
 import com.sportxast.SportXast.commons.DialogSettings;
 import com.sportxast.SportXast.commons.GlobalVariablesHolder;
-import com.sportxast.SportXast.interfaces.EditTextImeBackListener;
+import com.sportxast.SportXast.fragments.FacebookFragment;
 import com.sportxast.SportXast.localdatabase.Keys;
 import com.sportxast.SportXast.models.EditTextBackEvent;
 import com.sportxast.SportXast.models.EventParcel;
 import com.sportxast.SportXast.models.SportsTags;
 import com.sportxast.SportXast.models._EventLists.EventLists;
-import com.sportxast.SportXast.models._MediaLists.Comments;
-import com.sportxast.SportXast.models._MediaLists.Tag;
-import com.sportxast.SportXast.models._MediaLists.UserInFavorites;
 import com.sportxast.SportXast.models._MediaStorage;
 import com.sportxast.SportXast.tasks.ProcessingTask;
 import com.sportxast.SportXast.thirdparty_class.Async_HttpClient;
@@ -90,7 +78,21 @@ import com.sportxast.SportXast.video.capture.CustomVideoView;
 import com.sportxast.SportXast.video.capture.TrimVideoUtils;
 import com.sportxast.SportXast.video.capture.UIFragment;
 
-public class VideoCaptureActivity extends Activity implements CaptureListener {
+import org.apache.http.Header;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
+
+public class VideoCaptureActivity extends FragmentActivity implements CaptureListener {
 
     private static final String TAG = "VideoCaptureActivity";
     private CaptureListener vcListner;
@@ -149,6 +151,8 @@ public class VideoCaptureActivity extends Activity implements CaptureListener {
     //private boolean FFromTutorial;
     private int FCallingActivityID;
     private ImageButton captureButton;
+
+    private NextMediaIdData FNextMediaIdData;
 
     public void gotoProfile_Activity(){
         Intent intent = new Intent(VideoCaptureActivity.this,Profile_Activity.class);
@@ -235,6 +239,8 @@ public class VideoCaptureActivity extends Activity implements CaptureListener {
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         //global_Data = (Global_Data) getApplicationContext();
         super.setContentView(R.layout.layout_video_capture);
+
+        this.FNextMediaIdData = new NextMediaIdData();
 
         this.FEventId = "";
 
@@ -468,7 +474,7 @@ public class VideoCaptureActivity extends Activity implements CaptureListener {
         layout_commentDelete_field_cont.setVisibility(View.GONE);
 
 
-        this.btnShare 	= (ImageButton) findViewById(R.id.btn_share);
+
         this.btnDelete 	= (ImageButton) findViewById(R.id.btn_delete);
 
         btnDelete.setOnClickListener(new OnClickListener() {
@@ -542,17 +548,99 @@ public class VideoCaptureActivity extends Activity implements CaptureListener {
             }
         });
 
-        btnShare.setOnClickListener(new OnClickListener() {
+        this.btnShare 	= (ImageButton) findViewById(R.id.btn_share);
+        this.btnShare.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-        		
-        		/*
-        		btnShare.setImageResource(R.drawable.bbtn_share_on);
-        		btnShare.setEnabled(false);
-        		updateCurrentCapture();
-        		Utils.shareMedia(VideoCaptureActivity.this, FCurrentCapture, vcListner);
-        		*/
-            }
+
+                if( FNextMediaIdData.mediaId.length() <= 0)
+                    return;
+                //Toast.makeText(getApplicationContext(), FNextMediaIdData.twitterCardUrl, Toast.LENGTH_LONG).show();
+
+					/*
+					 * Share Mail, SMS, Facebook and Twitter
+					 */
+                // get location to anchor our popup
+                int[] locAnchor = new int[2];
+                v.getLocationOnScreen(locAnchor);
+
+                Point point = new Point();
+                point.x = locAnchor[0];// x
+                point.y = locAnchor[1];// y
+
+//					Log.i("sharebtn", "x: " + locAnchor[0]);
+//					Log.i("sharebtn", "y: " + locAnchor[1]);
+                LayoutInflater layoutInflater = VideoCaptureActivity.this.getLayoutInflater();
+                View popupLayout = layoutInflater.inflate(R.layout.popup_share, null);
+                popupWindow = new PopupWindow(VideoCaptureActivity.this);
+                popupWindow.setContentView(popupLayout);
+                popupWindow.setWidth(LayoutParams.WRAP_CONTENT);
+                popupWindow.setHeight(LayoutParams.WRAP_CONTENT);
+                popupWindow.setBackgroundDrawable(VideoCaptureActivity.this.getResources().getDrawable(android.R.drawable.dialog_holo_light_frame));
+                popupWindow.setOutsideTouchable(true);
+                popupWindow.setFocusable(true);
+                popupWindow.setAnimationStyle(R.style.PopupAnimation);
+
+                if(point.y <= 520) {
+						/*
+						 * Almost touching the Header/ActionBar.
+						 * Popup below the anchor. Add offset 100.
+						 * This will anchor PopupWindow below the
+						 * share button.
+						 */
+                    popupWindow.showAtLocation(popupLayout, Gravity.NO_GRAVITY, point.x, point.y + 100);
+                } else {
+						/*
+						 * Offset = -235
+						 * This will anchor PopupWindow above the
+						 * share button.
+						 */
+                    //Log.i("EventMediaAdapter", "offset: " + offSet());
+                    popupWindow.showAtLocation(popupLayout, Gravity.NO_GRAVITY, point.x, point.y - offSet());
+                }
+
+                ImageButton imgbtnShareEmail 	= (ImageButton) popupLayout.findViewById(R.id.imgbtn_share_email);
+                ImageButton imgbtnShareSms 	= (ImageButton) popupLayout.findViewById(R.id.imgbtn_share_sms);
+                ImageButton imgbtnShareTwitter = (ImageButton) popupLayout.findViewById(R.id.imgbtn_share_twitter);
+                ImageButton imgbtnShareFacebook= (ImageButton) popupLayout.findViewById(R.id.imgbtn_share_facebook);
+
+                imgbtnShareEmail.setOnClickListener(onclickShare);
+                imgbtnShareSms.setOnClickListener(onclickShare);
+                imgbtnShareTwitter.setOnClickListener(onclickShare);
+                imgbtnShareFacebook.setOnClickListener(onclickShare);
+					/*
+					 * Pass PopupWindow object as Tag. So onClickListener can
+					 * dismiss it.
+					 */
+                //String shareMsg = FArrMediaList.get(viewPosition).mediaShareString + "\n" + FArrMediaList.get(viewPosition).twitterCardUrl;
+                String shareMsg = FNextMediaIdData.shareText + "\n" +FNextMediaIdData.twitterCardUrl;
+
+                /*
+                String additionalTag = FArrMediaList.get(viewPosition).coverImageThumb
+                        + Constants.SEPARATOR + FArrMediaList.get(viewPosition).videoLocalPath
+                        + Constants.SEPARATOR + FArrMediaList.get(viewPosition).mp4Url
+                        + Constants.SEPARATOR + FArrMediaList.get(viewPosition).mediaId;
+                */
+
+                String additionalTag = FNextMediaIdData.imagePath
+                        + Constants.SEPARATOR + FNextMediaIdData.localVideoFilePath
+                        + Constants.SEPARATOR + FNextMediaIdData.videoPath
+                        + Constants.SEPARATOR + FNextMediaIdData.mediaId;
+
+                imgbtnShareEmail.setTag(shareMsg);
+                imgbtnShareSms.setTag(shareMsg);
+                imgbtnShareTwitter.setTag(shareMsg);
+					/*
+					 * For sharing on Facebook, implode important Strings.
+					 * index 0 = shareMsg = The caption/description for the video to be uploaded.
+					 * index 1 = coverImageThumb = Image file for thumbnail.
+					 * index 2 = videoLocalPath = Path to the video stored on the phone.
+					 * index 3 = mp4url = Url of the video.
+					 * index 4 = media id
+					 * Pass it to setTag()
+					 */
+                imgbtnShareFacebook.setTag(shareMsg + Constants.SEPARATOR + additionalTag);
+                }
         });
 
         this.btn_add_tag 	= (ImageButton) findViewById(R.id.btn_add_tag);
@@ -596,7 +684,7 @@ public class VideoCaptureActivity extends Activity implements CaptureListener {
 
         this.layout_comment_field_cont1 = (RelativeLayout) findViewById(R.id.layout_comment_field_cont1);
         this.edittext_comment 			= (EditTextBackEvent) this.layout_comment_field_cont1.findViewById(R.id.edittext_comment);
-        this.btn_send	 	  			            = (Button) this.layout_comment_field_cont1.findViewById(R.id.btn_send);
+        this.btn_send	 	  		    = (Button) this.layout_comment_field_cont1.findViewById(R.id.btn_send);
             this.btn_send.setOnClickListener(new OnClickListener() {
 
             @Override
@@ -632,9 +720,90 @@ public class VideoCaptureActivity extends Activity implements CaptureListener {
             }
         } );
     }
+    private PopupWindow popupWindow;
+
+    private OnClickListener onclickShare = new OnClickListener() {
+
+        @Override
+        public void onClick(View view) {
+            int id = ((ImageButton) view).getId();
+
+            popupWindow.dismiss();
+
+            //Log.i(TAG, "Extra Text: " + view.getTag().toString());
+
+            switch(id) {
+                case R.id.imgbtn_share_email:
+
+                    Intent emailIntent = new Intent(Intent.ACTION_SENDTO);
+                    String uriEmailText =
+                            "mailto:" + Uri.encode("") +
+                                    "?subject=" + Uri.encode(FGlobal_Data.getAppSetting_settings("APP_SHARE_MAIL_SUBJECT")) +
+                                    "&body=" + Uri.encode(view.getTag().toString());
+                    Uri uriEmail = Uri.parse(uriEmailText);
+                    emailIntent.setData(uriEmail);
+                    startActivity(Intent.createChooser(emailIntent, "Share Via Email"));
+
+                    break;
+                case R.id.imgbtn_share_sms:
+
+                    Uri uri = Uri.parse("smsto:");
+                    Intent smsIntent = new Intent(Intent.ACTION_VIEW, uri);
+                    smsIntent.putExtra("sms_body", view.getTag().toString());
+                    smsIntent.setType("vnd.android-dir/mms-sms");
+                    startActivity(smsIntent);
+
+                    break;
+                case R.id.imgbtn_share_twitter:
+
+                    String tweet = "https://twitter.com/intent/tweet?text=" + view.getTag().toString();
+                    Intent tweetIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(tweet));
+
+                    PackageManager pm = getApplicationContext().getPackageManager();
+                    List<ResolveInfo> infoList = pm.queryIntentActivities(tweetIntent, 0);
+
+                    for(ResolveInfo info : infoList) {
+                        if(info.activityInfo.packageName.toLowerCase().startsWith("com.twitter")) {
+                            tweetIntent.setPackage(info.activityInfo.packageName);
+                            break;
+                        }
+                    }
+
+                    startActivity(tweetIntent);
+
+                    break;
+                case R.id.imgbtn_share_facebook:
+                   // Highlight_Activity activity = (Highlight_Activity) context;
+                    openUpFacebookFragment(view.getTag().toString());
+                    break;
+            }
+        }
+    };
+
+
+    private int offSet() {
+        int densityDpi = VideoCaptureActivity.this.getResources().getDisplayMetrics().densityDpi;
+        if(densityDpi == DisplayMetrics.DENSITY_MEDIUM) {
+            return 50;
+        } else if(densityDpi == DisplayMetrics.DENSITY_HIGH) {
+            return 100;
+        } else if(densityDpi == DisplayMetrics.DENSITY_XHIGH) {
+            return 150;
+        } else {
+            return 250;
+        }
+    }
+    public void openUpFacebookFragment(String message) {
+
+        FragmentManager fm = getSupportFragmentManager();
+        FacebookFragment fbFragment = FacebookFragment.newInstance(message);
+        fbFragment.show(fm, Constants.TAG_FACEBOOK);
+
+    }
+
 
     public void showTagsSectionPanel( boolean showPanel, final String mediaId  ){
-        if(showPanel == false){
+            if(showPanel == false){
             if( layout_commentDelete_field_cont != null ){
                 layout_commentDelete_field_cont.removeAllViews();
                 layout_commentDelete_field_cont.setVisibility(View.GONE);
@@ -1936,6 +2105,23 @@ public class VideoCaptureActivity extends Activity implements CaptureListener {
         }
     }
 
+    private class NextMediaIdData{
+        private String twitterCardUrl = "";
+        private String shareUrl     = "";
+        private String mediaId      = "";
+        private String shareText    = "";
+        private String added        = "";
+        private String imagePath    = "";
+        private String videoPath    = "";
+
+        private String localImageFileName = "";
+        private String localImageFilePath = "";
+
+        private String localVideoFilePath = "";
+        private String localVideoFileName = "";
+
+    }
+
     private void getNextMediaId(  final String eventID, final String localVideoFilePath, final String localImageFilePath, final String localVideoFileName, final String localImageFileName ) {
         //final DatabaseHelper DB = new DatabaseHelper( VideoCaptureActivity.this );
         final String timeStamp 			= CommonFunctions_1.getCurrentTimeStamp();
@@ -1976,6 +2162,8 @@ public class VideoCaptureActivity extends Activity implements CaptureListener {
                          } **/
                         // TODO Auto-generated method stub
                         super.onSuccess(response);
+
+
                         //Toast.makeText(getApplicationContext(), "HUMANAG UPLOAD SA getNextMediaId", Toast.LENGTH_LONG).show();
 
                         captureButton_cont.setVisibility(View.VISIBLE);
@@ -1983,6 +2171,25 @@ public class VideoCaptureActivity extends Activity implements CaptureListener {
 
                         FNumberOfVideosRecorded = FNumberOfVideosRecorded + 1;
                         if(response != null){
+
+                            try {
+                                FNextMediaIdData.twitterCardUrl = response.getString("twitterCardUrl");
+                                FNextMediaIdData.shareUrl       = response.getString("shareUrl");
+                                FNextMediaIdData.mediaId        = response.getString("mediaId");
+                                FNextMediaIdData.shareText      = response.getString("shareText");
+                                FNextMediaIdData.added          = response.getString("added");
+                                FNextMediaIdData.imagePath      = response.getString("imagePath");
+                                FNextMediaIdData.videoPath      = response.getString("videoPath");
+
+                                FNextMediaIdData.localImageFileName = localImageFileName;
+                                FNextMediaIdData.localImageFilePath = localImageFilePath;
+
+                                FNextMediaIdData.localVideoFilePath = localVideoFilePath;
+                                FNextMediaIdData.localVideoFileName = localVideoFileName;
+
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
 
 
                             String eventID_ = "";
@@ -2011,7 +2218,6 @@ public class VideoCaptureActivity extends Activity implements CaptureListener {
 
                             GlobalVariablesHolder.pauseBackgroundService = false;
                             FGlobal_Data.runThreadUploader(VideoCaptureActivity.this);
-
 
                             btn_add_fav.setTag(0); //btn_add_fav Tag: 1 - already favorited, 0 - not yet favorited
                         } else {

@@ -1,14 +1,6 @@
 package com.sportxast.SportXast.adapter2_0;
 
 
-import java.io.File;
-import java.util.ArrayList;
-import java.util.List;
-
-import org.apache.http.Header;
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
@@ -32,6 +24,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.view.ViewGroup.LayoutParams;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.BaseAdapter;
 import android.widget.Button;
@@ -46,9 +39,6 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.VideoView;
-
-
-import android.view.ViewGroup.LayoutParams;
 
 import com.androidquery.AQuery;
 import com.loopj.android.http.JsonHttpResponseHandler;
@@ -73,6 +63,14 @@ import com.sportxast.SportXast.thirdparty_class.Async_HttpClient;
 import com.sportxast.SportXast.thirdparty_class.ClickableTextsTextView;
 import com.sportxast.SportXast.thirdparty_class.ClickableTextsTextView.TextLinkClickListener;
 
+import org.apache.http.Header;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
+
 public class EventMediaAdapter extends BaseAdapter{
 
     String[] defaultTags =	new String[]{"save", "win", "foul", "goal", "offsides", "ouch", "defense", "offense"};
@@ -92,7 +90,6 @@ public class EventMediaAdapter extends BaseAdapter{
     private SportsTags sportsTags;
 
     private ArrayList<String> listTags;
-
 
     private PopupWindow popupWindow;
 
@@ -764,10 +761,12 @@ public class EventMediaAdapter extends BaseAdapter{
                 imgbtnShareSms.setOnClickListener(onclickShare);
                 imgbtnShareTwitter.setOnClickListener(onclickShare);
                 imgbtnShareFacebook.setOnClickListener(onclickShare);
+
 					/*
 					 * Pass PopupWindow object as Tag. So onClickListener can
 					 * dismiss it.
 					 */
+
                 String shareMsg = FArrMediaList.get(viewPosition).mediaShareString + "\n"
                         + FArrMediaList.get(viewPosition).twitterCardUrl;
 
@@ -779,6 +778,7 @@ public class EventMediaAdapter extends BaseAdapter{
                 imgbtnShareEmail.setTag(shareMsg);
                 imgbtnShareSms.setTag(shareMsg);
                 imgbtnShareTwitter.setTag(shareMsg);
+
 					/*
 					 * For sharing on Facebook, implode important Strings.
 					 * index 0 = shareMsg = The caption/description for the video to be uploaded.
@@ -791,7 +791,7 @@ public class EventMediaAdapter extends BaseAdapter{
                 imgbtnShareFacebook.setTag(shareMsg + Constants.SEPARATOR + additionalTag);}
         });
 
-        itemHolder.imgbtn_delete.setOnClickListener(new OnClickListener() {
+                itemHolder.imgbtn_delete.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
 					
