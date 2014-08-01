@@ -233,6 +233,9 @@ public class VideoCaptureActivity extends FragmentActivity implements CaptureLis
 
     private Global_Data FGlobal_Data;
 
+    /** make sure the "check into event" and "create event" prompt message appears ONE TIME ONLY **/
+    private boolean messagePromptAlreadyAppeared;
+
     @Override
     protected void onResume() {
         super.onResume();
@@ -262,7 +265,6 @@ public class VideoCaptureActivity extends FragmentActivity implements CaptureLis
         this.FNextMediaIdData = new NextMediaIdData();
 
         this.FEventId = "";
-
         FGlobal_Data = (Global_Data) getApplicationContext();
 
         this.FCorLatitude = GlobalVariablesHolder.user_Latitude;
@@ -288,6 +290,8 @@ public class VideoCaptureActivity extends FragmentActivity implements CaptureLis
         this.FEventName			= "";
 
         this.FArrSportTags 		= ( new SportsTags(0) ).populateTags();
+
+        this.messagePromptAlreadyAppeared = false;
 
         if( GlobalVariablesHolder.FLatestEvent != null){
 
@@ -2097,11 +2101,16 @@ public class VideoCaptureActivity extends FragmentActivity implements CaptureLis
                     }
                     else // if NOT checked into an event
                     {
-                        showCheckIntoDialog(1, GlobalVariablesHolder.FLatestEvent.eventName);
-                        return;
+
+                        if( messagePromptAlreadyAppeared ){
+                            //do nothing
+                        }
+                        else {
+                            showCheckIntoDialog(1, GlobalVariablesHolder.FLatestEvent.eventName);
+                            return;
+                        }
                     }
                 }
-
             }
 
             getNextMediaId( FEventId, this.localVideoFilePath, this.localImageFilePath, this.localVideoFileName, this.localImageFileName);
@@ -2125,6 +2134,7 @@ public class VideoCaptureActivity extends FragmentActivity implements CaptureLis
 			}
 		});
 		*/
+        this.messagePromptAlreadyAppeared = true;
     }
 
     private class NextMediaIdData{
