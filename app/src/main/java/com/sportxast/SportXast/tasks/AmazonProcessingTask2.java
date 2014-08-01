@@ -1,17 +1,9 @@
 package com.sportxast.SportXast.tasks;
 
-import java.io.File;
-import java.net.URL;
-import java.util.Date;
-
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import android.content.Context;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.util.Log;
-import android.widget.Toast;
 
 import com.amazonaws.auth.BasicAWSCredentials;
 import com.amazonaws.services.s3.AmazonS3Client;
@@ -22,18 +14,20 @@ import com.amazonaws.services.s3.transfer.TransferManager;
 import com.amazonaws.services.s3.transfer.Upload;
 import com.amazonaws.services.s3.transfer.model.UploadResult;
 import com.sportxast.SportXast.Global_Data;
-import com.sportxast.SportXast.SportX2_Main;
 import com.sportxast.SportXast.StaticVariables;
-import com.sportxast.SportXast.Utils;
-import com.sportxast.SportXast.activities2_0.Highlight_Activity;
 import com.sportxast.SportXast.activities2_0.VideoCaptureActivity;
 import com.sportxast.SportXast.commons.CommonFunctions_1;
-import com.sportxast.SportXast.commons.Constants;
 import com.sportxast.SportXast.commons.GlobalVariablesHolder;
 import com.sportxast.SportXast.models.S3TaskResult;
-import com.sportxast.SportXast.models._MediaQueue;
 import com.sportxast.SportXast.models._MediaStorage;
 import com.sportxast.SportXast.video.capture.TrimVideoUtils;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.File;
+import java.net.URL;
+import java.util.Date;
 
 
 public class AmazonProcessingTask2 extends AsyncTask<Object, Void, S3TaskResult> {
@@ -263,8 +257,7 @@ public class AmazonProcessingTask2 extends AsyncTask<Object, Void, S3TaskResult>
 
             Log.e("AmazonProcessingTask:", "ERROR77777##########################");
             Log.e("AmazonProcessingTask:", "ERROR77777##########################");
-            Log.e("AmazonProcessingTask:", "ERROR77777##########################");
-            Log.e("AmazonProcessingTask:", "ERROR77777##########################");
+
 			/*
 			if( this.context instanceof SportX2_Main ){
 				((SportX2_Main) context).onMediaUploadComplete("ERROR ERROR ERROR UPLOAD");
@@ -320,7 +313,6 @@ public class AmazonProcessingTask2 extends AsyncTask<Object, Void, S3TaskResult>
 			Log.e("AmazonProcessingTask:", "SUCCESS5555##########################");   */
             if( filetype.equals("picture") ){
 
-                Log.e("AmazonProcessingTask:", "PICTURE PICTURE PICTURE PICTURE PICTURE");
                 Log.e("AmazonProcessingTask:", "PICTURE PICTURE PICTURE PICTURE PICTURE");
                 Log.e("AmazonProcessingTask:", "PICTURE PICTURE PICTURE PICTURE PICTURE");
 
@@ -406,12 +398,12 @@ public class AmazonProcessingTask2 extends AsyncTask<Object, Void, S3TaskResult>
                 mediaStorage.ID = "0";
                 mediaStorage.uploadQueue			= "2";
                 mediaStorage.imageLocalFilename 	= this.imageLocalFilename; //local filename of image
-                mediaStorage.videoLocalFilename	= this.videoLocalFilename; //local filename of Video
+                mediaStorage.videoLocalFilename	    = this.videoLocalFilename; //local filename of Video
 
                 mediaStorage.videoServerFilePath 	= this.videoServerFilePath;
                 mediaStorage.imageServerFilePath 	= this.imageServerFilePath; //server image path
 
-                mediaStorage.videoLocalFilePath	= this.videoLocalFilePath;
+                mediaStorage.videoLocalFilePath	    = this.videoLocalFilePath;
                 mediaStorage.imageLocalFilePath 	= this.imageLocalFilePath;
 
                 mediaStorage.videoUploadResponseHeaders = "";
@@ -421,10 +413,10 @@ public class AmazonProcessingTask2 extends AsyncTask<Object, Void, S3TaskResult>
                 mediaStorage.isDeletedByUser 		= "0";
                 mediaStorage.isFavorite 			= "0";
                 mediaStorage.isImageUploaded 		= "0";
-                mediaStorage.isSharedOnFacebook	= "0";
+                mediaStorage.isSharedOnFacebook	    = "0";
                 mediaStorage.isSharedOnMail 		= "0";
-                mediaStorage.isSharedOnSms 		= "0";
-                mediaStorage.isSharedOnTwitter 	= "0";
+                mediaStorage.isSharedOnSms 		    = "0";
+                mediaStorage.isSharedOnTwitter 	    = "0";
                 mediaStorage.isUploaded 			= "0";
                 mediaStorage.isVideoUploaded 		= "0";
                 mediaStorage.mediaAspectRatio 		= "";
@@ -437,16 +429,16 @@ public class AmazonProcessingTask2 extends AsyncTask<Object, Void, S3TaskResult>
                 mediaStorage.mediaFileKey 			= "";
                 mediaStorage.mediaOrientation 		= "0";
 
-                mediaStorage.mediaServerId 		= this.mediaServerId;
+                mediaStorage.mediaServerId 		    = this.mediaServerId;
                 mediaStorage.mediaSessionID 		= "";
                 // mediaStorage.mediaShareUrl 	 	= arrNextMediaID.get(0).getShareUrl();
-                mediaStorage.mediaShareUrl 	 	= "";
-                mediaStorage.mediaTags 			= "";
-                mediaStorage.shareText 			= "";
+                mediaStorage.mediaShareUrl 	 	    = "";
+                mediaStorage.mediaTags 			    = "";
+                mediaStorage.shareText 			    = "";
                 mediaStorage.userLatitude 			= this.userLatitude;
                 mediaStorage.userLongitude  		= this.userLongitude;
 
-                mediaStorage.modified  			= "1";
+                mediaStorage.modified  			    = "1";
                 mediaStorage.isSaved 				= "0";
 
                 mediaStorage.twitterCardUrl		= this.twitterCardUrl;

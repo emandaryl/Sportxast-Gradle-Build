@@ -94,7 +94,8 @@ public class Splash_Activity extends Activity {
 	            e.printStackTrace();
 	             
 	            GlobalVariablesHolder.X_USERCOUNTRY  = "";
-	            GlobalVariablesHolder.X_USERLOCALITY = "";  
+	            GlobalVariablesHolder.X_USERLOCALITY = "";
+
 	        }
 	        return result;
 	    }
@@ -233,8 +234,8 @@ public class Splash_Activity extends Activity {
 	/**  @category Custom Method
 	 * Called on onCreate method.Fetch application settings data( if success - goto parseSetting()) * */
 	public void getAppSettings() {  
-		GlobalVariablesHolder.APISubDomain = "dev"; //<-- subdomain/change this
-		//GlobalVariablesHolder.APISubDomain = "test"; //<-- subdomain/change this
+		//GlobalVariablesHolder.APISubDomain = "dev"; //<-- subdomain/change this
+		GlobalVariablesHolder.APISubDomain = "test"; //<-- subdomain/change this
 		 
 		Async_HttpClient async_HttpClient2 = new Async_HttpClient(this); 
 		async_HttpClient2.GET("Settings", new RequestParams(),

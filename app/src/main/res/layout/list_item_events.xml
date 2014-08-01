@@ -1,99 +1,167 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
+    android:layout_width="fill_parent"
     android:layout_height="wrap_content"
     android:background="@drawable/selector_bg_listview" >
 
-    <RelativeLayout
-        android:id="@+id/relativeLayout1"
-        android:layout_width="match_parent"
+    <LinearLayout
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_marginLeft="11dp"
-        android:layout_marginRight="13dp"
-        android:layout_marginTop="9dp"
-        android:layout_toRightOf="@+id/imgvw_events_photo" >
+        android:layout_alignParentTop="false"
+        android:orientation="horizontal" >
 
-        <ImageView
-            android:id="@+id/imgvw_events_sportsicon"
-            android:layout_width="16dp"
-            android:layout_height="16dp"
-            android:layout_alignParentLeft="true"
-            android:layout_centerVertical="true"
-            android:src="@drawable/ic_camera" />
-
-        <TextView
-            android:id="@+id/imgvw_events_isToday"
+        <RelativeLayout
+            android:id="@+id/imgvw_events_photoCont"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:background="@drawable/shape_white_withblueborder"
-            android:textColor="@color/uni_blue" 
-            android:text="Follow"
-            android:paddingTop="4dp"
-            android:paddingBottom="4dp"
-            android:paddingLeft="16dp"
-            android:paddingRight="16dp"
-            android:textSize="13sp" />
+            android:layout_height="wrap_content" >
 
-        <TextView
-            android:id="@+id/txtvw_events_date"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:text="12/21"
-            android:textColor="#444444"
-            android:textSize="13sp" />
-    </RelativeLayout>
+            <ImageView
+                android:id="@+id/imgvw_events_photo"
+                android:layout_width="95dp"
+                android:layout_height="95dp"
+                android:adjustViewBounds="true"
+                android:scaleType="centerCrop"
+                android:src="@drawable/ic_capture_photo" />
 
-    <ImageView
-        android:id="@+id/imgvw_events_photo"
-        android:layout_width="95dp"
-        android:layout_height="95dp"
-        android:adjustViewBounds="true"
-        android:scaleType="centerCrop"
-        android:src="@drawable/ic_capture_photo" />
+            <ProgressBar
+                android:id="@+id/pbLoading_avatar"
+                style="?android:attr/progressBarStyleSmall"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_centerVertical="true"
+                android:visibility="gone" />
 
-    <TextView
-        android:id="@+id/txtvw_events_subtitle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/imgvw_events_photo"
-        android:layout_alignLeft="@+id/relativeLayout1"
-        android:layout_alignRight="@+id/relativeLayout1"
-        android:layout_marginBottom="9px"
-        android:ellipsize="end"
-        android:singleLine="true"
-        android:text="TextView"
-        android:textColor="#444444"
-        android:textSize="12sp" />
+        </RelativeLayout>
 
-    <TextView
-        android:id="@+id/txtvw_events_title"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_above="@+id/txtvw_events_subtitle"
-        android:layout_alignLeft="@+id/relativeLayout1"
-        android:layout_alignRight="@+id/relativeLayout1"
-        android:layout_marginBottom="4px"
-        android:singleLine="true"
-        android:ellipsize="end"
-        android:text="TextView"
-        android:textColor="#fc4c06"
-        android:textSize="14sp" />
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:orientation="vertical"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:weightSum="90" >
 
-    <TextView
-        android:id="@+id/txtvw_events_title0"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/txtvw_events_title"
-        android:layout_alignRight="@+id/txtvw_events_title"
-        android:layout_above="@+id/txtvw_events_title"
-        android:ellipsize="end"
-        android:singleLine="true"
-        android:textColor="#fc4c06"
-        android:textSize="14sp" />
+            <RelativeLayout
 
+                android:layout_width="match_parent"
+                android:layout_height="fill_parent"
+                android:layout_weight="32" >
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentTop="false"
+                    android:layout_marginRight="13dp"
+                    android:layout_marginTop="9dp" >
+
+                    <ImageView
+                        android:id="@+id/imgvw_events_sportsicon"
+                        android:layout_width="16dp"
+                        android:layout_height="16dp"
+                        android:layout_alignParentLeft="true"
+                        android:layout_centerVertical="true"
+                        android:src="@drawable/ic_camera" />
+
+                    <TextView
+                        android:id="@+id/txtvw_sportname"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignBottom="@+id/imgvw_events_photoCont"
+                        android:layout_alignLeft="@+id/relativeLayout1"
+                        android:layout_alignRight="@+id/relativeLayout1"
+                        android:layout_marginBottom="9px"
+                        android:layout_marginLeft="7dp"
+                        android:ellipsize="end"
+                        android:singleLine="true"
+                        android:text="&lt;sport name>"
+                        android:textColor="#444444"
+                        android:textSize="12sp" />
+
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/imgvw_events_isToday"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:background="@drawable/shape_white_withblueborder"
+                    android:textColor="@color/uni_blue"
+                    android:text="Follow"
+                    android:paddingTop="4dp"
+                    android:paddingBottom="4dp"
+                    android:paddingLeft="16dp"
+                    android:paddingRight="16dp"
+                    android:textSize="13sp" />
+
+                <TextView
+                    android:id="@+id/txtvw_events_date"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:text="12/21"
+                    android:textColor="#444444"
+                    android:textSize="13sp" />
+            </RelativeLayout>
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:layout_above="@+id/txtvw_events_subtitle"
+                android:layout_alignParentTop="false"
+                android:layout_gravity="center_vertical"
+                android:layout_weight="26"
+                android:gravity="center_vertical"
+                android:orientation="vertical" >
+                <TextView
+                    android:id="@+id/txtvw_events_title0"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_above="@+id/txtvw_events_title"
+                    android:layout_alignLeft="@+id/txtvw_events_title"
+                    android:layout_alignRight="@+id/txtvw_events_title"
+                    android:ellipsize="end"
+                    android:singleLine="true"
+                    android:text="&lt;team name 1>"
+                    android:textColor="#fc4c06"
+                    android:textSize="14sp" />
+
+                <TextView
+                    android:id="@+id/txtvw_events_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_above="@+id/txtvw_events_subtitle"
+                    android:layout_alignLeft="@+id/relativeLayout1"
+                    android:layout_alignRight="@+id/relativeLayout1"
+                    android:ellipsize="end"
+                    android:singleLine="true"
+                    android:text="&lt;team name 2>"
+                    android:textColor="#fc4c06"
+                    android:textSize="14sp" />
+
+            </LinearLayout>
+
+            <RelativeLayout
+                android:id="@+id/relativeLayout1"
+                android:layout_width="match_parent"
+                android:layout_height="fill_parent"
+                android:layout_gravity="center"
+                android:layout_weight="32" >
+
+                <TextView
+                    android:id="@+id/txtvw_events_subtitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:ellipsize="end"
+                    android:singleLine="true"
+                    android:text="&lt;event location>"
+                    android:textColor="#444444"
+                    android:textSize="12sp" />
+
+            </RelativeLayout>
+        </LinearLayout>
+    </LinearLayout>
 </RelativeLayout>

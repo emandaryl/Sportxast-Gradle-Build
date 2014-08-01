@@ -6,163 +6,177 @@
     android:layout_gravity="fill_horizontal"
     android:background="@drawable/layerlist_whiteshapewithlinebelow" >
 
-<RelativeLayout
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_gravity="fill_horizontal"
-    android:background="@drawable/layerlist_whiteshapewithlinebelow"
-    android:paddingBottom="7dp"
-    android:paddingTop="7dp" >
-
     <RelativeLayout
-        android:id="@+id/layout_left"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_centerVertical="true"
-        android:layout_marginLeft="8dp" >
-
-        <Button
-            android:id="@+id/imgbtn_back"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:background="@android:color/transparent"
-            android:drawableLeft="@drawable/ic_btn_back"
-            android:textColor="@color/white"
-            android:textSize="14sp"
-            android:visibility="gone" />
-
-        <ImageButton
-            android:id="@+id/imgbtn_add"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:background="@android:color/transparent"
-            android:src="@drawable/ic_btn_add"
-            android:visibility="gone" />
-
-        <ImageButton
-            android:id="@+id/imgbtn_menu"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:background="@android:color/transparent"
-            android:clickable="true"
-            android:src="@drawable/ic_menu" />
-        
-        <ImageButton
-            android:id="@+id/imgbtn_menu_decoy"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:background="@android:color/transparent"
-            android:clickable="true"
-            android:src="@drawable/ic_menu"
-            android:visibility="invisible" />
-
-    </RelativeLayout>
-
-    <RelativeLayout
-        android:id="@+id/layout_right"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
-        android:layout_centerVertical="true"
-        android:layout_marginRight="8dp" >
-
-        <ProgressBar
-            android:id="@+id/progress_refresh"
-            style="?android:attr/progressBarStyleSmall"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="false"
-            android:layout_centerVertical="true"
-            android:indeterminate="true"
-            android:visibility="gone" />
-
-        <ImageButton
-            android:id="@+id/imgbtn_refresh"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="false"
-            android:layout_centerVertical="true"
-            android:background="@android:color/transparent"
-            android:src="@drawable/ic_btn_refresh"
-            android:visibility="gone" />
-
-        <ImageButton
-            android:id="@+id/imgbtn_about"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="false"
-            android:layout_centerVertical="true"
-            android:background="@android:color/transparent"
-            android:src="@drawable/ic_btn_about"
-            android:visibility="gone" />
-
-        <ImageButton
-            android:id="@+id/imgbtn_search"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:background="@android:color/transparent"
-            android:src="@drawable/ic_menu_search" />
-
-        <TextView
-            android:id="@+id/btn_Done"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="false"
-            android:layout_centerVertical="true"
-            android:background="@android:color/transparent"
-            android:gravity="center_vertical"
-            android:paddingLeft="4dp"
-            android:paddingRight="4dp"
-            android:text="Done"
-            android:textColor="@drawable/selector_txtvw_blue_greyselected" />
-
-        <ImageButton
-            android:id="@+id/imgbtn_camera"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="false"
-            android:layout_centerVertical="true"
-            android:background="@android:color/transparent"
-            android:src="@drawable/ic_camera"
-            android:visibility="gone" />
-
-    </RelativeLayout>
-
-    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_centerInParent="false"
-        android:layout_centerVertical="true"
-        android:layout_marginLeft="40dp"
-        android:layout_marginRight="40dp"
-        android:gravity="center"
-        android:orientation="vertical" >
+        android:layout_gravity="fill_horizontal"
+        android:background="@drawable/layerlist_whiteshapewithlinebelow"
+        android:paddingBottom="7dp"
+        android:paddingTop="7dp" >
 
-        <TextView
-            android:id="@+id/txtvw_menutitle0"
+        <RelativeLayout
+            android:id="@+id/layout_left"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="8dp" >
+
+            <Button
+                android:id="@+id/imgbtn_back"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:background="@android:color/transparent"
+                android:drawableLeft="@drawable/ic_btn_back"
+                android:textColor="@color/white"
+                android:textSize="14sp"
+                android:visibility="gone" />
+
+            <ImageButton
+                android:id="@+id/imgbtn_add"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:background="@android:color/transparent"
+                android:src="@drawable/ic_btn_add"
+                android:visibility="gone" />
+
+            <ImageButton
+                android:id="@+id/imgbtn_menu"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:background="@android:color/transparent"
+                android:clickable="true"
+                android:src="@drawable/ic_menu" />
+
+            <ImageButton
+                android:id="@+id/imgbtn_menu_decoy"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:background="@android:color/transparent"
+                android:clickable="true"
+                android:src="@drawable/ic_menu"
+                android:visibility="invisible" />
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/layout_right"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="8dp" >
+
+            <ProgressBar
+                android:id="@+id/progress_refresh"
+                style="?android:attr/progressBarStyleSmall"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="false"
+                android:layout_centerVertical="true"
+                android:indeterminate="true"
+                android:visibility="gone" />
+
+            <ImageButton
+                android:id="@+id/imgbtn_refresh"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="false"
+                android:layout_centerVertical="true"
+                android:background="@android:color/transparent"
+                android:src="@drawable/ic_btn_refresh"
+                android:visibility="gone" />
+
+            <ImageButton
+                android:id="@+id/imgbtn_about"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="false"
+                android:layout_centerVertical="true"
+                android:background="@android:color/transparent"
+                android:src="@drawable/ic_btn_about"
+                android:visibility="gone" />
+
+            <ImageButton
+                android:id="@+id/imgbtn_search"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:background="@android:color/transparent"
+                android:src="@drawable/ic_menu_search" />
+
+            <TextView
+                android:id="@+id/btn_Done"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="false"
+                android:layout_centerVertical="true"
+                android:background="@android:color/transparent"
+                android:gravity="center_vertical"
+                android:paddingLeft="4dp"
+                android:paddingRight="4dp"
+                android:text="Done"
+                android:textColor="@drawable/selector_txtvw_blue_greyselected" />
+
+            <ImageButton
+                android:id="@+id/imgbtn_camera"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="false"
+                android:layout_centerVertical="true"
+                android:background="@android:color/transparent"
+                android:src="@drawable/ic_camera"
+                android:visibility="gone" />
+
+            <Button
+                android:id="@+id/btn_follow"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentTop="true"
+                android:background="@drawable/btn_pnl_blue_whole1"
+                android:paddingLeft="6dp"
+                android:paddingRight="6dp"
+                android:text="Follow"
+                android:textColor="@color/white"
+                android:textSize="13sp"
+                android:visibility="gone" />
+
+        </RelativeLayout>
+
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:ellipsize="end"
+            android:layout_centerInParent="false"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="40dp"
+            android:layout_marginRight="40dp"
             android:gravity="center"
-            android:singleLine="true"
-            android:text="Event0"
-            android:textColor="@color/uni_blue"
-            android:visibility="gone" />
+            android:orientation="vertical" >
 
-        <TextView
-            android:id="@+id/txtvw_menutitle"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:ellipsize="end"
-            android:gravity="center"
-            android:text="Event"
-            android:textColor="@color/uni_blue" />
-    </LinearLayout>
-	</RelativeLayout>
+            <TextView
+                android:id="@+id/txtvw_menutitle0"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:gravity="center"
+                android:singleLine="true"
+                android:text="Event0"
+                android:textColor="@color/uni_blue"
+                android:visibility="gone" />
+
+            <TextView
+                android:id="@+id/txtvw_menutitle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:gravity="center"
+                android:text="Event"
+                android:textColor="@color/uni_blue" />
+        </LinearLayout>
+    </RelativeLayout>
 </RelativeLayout>
