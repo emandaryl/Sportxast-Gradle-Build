@@ -403,6 +403,7 @@ public class SportX2_Main extends Activity {
             FPullToRefreshListView.setOnRefreshListener(onRefreshListener);
 
             nonRefreshList.setVisibility(View.GONE);
+            
         } else {
             /*
             If you are here. Load the default ListView(Non pull-to-refresh).
