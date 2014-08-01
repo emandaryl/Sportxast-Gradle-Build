@@ -82,9 +82,9 @@ public class DialogSettings extends  android.app.Dialog{
 				public void onClick(View arg0) {
 					// TODO Auto-generated method stub  
 					DialogSettings.this.dismiss();
-					
+
 					if(mContext instanceof VideoCaptureActivity){
-						((VideoCaptureActivity) mContext ).gotoCreateEventPage();
+						((VideoCaptureActivity) mContext ).gotoCreateEventPage(1);
 					}
 				}
 			});

@@ -171,10 +171,21 @@ public class VideoCaptureActivity extends FragmentActivity implements CaptureLis
         finish();
     }
 
-    public void gotoCreateEventPage(){
+    /** withPendingHighlight(true(1) or false(0)) - means that a highlight is already capture, but waiting for an event to be created **/
+    public void gotoCreateEventPage( final int withPendingHighlight ){
         Intent intent = new Intent(VideoCaptureActivity.this, Create_Activity.class);
-        //intent.putExtra("eventId",		eventId);
-        //intent.putExtra("isOpen", 		eventIsOpen);
+       // intent.putExtra("withPendingHighlight",	withPendingHighlight);
+
+        intent.putExtra("withPendingHighlight",	1);
+
+        // getNextMediaId( FEventId, FNextMediaIdData.localVideoFilePath, FNextMediaIdData.localImageFilePath, FNextMediaIdData.localVideoFileName, FNextMediaIdData.localImageFileName);
+
+        intent.putExtra("highlightInitialData",	   FEventId
+                                            +"||"+ FNextMediaIdData.localVideoFilePath
+                                            +"||"+ FNextMediaIdData.localImageFilePath
+                                            +"||"+ FNextMediaIdData.localVideoFileName
+                                            +"||"+ FNextMediaIdData.localImageFileName );
+
         startActivity(intent);
         //runThreadUploader();
         //####################################################################
@@ -207,12 +218,15 @@ public class VideoCaptureActivity extends FragmentActivity implements CaptureLis
 
     private ArrayList<String> FArrSportTags;
 
+    public void prepareInitialHighlightData(){
+
+    }
 
     public void supplyChosenEvent( EventLists latestEvent, final String callingMethodType ){
 
         if(latestEvent != null) {
-            this.FChosenEvent = CommonFunctions_1.parseToEventParcel(latestEvent);
-            this.FEventId = FChosenEvent.eventId;
+            this.FChosenEvent   = CommonFunctions_1.parseToEventParcel(latestEvent);
+            this.FEventId       = FChosenEvent.eventId;
             this.FEventLatitude = FChosenEvent.eventLatitude;
             this.FEventLongitude = FChosenEvent.eventLongitude;
             this.FEventFirstTeam = FChosenEvent.eventFirstTeam;
@@ -223,7 +237,6 @@ public class VideoCaptureActivity extends FragmentActivity implements CaptureLis
 
             supplyLabels();
         }
-
 
         if(callingMethodType.equals(this.METHODCODE_ONCREATE)){
             //do nothing
@@ -259,6 +272,7 @@ public class VideoCaptureActivity extends FragmentActivity implements CaptureLis
         setMute();
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR);
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+
         //global_Data = (Global_Data) getApplicationContext();
         super.setContentView(R.layout.layout_video_capture);
 
@@ -636,7 +650,16 @@ public class VideoCaptureActivity extends FragmentActivity implements CaptureLis
                 }
         });
 
-        this.btn_add_tag 	= (ImageButton) findViewById(R.id.btn_add_tag);
+
+        this.btnShare.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                return;
+            }
+        });
+
+
+                this.btn_add_tag 	= (ImageButton) findViewById(R.id.btn_add_tag);
         this.btn_add_tag.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -667,7 +690,6 @@ public class VideoCaptureActivity extends FragmentActivity implements CaptureLis
 
                 if(FLatestHighlightMediaId.length() <= 0){
                     //Toast.makeText(getApplicationContext(), "OOOOOPS", Toast.LENGTH_LONG).show();
-
                 }
                 else{
                     showCommentSectionPanel( true, FLatestHighlightMediaId );
@@ -678,8 +700,8 @@ public class VideoCaptureActivity extends FragmentActivity implements CaptureLis
         this.layout_comment_field_cont1 = (RelativeLayout) findViewById(R.id.layout_comment_field_cont1);
         this.edittext_comment 			= (EditTextBackEvent) this.layout_comment_field_cont1.findViewById(R.id.edittext_comment);
         this.btn_send	 	  		    = (Button) this.layout_comment_field_cont1.findViewById(R.id.btn_send);
-            this.btn_send.setOnClickListener(new OnClickListener() {
 
+        this.btn_send.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
                 // TODO Auto-generated method stub

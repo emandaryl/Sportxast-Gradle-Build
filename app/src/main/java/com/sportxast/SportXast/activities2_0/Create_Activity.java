@@ -9,6 +9,7 @@ import android.graphics.PorterDuff.Mode;
 import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Surface;
 import android.view.View;
@@ -25,6 +26,7 @@ import com.loopj.android.http.RequestParams;
 import com.sportxast.SportXast.Global_Data;
 import com.sportxast.SportXast.Global_Data.Coordinate;
 import com.sportxast.SportXast.R;
+import com.sportxast.SportXast.SportX2_Main;
 import com.sportxast.SportXast.adapter2_0.CreateAdapter;
 import com.sportxast.SportXast.commons.CommonFunctions_1;
 import com.sportxast.SportXast.commons.Constants;
@@ -42,7 +44,6 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-//import com.sportxast.SportXast.BaseSherlockActivity;
 
 public class Create_Activity extends Activity {
     //TODO: Create An Event
@@ -58,7 +59,6 @@ public class Create_Activity extends Activity {
 
     private GPSTracker gpsTracker;
     private Coordinate coordinate ;
-
     //private HeaderListView headerListView;
     //private ActionBar actionBar;
 
@@ -99,6 +99,28 @@ public class Create_Activity extends Activity {
         FGlobal_Data.getCurrentLocation();
     }
 
+    private class NextMediaIdData{
+        private String eventID      = "";
+        private String twitterCardUrl = "";
+        private String shareUrl     = "";
+        private String mediaId      = "";
+        private String shareText    = "";
+        private String added        = "";
+
+        /**server path for IMAGE**/
+        private String imagePath    = "";
+        /**server path for VIDEO**/
+        private String videoPath    = "";
+
+        private String localImageFileName = "";
+        private String localImageFilePath = "";
+        private String localVideoFilePath = "";
+        private String localVideoFileName = "";
+
+    }
+    private NextMediaIdData FNextMediaIdData;
+
+    private int FWithPendingHighlight;
     /** Called when the activity is first created. */
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -111,10 +133,18 @@ public class Create_Activity extends Activity {
         //Toast.makeText(getApplicationContext(), getRotation(Create_Activity.this), Toast.LENGTH_LONG).show();
         FGlobal_Data = (Global_Data) getApplicationContext();
 
+        try {
+            FWithPendingHighlight = getIntent().getExtras().getInt("withPendingHighlight", 0);
+        }
+        catch (Exception e) {
+            FWithPendingHighlight = 0;
+        }
 
+        String highlightInitialData = getIntent().getExtras().getString("highlightInitialData");
+
+        this.FNextMediaIdData = parseHighlightInitialData( highlightInitialData );
 
         async_HttpClient = new Async_HttpClient(this);
-
         this.FCorLatitude = GlobalVariablesHolder.user_Latitude;
         this.FCorLongitude= GlobalVariablesHolder.user_Longitude;
 
@@ -122,6 +152,23 @@ public class Create_Activity extends Activity {
         prepareHeader();
         FArrRecentEvents = getRecentEvents();
         new populateRecentlyCreatedEvents( FArrRecentEvents, recentevent_list_cont1 ).execute();
+    }
+
+    private NextMediaIdData parseHighlightInitialData(String highlightInitialData){
+        if(highlightInitialData.length() <= 0){
+            return null;
+        }
+        //##########################
+        NextMediaIdData nextMediaIdData = new NextMediaIdData();
+        String[] arrHighlightInitialData = highlightInitialData.split("\\|\\|");
+
+        nextMediaIdData.eventID            = arrHighlightInitialData[0].toString();
+        nextMediaIdData.localVideoFilePath = arrHighlightInitialData[1].toString();
+        nextMediaIdData.localImageFilePath = arrHighlightInitialData[2].toString();
+        nextMediaIdData.localVideoFileName = arrHighlightInitialData[3].toString();
+        nextMediaIdData.localImageFileName = arrHighlightInitialData[4].toString();
+
+        return nextMediaIdData;
     }
 
     private TextView tv_selectSport;
@@ -178,7 +225,6 @@ public class Create_Activity extends Activity {
 
         tv_selectTeam2.setVisibility(View.GONE);
         recentevent_list_cont1 = (LinearLayout) findViewById(R.id.recentevent_list_cont1);
-
     }
 
     private JSONObject convertStringToJSON( String stringToConvert ){
@@ -310,7 +356,6 @@ public class Create_Activity extends Activity {
 
                 default:
                     break;
-
             }
 
         }else if (resultCode == RESULT_CANCELED) {
@@ -332,13 +377,13 @@ public class Create_Activity extends Activity {
         addHeaderButtonListener();
     }
 
+    private static String BACKBUTTON_CALLING_CODE = "aaaxxx76347634";
     private void addHeaderButtonListener(){
         this.headerUIClass.setOnHeaderButtonClickedListener(new HeaderUIClass.OnHeaderButtonClickedListener() {
 
             @Override
             public void onSearchClicked() {
                 // TODO Auto-generated method stub
-
             }
 
             @Override
@@ -362,7 +407,6 @@ public class Create_Activity extends Activity {
                 //Toast.makeText(getApplicationContext(), "heyhey", Toast.LENGTH_LONG).show();
 
                 saveCreatedEventToServer();
-				
 				/*
 				headerUIClass.enableDoneButton(false); 
 				
@@ -381,7 +425,15 @@ public class Create_Activity extends Activity {
             @Override
             public void onBackClicked() {
                 // TODO Auto-generated method stub
-                finish();
+
+                if( FNextMediaIdData != null ){//means there pending captured highlight
+                    getNextMediaId( BACKBUTTON_CALLING_CODE, null, FNextMediaIdData.localVideoFilePath, FNextMediaIdData.localImageFilePath, FNextMediaIdData.localVideoFileName, FNextMediaIdData.localImageFileName);
+                } else {
+
+                    finish();
+                }
+
+                //finish();
             }
 
             @Override
@@ -402,6 +454,7 @@ public class Create_Activity extends Activity {
         });
     }
 
+    private EventParcel FNewlyCreatedEvent;
     public void saveCreatedEventToServer() {
 
         if(this.pbLoading_container != null)
@@ -447,7 +500,6 @@ public class Create_Activity extends Activity {
             }
 
             requestParams.put("venueAddr", 		createdEventDataJSON.getString("placeAddr"));
-
 
             String placeId_str = "-69";
 
@@ -498,12 +550,26 @@ public class Create_Activity extends Activity {
         final String team2Final = team2;
         async_HttpClient.POST("SaveEvent", requestParams,
                 new JsonHttpResponseHandler() {
-
                     @Override
                     public void onSuccess(int statusCode, JSONObject response) {
                         // TODO Auto-generated method stub
                         super.onSuccess(statusCode, response);
 
+                         /*
+                        {
+                        "message":"Event was saved",
+                        "error":0,
+                        "event":{
+                                "eventShareMessage":"Watch this Ballooning event from Ayala Center in Cebu captured by SportXast",
+                                "eventBroadcastRadius":10,
+                                "eventDateTime":"2014-08-01 14:06:32",
+                                "eventStartDateShort":"08.01",
+                                "eventLongitude":"123.904753",
+                                "eventTeams":"teanx",
+                                "eventId":"1863",
+                                "eventSport":
+                                        {"sportName":"Ballooning","sportId":"30","sportTags":[],"sportWhiteLogo":"http:\/\/dev.sportxast.com\/images\/icons\/sport\/white\/ballooning.png","sportFirstLetter":"B","sportLogo":"http:\/\/dev.sportxast.com\/images\/icons\/sport\/ballooning.png","sportBroadcastRadius":"10000"},"eventTotalMediaCount":null,"eventFirstTeam":"teanx","eventInFavorites":0,"eventTimeZone":"Asia\/Manila 2014-08-01 14:06:32","eventDateDiff":0,"eventBroadcastRadiusUnit":"km","eventShareURL":"http:\/\/goo.gl\/PdQMgr","eventIsEnded":0,"eventLatitude":"10.318487","eventLocation":"Ayala Center in Cebu","eventTotalFavoriteCount":"0","eventStartDate":"2014-08-01","eventStartDateFormatted":"Fri, Aug 01","eventTotalCommentCount":"0","eventIsOpenString":"CHECK IN","eventLocalDateTime":"2014-08-01 14:06:32","eventSportId":"30","eventDistanceUnit":"km","eventDistance":0,"eventName":"Ballooning @ Ayala Center in Cebu","eventIsOpen":1,"eventSportName":"Ballooning","eventTags":["teanx"]}}
+                        */
                         //String response_ = sampleResponse;
 
                         headerUIClass.enableDoneButton(true);
@@ -514,11 +580,19 @@ public class Create_Activity extends Activity {
                         //Create_Activity.this.finish();
                         //pbLoading_container.setVisibility(View.GONE);
                         //############################################################
-                        gotoVideoCaptureActivity( CommonFunctions_1.parseToEventParcel(response, team1Final, team2Final) );
-                        //########################################################
 
+                        FNewlyCreatedEvent =  CommonFunctions_1.parseToEventParcel(response, team1Final, team2Final);
+
+                        if( FNextMediaIdData != null ){//means there pending captured highlight
+
+                            getNextMediaId("", FNewlyCreatedEvent.eventId, FNextMediaIdData.localVideoFilePath, FNextMediaIdData.localImageFilePath, FNextMediaIdData.localVideoFileName, FNextMediaIdData.localImageFileName);
+
+                        } else {
+                            gotoVideoCaptureActivity(FNewlyCreatedEvent);
+                            finish();
+                        }
+                        //########################################################
                         //pbLoading_container.setVisibility(View.GONE);
-                        finish();
                     }
 
                     @Override
@@ -533,8 +607,151 @@ public class Create_Activity extends Activity {
                                 "Fail to save event.", Toast.LENGTH_SHORT).show();
                     }
                 });
+    }
+
+    /** parameter callingMethod = the calling function,  **/
+    private void getNextMediaId( final String callingMethod, final String eventID, final String localVideoFilePath, final String localImageFilePath, final String localVideoFileName, final String localImageFileName ) {
+        //final DatabaseHelper DB = new DatabaseHelper( VideoCaptureActivity.this );
+        final String timeStamp 			= CommonFunctions_1.getCurrentTimeStamp();
+        //final String eventID 			= currentCapture.mediaEventID;
+        //final String localVideoFilePath = TrimVideoUtils.getLocalVideoPath( VideoCaptureActivity.this ) + "/" + currentCapture.videoFileName;
+        //final String localImageFilePath = TrimVideoUtils.getLocalImagesPath( VideoCaptureActivity.this ) + "/" + currentCapture.imageFileName;
+        final String latitude_ 			= String.valueOf( GlobalVariablesHolder.user_Latitude );
+        final String longitude_ 		= String.valueOf( GlobalVariablesHolder.user_Longitude );
+
+        RequestParams requestParams = new RequestParams();
+        requestParams.put("_ts", 			timeStamp );
+        requestParams.put("eventId", 		eventID );
+        requestParams.put("videoLocalPath", localVideoFilePath );
+        requestParams.put("imageLocalPath",	localImageFilePath );
+        requestParams.put("latitude", 		latitude_ );
+        requestParams.put("longitude", 		longitude_ );
+
+        Async_HttpClient async_HttpClient = new Async_HttpClient( Create_Activity.this );
+        async_HttpClient.GET("GetNextMediaId", requestParams,
+                new JsonHttpResponseHandler() {
+                    @Override
+                    public void onStart() {
+                        // TODO Auto-generated method stub
+                        super.onStart();
+                        // Log.v("onStart", "onStart");
+                    }
+
+                    @Override
+                    public void onSuccess(final JSONObject response) {
+                        /** SAMPLE response: {
+                         "twitterCardUrl":"http:\/\/goo.gl\/60Haxl",
+                         "shareUrl":"http:\/\/goo.gl\/3xRekv",
+                         "mediaId":"14003",
+                         "shareText":"Watch this Ping Pong highlight from Ayala Center in Cebu captured by SportXast",
+                         "added":"new media added",
+                         "imagePath":"db\/event_media\/2014\/07\/09\/14003.jpg",
+                         "videoPath":"db\/event_media\/2014\/07\/09\/14003.mp4"
+                         } **/
+                        // TODO Auto-generated method stub
+                        super.onSuccess(response);
+                        //Toast.makeText(getApplicationContext(), "HUMANAG UPLOAD SA getNextMediaId", Toast.LENGTH_LONG).show();
+
+                        //captureButton_cont.setVisibility(View.VISIBLE);
+                        Log.e("SNAPSHOT", "SET ON UI THREAD");
+
+                        //FNumberOfVideosRecorded = FNumberOfVideosRecorded + 1;
+                        if(response != null){
+
+                            try {
+                                FNextMediaIdData.twitterCardUrl = response.getString("twitterCardUrl");
+                                FNextMediaIdData.shareUrl       = response.getString("shareUrl");
+                                FNextMediaIdData.mediaId        = response.getString("mediaId");
+                                FNextMediaIdData.shareText      = response.getString("shareText");
+                                FNextMediaIdData.added          = response.getString("added");
+                                FNextMediaIdData.imagePath      = response.getString("imagePath");
+                                FNextMediaIdData.videoPath      = response.getString("videoPath");
+
+                                FNextMediaIdData.localImageFileName = localImageFileName;
+                                FNextMediaIdData.localImageFilePath = localImageFilePath;
+
+                                FNextMediaIdData.localVideoFilePath = localVideoFilePath;
+                                FNextMediaIdData.localVideoFileName = localVideoFileName;
+
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
+
+                            String eventID_ = "";
+                            eventID_ = eventID;
+
+                            if(eventID_ == null){
+                                eventID_ = Constants.sharePrefKey_uploadedHighlights_self;
+                            }
+
+                            try {
+                                //FLatestHighlightMediaId =  response.getString("mediaId") ;
+                                FGlobal_Data.setVideoPath( response.getString("videoPath") );
+                                //########################################################################
+                                //String eventId, String coverImage, String largeImageUrl, String videoLocalPath, String imageLocalPath
+                                FGlobal_Data.setNewlyUploadedHighlightsData2( response, eventID_, localImageFileName, "", localVideoFilePath, localImageFilePath, localVideoFileName );
+                                //########################################################################
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
+
+                            GlobalVariablesHolder.pauseBackgroundService = false;
+                            FGlobal_Data.runThreadUploader(Create_Activity.this);
+
+                            if( callingMethod.equals(BACKBUTTON_CALLING_CODE) ){
+                                gotoSportX2_Main();
+                            }else {
+                                //########PROCEED TO HIGHLIGHT ACTIVITY
+                                gotoHighlight_Activity(FNewlyCreatedEvent);
+                            }
 
 
+                           // btn_add_fav.setTag(0); //btn_add_fav Tag: 1 - already favorited, 0 - not yet favorited
+                        } else {
+                            //FLatestHighlightMediaId = "";
+
+                        }
+                    }
+
+                    @Override
+                    public void onFinish() {
+                        // TODO Auto-generated method stub
+                        super.onFinish();
+                        // Log.v("onFinish", "onFinish");
+                    }
+
+                    @Override
+                    public void onFailure(String responseBody, Throwable error) {
+                        // TODO Auto-generated method stub
+                        super.onFailure(responseBody, error);
+                        Log.v("onFailure", "onFailure :" + responseBody + " : " + error);
+
+                    }
+                });
+    }
+    public void gotoSportX2_Main(){
+        // TODO Auto-generated method stub
+        Intent intent = new Intent(Create_Activity.this, SportX2_Main.class);
+        //intent.putExtra("eventParcel", eventParcel);
+        startActivity(intent);
+        //runThreadUploader();
+        //####################################################################
+        // releaseResources();
+        finish();
+    }
+
+    public void gotoHighlight_Activity( EventParcel eventParcel ){
+        // TODO Auto-generated method stub
+        Intent intent = new Intent(Create_Activity.this, Highlight_Activity.class);
+        intent.putExtra("eventParcel", eventParcel);
+        intent.putExtra("numberOfVideosRecorded", 1);
+        intent.putExtra("callingActivityID", Constants.requestCode_Create_Activity);
+        startActivity(intent);
+
+        //runThreadUploader();
+        //####################################################################
+       // releaseResources();
+        finish();
     }
 
     /** {

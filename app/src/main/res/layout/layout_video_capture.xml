@@ -434,7 +434,10 @@
             android:hint="Add comment..."
             android:padding="4dp"
             android:textColor="@color/black"
-            android:textSize="14sp" >
+            android:textSize="14sp"
+
+            android:imeActionLabel="Send"
+            >
 
             <requestFocus />
         </com.sportxast.SportXast.models.EditTextBackEvent>

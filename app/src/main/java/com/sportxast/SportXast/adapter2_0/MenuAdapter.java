@@ -162,7 +162,12 @@ public class MenuAdapter extends SectionAdapter {
 			}
 				break;
 			case 2: {//create
-				((Activity) context).startActivity(new Intent( context, Create_Activity.class));
+
+                Intent intent = new Intent( context, Create_Activity.class);
+                intent.putExtra("withPendingHighlight",		0);
+                intent.putExtra("highlightInitialData",		"");
+                context.startActivity(intent);
+                //((Activity) context).startActivity(new Intent( context, Create_Activity.class));
 			}
 				break;
 			case 3: {//capture
