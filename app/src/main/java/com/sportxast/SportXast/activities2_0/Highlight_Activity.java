@@ -866,78 +866,6 @@ public class Highlight_Activity extends FragmentActivity{
     public void startTimer5(final int numberOfVideosRecorded, final int numberOfSavedLocalHighlights){
 
     }
-    public void startTimer5X(final int numberOfVideosRecorded, final int numberOfSavedLocalHighlights){
-
-        if( numberOfVideosRecorded > 0 ){
-            /** Show the progress Loader **/
-            header_pb_cont1.setVisibility(View.VISIBLE);
-            // FPullToRefreshListView.setOnRefreshListener(null);
-            //fetchLatestData();
-            freshUploadShownVideoCount = 0;
-            //startTimer5();
-        }else{
-            stopTimer();
-            /** Hide the progress Loader **/
-            header_pb_cont1.setVisibility(View.GONE);
-            return;
-        }
-
-        //final long timerWaitingTime = 700;
-        // #######################################
-        FRefresherTimer = new Timer();
-        FRefresherTimer.schedule(new TimerTask() {
-            @Override
-            public void run() {
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-
-                        sharedpreferences = getSharedPreferences("com.sportxast.SportXast.highlights", Highlight_Activity.this.MODE_PRIVATE);
-                        String highlightDataInString = sharedpreferences.getString(FEventId, "");
-                        String[] arrHighlightsData = highlightDataInString.split("\\|\\|");
-
-                        if( sharePrefLenghtHasChanged(highlightDataInString) ){
-                            /** Show the progress Loader **/
-                            //header_pb_cont1.setVisibility(View.VISIBLE);
-                            expandCurrentData( prepareNewlyUploadedHighlightsData(highlightDataInString)  );
-                            previousHighlightDataInString = highlightDataInString;
-                            //stopTimer();
-                            //Toast.makeText(getApplicationContext(), "NIGGA BE CHANGIN", Toast.LENGTH_LONG).show();
-
-                            if( (arrHighlightsData.length - numberOfSavedLocalHighlights) >= numberOfVideosRecorded ){
-                                stopTimer();
-                                /** Hide the progress Loader **/
-                                header_pb_cont1.setVisibility(View.GONE);
-                                //Toast.makeText(getApplicationContext(), "STOP TIMER NA BAI", Toast.LENGTH_LONG).show();
-                            }
-
-                        }else{
-                            //Toast.makeText(getApplicationContext(), "NO CHANGES", Toast.LENGTH_LONG).show();
-                        }
-						  
-						/*
-
-						if( FArrMediaList.size() > FArrMediaListOriginalCopy.size() ){
-							
-							int hey = FArrMediaList.size() - FArrMediaListOriginalCopy.size(); 
-							 
-							if(hey >= (numberOfRemainingLocalHighlights + numberOfVideosRecorded) ){
-								
-								// HIDE the header progress Loader 
-								header_pb_cont1.setVisibility(View.GONE);
-								stopTimer();
-								//Toast.makeText(getApplicationContext(), "COMPLETO NA BRAD", Toast.LENGTH_LONG).show(); 
-							}   
-						} 
-						
-						*/
-
-                    }
-                });
-            }
-        }, 500, 1000); //<== 700 interval, very important, do not change
-        // ########################################
-    }
 
     public void startxTimer51(final int numberOfVideosRecorded){
 
@@ -998,10 +926,10 @@ public class Highlight_Activity extends FragmentActivity{
         }, 1000, 1000); //<== 700 interval, very important, do not change
         // ########################################
     }
-    /**
-     * @category Custom Method Called after fetching new data and reload listView
-     *           adapter to view updated data.*
-     */
+	/**
+	 * @category Custom Method Called after fetching new data and reload listView
+	 *           adapter to view updated data.*
+	 */
 
     public void reloadListView( ArrayList<MediaList> arrMediaLists ) {
         FAdapter.updateListElements( arrMediaLists );
@@ -1274,64 +1202,10 @@ public class Highlight_Activity extends FragmentActivity{
      **/
 
     private int freshUploadShownVideoCount = 0;
-    private int expandCurrentData( NextMediaID nextMediaID  ) {
-        int beforeSize = FArrMediaList.size();
-        MediaList mediaList = new MediaList();
-        String eventId = nextMediaID.getEventId();
-        String mediaID = nextMediaID.getMediaId();
-        if( mediaIdAlreadyExists(FArrMediaListOriginalCopy, nextMediaID.getMediaId()) ){
-            //removeExistingSharePrefElement(eventId, mediaID, dataCombinedString);
-            return 0;
-        }else{
-        }
 
-        mediaList.mediaId 			= nextMediaID.getMediaId();
-        mediaList.eventId 			= nextMediaID.getEventId();
-        mediaList.sportId 			= "";
-        mediaList.mediaUserId 		= "";
-        mediaList.mediaUserName 	= "";
-        mediaList.mediaType 		= "";
-        mediaList.coverImage 		= "";
-        mediaList.coverImageThumb 	= "";
-        mediaList.largeImageUrl 	= nextMediaID.getLargeImageUrl();
-        mediaList.mediumImageUrl	= "";
-        mediaList.smallImageUrl 	= "";
-        mediaList.mediaUrl 			= "";
-        mediaList.mediaShortUrl 	= "";
-        mediaList.m3u8Url 			= "";
-        mediaList.vp8Url 			= "";
-        mediaList.mp4Url 			= nextMediaID.getVideoServerPath();
-        mediaList.videoLocalPath	= nextMediaID.getVideoLocalPath();
-        mediaList.imageLocalPath	= nextMediaID.getImageLocalPath();
-        mediaList.mediaShareString 	= "";
-        mediaList.onDate 			= "";
-        mediaList.age 				= "";
-        mediaList.viewCount 		= "0";
-        mediaList.favoritesCount	= "";
-        mediaList.commentsCount 	= "";
-        mediaList.shareCount 		= "0";
-        mediaList.score 			= "0";
-        mediaList.currentUserIsOwner= "";
-        mediaList.currentUserHasInFavorites = "";
-        mediaList.transcoderJobStatus= "";
-
-        FArrMediaList.add(0, mediaList);
-
-        reloadListView( FArrMediaList );
-		/*
-		if( freshUploadShownVideoCount >= FNumberOfVideosRecorded ){
-			
-			freshUploadShownVideoCount = 0; 
-			// HIDE the progress Loader  
-			header_pb_cont1.setVisibility(View.GONE);
-		}  
-		*/
-        return 1;
-    }
 
     private int expandCurrentData( ArrayList<NextMediaID> arrNextMediaID  ) {
         int beforeSize = FArrMediaList.size();
-
         boolean highlightHasBeenAdded = false;
 
         int totalNumberOfHighlightsAdded = 0;
