@@ -161,7 +161,7 @@ public class ChooseATeam_Activity extends Activity {
             @Override
             public void afterTextChanged(Editable arg0) {
                 // TODO Auto-generated method stub
-                if (arg0.toString().length() > 3) {
+                if (arg0.toString().length() > 2) {
                     ( (RelativeLayout) findViewById(R.id.rl_listvw_cont1) ).setVisibility(View.VISIBLE);
                     recentteam_cont1.setVisibility(View.GONE);
                     gatherSearchResults();

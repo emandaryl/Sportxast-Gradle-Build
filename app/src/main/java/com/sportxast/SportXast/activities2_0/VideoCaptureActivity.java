@@ -208,18 +208,27 @@ public class VideoCaptureActivity extends FragmentActivity implements CaptureLis
     private ArrayList<String> FArrSportTags;
 
 
-    public void supplyChosenEvent( EventLists latestEvent ){
-        this.FChosenEvent 		= CommonFunctions_1.parseToEventParcel(latestEvent);
-        this.FEventId 			= FChosenEvent.eventId;
-        this.FEventLatitude 	= FChosenEvent.eventLatitude;
-        this.FEventLongitude	= FChosenEvent.eventLongitude;
-        this.FEventFirstTeam	= FChosenEvent.eventFirstTeam;
-        this.FEventSecondTeam	= FChosenEvent.eventSecondTeam;
-        this.FEventName			= FChosenEvent.eventName;
+    public void supplyChosenEvent( EventLists latestEvent, final String callingMethodType ){
 
-        this.FArrSportTags 		= ( new SportsTags( Integer.parseInt(FChosenEvent.eventSportId)  ) ).populateTags();
+        if(latestEvent != null) {
+            this.FChosenEvent = CommonFunctions_1.parseToEventParcel(latestEvent);
+            this.FEventId = FChosenEvent.eventId;
+            this.FEventLatitude = FChosenEvent.eventLatitude;
+            this.FEventLongitude = FChosenEvent.eventLongitude;
+            this.FEventFirstTeam = FChosenEvent.eventFirstTeam;
+            this.FEventSecondTeam = FChosenEvent.eventSecondTeam;
+            this.FEventName = FChosenEvent.eventName;
 
-        supplyLabels();
+            this.FArrSportTags = (new SportsTags(Integer.parseInt(FChosenEvent.eventSportId))).populateTags();
+
+            supplyLabels();
+        }
+
+
+        if(callingMethodType.equals(this.METHODCODE_ONCREATE)){
+            //do nothing
+        }else
+            getNextMediaId( FEventId, FNextMediaIdData.localVideoFilePath, FNextMediaIdData.localImageFilePath, FNextMediaIdData.localVideoFileName, FNextMediaIdData.localImageFileName);
     }
 
     private Global_Data FGlobal_Data;
@@ -229,6 +238,16 @@ public class VideoCaptureActivity extends FragmentActivity implements CaptureLis
         super.onResume();
         //GlobalVariablesHolder.currentActivityContext = VideoCaptureActivity.this;
     }
+
+    private LinearLayout captureButton_cont;
+    private AnimationDrawable rocketAnimation;
+
+    private ImageView menuBtn;
+    private RelativeLayout layout_commentDelete_field_cont;
+    private Button imgbtn_back;
+    private ProgressBar pb_snapshotLoader;
+
+    private final String METHODCODE_ONCREATE = "00ngg11f6931Z";
 
     @Override
     public void onCreate(Bundle bundle) {
@@ -273,7 +292,7 @@ public class VideoCaptureActivity extends FragmentActivity implements CaptureLis
         if( GlobalVariablesHolder.FLatestEvent != null){
 
             if(GlobalVariablesHolder.alreadyCheckedIntoAnEvent){
-                supplyChosenEvent( GlobalVariablesHolder.FLatestEvent );
+                supplyChosenEvent( GlobalVariablesHolder.FLatestEvent, this.METHODCODE_ONCREATE );
             }
             else
             {
@@ -320,24 +339,6 @@ public class VideoCaptureActivity extends FragmentActivity implements CaptureLis
         //########################################################### 
     }
 
-    public void showCheckIntoDialog( final int promptMessageType, String eventName ){
-
-        DialogSettings dialog = new DialogSettings( VideoCaptureActivity.this, promptMessageType, eventName);
-        Dialog.showSettingsDialog( dialog, VideoCaptureActivity.this );
-		/*
-		dialog.setOnDismissListener(new DialogInterface.OnDismissListener() { 
-			@Override
-			public void onDismiss(DialogInterface dialog) {
-				if (Dialog.getDialogSettingsResult() == 0) { // NO CHANGES,  JUST DISMISS 
-				} else if (Dialog.getDialogSettingsResult() == 1) {  
-				} else if (Dialog.getDialogSettingsResult() == 11) {
-				} else if (Dialog.getDialogSettingsResult() == 2) {
-				}
-				// TODO Auto-generated method stub
-			}
-		});  
-		*/
-    }
 
     private EventParcel FChosenEvent;
     private TextView  event_title;
@@ -372,16 +373,6 @@ public class VideoCaptureActivity extends FragmentActivity implements CaptureLis
          System.out.println("-----------------END global_Data.getNewEvent ---------------------------------");
          */
     }
-    private LinearLayout captureButton_cont;
-    private AnimationDrawable rocketAnimation;
-
-    private ImageView menuBtn;
-
-    private RelativeLayout layout_commentDelete_field_cont;
-
-    private Button imgbtn_back;
-
-    private ProgressBar pb_snapshotLoader;
 
     private void initializeResources(){
 
@@ -426,18 +417,17 @@ public class VideoCaptureActivity extends FragmentActivity implements CaptureLis
                 // TODO Auto-generated method stub
                 if (btnContTag == 1) {
                     captureButton_cont.setTag(0); //<= tag 1 means CLICKABLE, tag 0 means DISABLED
-
                     showTooltip( false );
                     FCurrentCapture = new _MediaStorage();
                     FCurrentCapture.mediaEventID = FEventId;
                     FCurrentCapture.mediaDateShortFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date());
-                    //FCurrentCapture.userLatitude = global_Data.getCoordinate().latitude + "";
-                    //FCurrentCapture.userLongitude= global_Data.getCoordinate().longitude + "";
+
                     FCurrentCapture.userLatitude = "" + FCorLatitude;
                     FCurrentCapture.userLongitude= "" + FCorLongitude;
 
                     counter_X = counter_X  + 1;
                     captureRecordedMedia();
+
                 }
                 //canClickCapture = false;
             }
@@ -496,7 +486,6 @@ public class VideoCaptureActivity extends FragmentActivity implements CaptureLis
         });
 
         this.waitText 		= (TextView) findViewById(R.id.waitText);
-
         this.menuBtn		= (ImageView) findViewById(R.id.menuBtn);
         menuBtn.setOnClickListener(new OnClickListener() {
             @SuppressLint("ResourceAsColor")
@@ -1684,7 +1673,6 @@ public class VideoCaptureActivity extends FragmentActivity implements CaptureLis
             this.releaseMediaRecorder();
         }
 
-
         FLatestHighlightMediaId = "";
         captureButton_cont.setVisibility(View.GONE);
         previewPlay.setVisibility(View.GONE);
@@ -1736,7 +1724,6 @@ public class VideoCaptureActivity extends FragmentActivity implements CaptureLis
             Log.e("========= STOP REC", file.getAbsolutePath());
             renameTo        = new File(TrimVideoUtils.getLocalTmpPath( getApplicationContext() ), "tmp_rec_tmp.mp4");
             file.renameTo(renameTo);
-
             //ORIGINAL  startRecording();
             //Log.e("========= Renamed", renameTo.getAbsolutePath());
         }
@@ -1748,12 +1735,10 @@ public class VideoCaptureActivity extends FragmentActivity implements CaptureLis
         @Override
         protected Bitmap doInBackground(String... params) {
             //do your work
-
             Bitmap snapshot = null;
             if (! renameTo.exists()) {
                 return null;
             }
-	    	
 	    	/*
 	    	double sampleLength = 8; 
 	    	try { 
@@ -1772,7 +1757,6 @@ public class VideoCaptureActivity extends FragmentActivity implements CaptureLis
 		                isoFile.getMovieBox().getMovieHeaderBox().getDuration() /
 		                isoFile.getMovieBox().getMovieHeaderBox().getTimescale();
 		        */
-
                 double length = 1.000;
 		        
 			    /*      
@@ -1785,13 +1769,11 @@ public class VideoCaptureActivity extends FragmentActivity implements CaptureLis
 
                 //ANOTHER WAY
                 MediaMetadataRetriever mediaMetadataRetriever = new MediaMetadataRetriever();
-
                 mediaMetadataRetriever.setDataSource(renameTo.getAbsolutePath());
                 //Bitmap bmFrame = mediaMetadataRetriever.getFrameAtTime(5000000); //unit in microsecond
                 // snapshot = mediaMetadataRetriever.getFrameAtTime( (long) length );
 
                 snapshot = mediaMetadataRetriever.getFrameAtTime();
-			  
 				/*  
 		        Drawable myDrawable = getResources().getDrawable(R.drawable.ic_twitter_logo);
 		        snapshot   = ((BitmapDrawable) myDrawable).getBitmap();
@@ -1814,16 +1796,14 @@ public class VideoCaptureActivity extends FragmentActivity implements CaptureLis
                 return;
             }
 
-            runOnUiThread(new Runnable() {
+            runOnUiThread( new Runnable() {
                 @Override
                 public void run() {
                     // 	captureButton_cont.setVisibility(View.VISIBLE);
                     // 	captureButton_cont.setTag(1);
                     showUi(true);
-
                 }
-            });
-
+            } );
             // startRecording();
 
             snapshot.setImageBitmap( bitmapSnapshot );
@@ -2099,10 +2079,52 @@ public class VideoCaptureActivity extends FragmentActivity implements CaptureLis
             previewPlay.setVisibility(View.VISIBLE);
             pb_snapshotLoader.setVisibility(View.GONE);
 
-            getNextMediaId( FEventId, this.localVideoFilePath, this.localImageFilePath, this.localVideoFileName, this.localImageFileName);
+            //#########add initial data to FNextMediaIdData
+            if(FNextMediaIdData == null)
+                FNextMediaIdData = new NextMediaIdData();
 
+            FNextMediaIdData.localVideoFilePath = this.localVideoFilePath;
+            FNextMediaIdData.localImageFilePath = this.localImageFilePath;
+            FNextMediaIdData.localVideoFileName = this.localVideoFileName;
+            FNextMediaIdData.localImageFileName = this.localImageFileName;
+            //#############################################
+
+            if(FCallingActivityID == Constants.requestCode_Menu_Activity){
+                if( GlobalVariablesHolder.FLatestEvent != null){
+
+                    if(GlobalVariablesHolder.alreadyCheckedIntoAnEvent){
+
+                    }
+                    else // if NOT checked into an event
+                    {
+                        showCheckIntoDialog(1, GlobalVariablesHolder.FLatestEvent.eventName);
+                        return;
+                    }
+                }
+
+            }
+
+            getNextMediaId( FEventId, this.localVideoFilePath, this.localImageFilePath, this.localVideoFileName, this.localImageFileName);
             //new getNextMediaIdTask( FEventId, this.localVideoFilePath, this.localImageFilePath, this.localVideoFileName, this.localImageFileName).execute();
         }
+    }
+
+    public void showCheckIntoDialog( final int promptMessageType, String eventName ){
+        DialogSettings dialog = new DialogSettings( VideoCaptureActivity.this, promptMessageType, eventName);
+        Dialog.showSettingsDialog( dialog, VideoCaptureActivity.this );
+		/*
+		dialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
+			@Override
+			public void onDismiss(DialogInterface dialog) {
+				if (Dialog.getDialogSettingsResult() == 0) { // NO CHANGES,  JUST DISMISS
+				} else if (Dialog.getDialogSettingsResult() == 1) {
+				} else if (Dialog.getDialogSettingsResult() == 11) {
+				} else if (Dialog.getDialogSettingsResult() == 2) {
+				}
+				// TODO Auto-generated method stub
+			}
+		});
+		*/
     }
 
     private class NextMediaIdData{
@@ -2111,7 +2133,10 @@ public class VideoCaptureActivity extends FragmentActivity implements CaptureLis
         private String mediaId      = "";
         private String shareText    = "";
         private String added        = "";
+
+        /**server path for IMAGE**/
         private String imagePath    = "";
+        /**server path for VIDEO**/
         private String videoPath    = "";
 
         private String localImageFileName = "";
@@ -2369,10 +2394,7 @@ public class VideoCaptureActivity extends FragmentActivity implements CaptureLis
         }
     }
 
-
     private _MediaStorage FCurrentCapture;
-
-
 
     private class setNextMediaId extends AsyncTask<String, Integer, Void> {
         private String timeStamp;
@@ -2467,6 +2489,8 @@ public class VideoCaptureActivity extends FragmentActivity implements CaptureLis
         defaultOrientation = getDeviceDefaultOrientation();
         if (defaultOrientation == Configuration.ORIENTATION_PORTRAIT) {
             portraitview_cover.setVisibility(View.VISIBLE);
+
+            videoCaptureModeIsOn = false;
             return;
         }
 
@@ -2478,7 +2502,7 @@ public class VideoCaptureActivity extends FragmentActivity implements CaptureLis
         }else{
             portraitview_cover.setVisibility(View.GONE);
             if(this.FCallingActivityID == Constants.requestCode_Menu_Activity){
-
+                /*
                 if( GlobalVariablesHolder.FLatestEvent != null){
 
                     if(GlobalVariablesHolder.alreadyCheckedIntoAnEvent){
@@ -2489,6 +2513,8 @@ public class VideoCaptureActivity extends FragmentActivity implements CaptureLis
                         showCheckIntoDialog(1, GlobalVariablesHolder.FLatestEvent.eventName);
                     }
                 }
+                */
+
             }
 
             this.waitText.setVisibility(View.VISIBLE);
@@ -2509,39 +2535,37 @@ public class VideoCaptureActivity extends FragmentActivity implements CaptureLis
         super.onConfigurationChanged(newConfig);
 
         switch(newConfig.orientation) {
-            case Configuration.ORIENTATION_LANDSCAPE: 
+            case Configuration.ORIENTATION_LANDSCAPE:
+
             	/*
             	Toast.makeText(getApplicationContext(), "SCREENWIDTH: "+portraitview_cover.getWidth() +"\n" +
 						   "SCREENHEIGHT: "+portraitview_cover.getHeight(), Toast.LENGTH_LONG).show();
             	*/
+
                 beginVideoCaptureMode();
                 break;
             case Configuration.ORIENTATION_PORTRAIT:
                 Log.e("onConfigurationChanged", "PORTRAIT");
                 portraitview_cover.setVisibility(View.GONE);
                 releaseResources();
-            	
-            	/*
-            	if( FCallingActivityID == Constants.requestCode_Highlight_Activity ){
-            		//######################################################
-                	Intent returnIntent = new Intent();
-                	returnIntent.putExtra("numberOfVideosRecorded", FNumberOfVideosRecorded);
-                	setResult(RESULT_OK, returnIntent); 
-                	//###################################################### 
-            	}
-            	else if( FCallingActivityID == Constants.requestCode_Create_Activity ){
-            		gotoHighlight_Activity();
-            	} 
-            	*/
 
-                if( FChosenEvent == null){
-                    gotoProfile_Activity();
-                }else if( FNumberOfVideosRecorded > 0 )
+                if( FChosenEvent == null){//if NOT checked into an event
+
+                    if(  FNumberOfVideosRecorded > 0  ){ //If user has CAPTURED a highlight
+                        gotoProfile_Activity();
+                    }else{
+                        finish();
+                    }
+
+                }else if( FNumberOfVideosRecorded > 0 ) {
                     gotoHighlight_Activity();
-                else{
+                }else if( ( FNumberOfVideosRecorded <= 0 ) && (FCallingActivityID == Constants.requestCode_Create_Activity)){
+                    //Do nothing, go back to portrait view
+                    beginVideoCaptureMode();
+                }else{
                     finish();
                 }
-                //finish();
+
                 break;
         }
 

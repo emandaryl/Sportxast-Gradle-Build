@@ -1,7 +1,6 @@
 package com.sportxast.SportXast.activities2_0;
 
 
-//import com.sportxast.SportXast.BaseSherlockActivity;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
@@ -81,9 +80,12 @@ public class Profile_Activity extends Activity {
 
     private static Profile_Activity theInstance;
 
-    public static Profile_Activity getInstance() {
+    /*
+    public static Profile_Activity getInstance()
+    {
         return Profile_Activity.theInstance;
     }
+    */
 
     public Profile_Activity() {
         Profile_Activity.theInstance = this;
@@ -115,15 +117,14 @@ public class Profile_Activity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.layout_profile_atan);
         FGlobal_Data = (Global_Data)getApplicationContext();
-
         //FEventId 	        = CommonFunctions_1.getIntentExtrasString(this, "eventId");
         FUserId 			= CommonFunctions_1.getIntentExtrasString(this, "userId");
         FUserDisplayname 	= CommonFunctions_1.getIntentExtrasString(this,	"userDisplayname");
-        //FUserDisplayname = sharedPref.getString(KEY_PROFILE.USER_NAME, "");
+        //FUserDisplayname  = sharedPref.getString(KEY_PROFILE.USER_NAME, "");
 
         FCallingActivityID 	= getIntent().getExtras().getInt("callingActivityID", -1);
         if( (this.FCallingActivityID == Constants.requestCode_Menu_Activity) ||
-                (this.FCallingActivityID == Constants.requestCode_VideoCapture_Activity) ){
+            (this.FCallingActivityID == Constants.requestCode_VideoCapture_Activity) ){
 
             this.FUserIsProfileOwner = true;
             this.FUserId = GlobalVariablesHolder.X_USER_ID;
@@ -148,8 +149,7 @@ public class Profile_Activity extends Activity {
             //Toast.makeText(getApplicationContext(), "IMUHA NI BRAD", Toast.LENGTH_LONG).show();
         }else{
         }
-
-        this.btn_tab_highlights.performClick();
+       // this.btn_tab_highlights.performClick();
     }
 
     private Button btn_tab_highlights;
@@ -157,8 +157,7 @@ public class Profile_Activity extends Activity {
     private Button btn_tab_following;
 
     private void initializeResources(){
-        pbLoading_container = (RelativeLayout) findViewById(R.id.pbLoading_container);
-
+        pbLoading_container  = (RelativeLayout) findViewById(R.id.pbLoading_container);
         pbLoading_container2 = (RelativeLayout) findViewById(R.id.pbLoading_container2);
 
         imgvw_avatar_profile = (ImageView) findViewById(R.id.imgvw_avatar_profile);
@@ -656,6 +655,7 @@ public class Profile_Activity extends Activity {
     private void gatherEventList(){
 
         showProgressCover(View.VISIBLE, View.VISIBLE);
+
         Async_HttpClient async_HttpClient = new Async_HttpClient(Profile_Activity.this);
         async_HttpClient = new Async_HttpClient(this);
         String appendUrl = "";
@@ -1067,6 +1067,9 @@ public class Profile_Activity extends Activity {
                 parseData(response);
                 /** HIDE progress bar **/
                 pbLoading_container.setVisibility(View.GONE);
+
+
+                btn_tab_highlights.performClick();
             }
 
         });
