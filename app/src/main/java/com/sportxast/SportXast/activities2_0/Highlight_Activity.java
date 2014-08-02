@@ -932,7 +932,14 @@ public class Highlight_Activity extends FragmentActivity{
 	 */
 
     public void reloadListView( ArrayList<MediaList> arrMediaLists ) {
-        FAdapter.updateListElements( arrMediaLists );
+        /*
+        DO NOT REMOVE!!!!
+        - LAW!!!
+         */
+        if(FAdapter != null) {
+            FAdapter.updateListElements( arrMediaLists );
+        }
+
         FPullToRefreshListView.invalidateViews();
         FPullToRefreshListView.setCacheColorHint(Color.TRANSPARENT);
 
@@ -1312,6 +1319,14 @@ public class Highlight_Activity extends FragmentActivity{
     @Override
     public void onStop() {
         super.onStop();
+
+        /*
+        Important!
+        Do not
+        Remove!
+        -Law
+         */
+        FAdapter = null;
         stopTimer();
     }
 
