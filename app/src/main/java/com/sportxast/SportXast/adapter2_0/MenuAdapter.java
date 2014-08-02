@@ -19,7 +19,7 @@ import com.sportxast.SportXast.activities2_0.Create_Activity;
 import com.sportxast.SportXast.activities2_0.Information_Activity;
 import com.sportxast.SportXast.activities2_0.Menu_Activity;
 import com.sportxast.SportXast.activities2_0.Profile_Activity;
-import com.sportxast.SportXast.activities2_0.Search_Activity_ATAN;
+import com.sportxast.SportXast.activities2_0.Search_Activity;
 import com.sportxast.SportXast.activities2_0.Share_Class;
 import com.sportxast.SportXast.activities2_0.VideoCaptureActivity;
 import com.sportxast.SportXast.commons.Constants;
@@ -158,15 +158,20 @@ public class MenuAdapter extends SectionAdapter {
 			}
 				break;
 			case 1: {//search
-				((Activity) context).startActivity(new Intent( context, Search_Activity_ATAN.class));
+				((Activity) context).startActivity(new Intent( context, Search_Activity.class));
 			}
 				break;
 			case 2: {//create
-				((Activity) context).startActivity(new Intent( context, Create_Activity.class));
+
+                Intent intent = new Intent( context, Create_Activity.class);
+                intent.putExtra("withPendingHighlight",		0);
+                intent.putExtra("highlightInitialData",		"");
+                context.startActivity(intent);
+                //((Activity) context).startActivity(new Intent( context, Create_Activity.class));
 			}
 				break;
 			case 3: {//capture
-				//((Activity) context).startActivity(new Intent( context, VideoCaptureActivity.class)); 
+
 				Intent intent = new Intent(context, VideoCaptureActivity.class); 
 				//intent.putExtra("eventId", FEventId);
 				intent.putExtra("callingActivityID", callingActivityID);
@@ -204,7 +209,7 @@ public class MenuAdapter extends SectionAdapter {
 				break;
 			case 2: {//profile
 				
-				//((Activity) context).startActivity(new Intent( context, VideoCaptureActivity.class)); 
+
 				Intent intent = new Intent(context, Profile_Activity.class); 
 				//intent.putExtra("eventId", FEventId);
 				intent.putExtra("callingActivityID", callingActivityID);

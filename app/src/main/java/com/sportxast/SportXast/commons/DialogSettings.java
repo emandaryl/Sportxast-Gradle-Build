@@ -32,10 +32,9 @@ public class DialogSettings extends  android.app.Dialog{
 		this.setContentView(R.layout.layout_dialog_settings);
 		this.setCanceledOnTouchOutside(false);
 		   
-		this.prompt_title		= (TextView)findViewById(R.id.prompt_title);  
+		this.prompt_title	    = (TextView)findViewById(R.id.prompt_title);
 		this.prompt_eventName	= (TextView)findViewById(R.id.prompt_eventName);
-		 
-		this.prompt_btn_yes = (Button)findViewById(R.id.prompt_btn_yes);  
+        this.prompt_btn_yes     = (Button)findViewById(R.id.prompt_btn_yes);
 		 
 		if(promptMessageType == 1){ //ASK to check into an event 
 			this.prompt_title.setText("Check Into Event?");
@@ -51,14 +50,8 @@ public class DialogSettings extends  android.app.Dialog{
 					//############################################
 					 
 					if(mContext instanceof VideoCaptureActivity){
-						( (VideoCaptureActivity)mContext ).supplyChosenEvent( GlobalVariablesHolder.FLatestEvent );
+						( (VideoCaptureActivity)mContext ).supplyChosenEvent( GlobalVariablesHolder.FLatestEvent, "-1" );
 					}
-					
-					/*
-					if(mContext instanceof SportX2_Main){
-						( (SportX2_Main)mContext ).gotoVideoCaptureActivity();
-					}
-					*/
 				}
 			});
 			
@@ -89,9 +82,9 @@ public class DialogSettings extends  android.app.Dialog{
 				public void onClick(View arg0) {
 					// TODO Auto-generated method stub  
 					DialogSettings.this.dismiss();
-					
+
 					if(mContext instanceof VideoCaptureActivity){
-						((VideoCaptureActivity) mContext ).gotoCreateEventPage();
+						((VideoCaptureActivity) mContext ).gotoCreateEventPage(1);
 					}
 				}
 			});
@@ -102,8 +95,13 @@ public class DialogSettings extends  android.app.Dialog{
 				@Override
 				public void onClick(View arg0) {
 					// TODO Auto-generated method stub
-					DialogSettings.this.dismiss(); 
-					 
+					DialogSettings.this.dismiss();
+
+                    //############################################
+                    if(mContext instanceof VideoCaptureActivity){
+                        //Proceed to Saving, WITHOUT EVENT OR NOT CHECKED INTO AN EVENT
+                        ( (VideoCaptureActivity)mContext ).supplyChosenEvent( null, "-1" );
+                    }
 				}
 			});
 		

@@ -4,8 +4,8 @@
     android:layout_height="match_parent"
     android:background="@color/white"
     android:orientation="vertical" >
- 
-      <!-- Header Start -->
+
+    <!-- Header Start -->
 
     <RelativeLayout
         android:id="@+id/sx_header_wrapper"
@@ -15,212 +15,212 @@
 
     <!-- Header End -->
 
-     <RelativeLayout 
-         android:layout_width="fill_parent"
-         android:layout_height="wrap_content" >
-
- <LinearLayout
-     android:layout_width="fill_parent"
-     android:layout_height="wrap_content"
-     android:orientation="vertical" >
- <RelativeLayout 
-         android:layout_width="fill_parent"
-         android:layout_height="wrap_content" >
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal" >
-
-        <RelativeLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="#ffffff" >
-            
-        <com.loopj.android.image.SmartImageView
-             android:id="@+id/imgvw_avatar_profile"
-            android:layout_width="95dp"
-            android:layout_height="95dp"
-            android:adjustViewBounds="true"
-            android:scaleType="centerCrop"
-            android:src="@drawable/ic_avatar_profile" />
-            
-	      <!-- android:background="#666666" --> 
-
-	        <ProgressBar
-	            android:id="@+id/pbLoading_avatar"
-	            style="?android:attr/progressBarStyleSmall"
-	            android:layout_width="wrap_content"
-	            android:layout_height="wrap_content"
-	            android:layout_centerHorizontal="true"
-	            android:layout_centerVertical="true"
-	            android:visibility="gone" />
- 
-	</RelativeLayout>  
-        
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="95dp"
-            android:layout_toRightOf="@+id/imgvw_avatar_profile"
-            android:gravity="center_vertical"
-            android:orientation="vertical" >
-
-            <TextView
-                android:id="@+id/txtvw_highlightscount"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:drawableLeft="@drawable/ic_highl_orange"
-                android:drawablePadding="2dp"
-                android:gravity="bottom"
-                android:text="0 highlights"
-                android:textColor="@color/uni_grey"
-                android:textSize="14sp" />
-
-            <TextView
-                android:id="@+id/txtvw_followercount"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:drawableLeft="@drawable/ic_follower_orange"
-                android:drawablePadding="2dp"
-                android:gravity="bottom"
-                android:text="0 followers"
-                android:textColor="@color/uni_grey"
-                android:textSize="14sp" />
-
-            <TextView
-                android:id="@+id/txtvw_followingcount"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:drawableLeft="@drawable/ic_following_orange"
-                android:drawablePadding="2dp"
-                android:gravity="bottom"
-                android:text="0 following"
-                android:textColor="@color/uni_grey"
-                android:textSize="14sp" />
-        </LinearLayout>
-
-    </LinearLayout>
-
-<RelativeLayout
-    android:id="@+id/pbLoading_container"
-    android:layout_width="fill_parent"
-    android:layout_height="95dp"
-    android:alpha="0.40"
-    android:background="#ffffff"
-    android:visibility="gone" >
-
-	      <!-- android:background="#666666" --> 
-	        <ProgressBar
-	            android:id="@+id/pbLoading" 
-	            android:layout_width="wrap_content"
-	            android:layout_height="wrap_content"
-	            android:layout_centerHorizontal="true"
-	            android:layout_centerVertical="true"
-	            android:visibility="visible" />
- 
-	
-	</RelativeLayout>
-     </RelativeLayout>
-    
-    
-    
-     <RelativeLayout
-         android:layout_width="match_parent"
-         android:layout_height="wrap_content"
-         android:orientation="vertical" >
-
-        <LinearLayout
-            android:id="@+id/buttons_cont1"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:orientation="horizontal"
-            android:padding="10dp"
-            android:weightSum="90" >
-            
-            <Button
-                android:id="@+id/btn_tab_highlights"
-                android:layout_width="fill_parent"
-                android:layout_height="match_parent"
-                android:layout_alignParentRight="true"
-                android:layout_centerVertical="true"
-                android:layout_weight="30"
-                android:background="@drawable/btn_pnl_blue_left1"
-                android:padding="10dp"
-                android:text="Highlights"
-                android:textColor="#ffffff"
-                android:textSize="14sp" />
-
-            <Button
-                android:id="@+id/btn_tab_followers"
-                android:layout_width="fill_parent"
-                android:layout_height="match_parent"
-                android:layout_alignParentRight="true"
-                android:layout_centerVertical="true"
-                android:layout_weight="30"
-                android:background="@drawable/btn_pnl_white_mid1"
-                android:padding="10dp"
-                android:text="Followers"
-                android:textColor="@color/uni_blue"
-                android:textSize="14sp" />
-
-            <Button
-                android:id="@+id/btn_tab_following"
-                android:layout_width="fill_parent"
-                android:layout_height="match_parent"
-                android:layout_alignParentRight="true"
-                android:layout_centerVertical="true"
-                android:layout_weight="30"
-                android:background="@drawable/btn_pnl_white_right1"
-                android:padding="10dp"
-                android:text="Following"
-                android:textColor="@color/uni_blue"
-                android:textSize="14sp" />
-            
-        </LinearLayout>
-
     <RelativeLayout
         android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:layout_below="@+id/buttons_cont1"
-        android:background="#ffffff"
-        android:gravity="center|top" >
+        android:layout_height="wrap_content" >
 
-         <ListView
-             android:id="@+id/ptrListViewHighlight"
-             android:layout_width="match_parent"
-             android:layout_height="wrap_content"
-           
-             android:cacheColorHint="#00000000" >
-
-	</ListView>
-	
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" >
             <RelativeLayout
-             android:id="@+id/pbLoading_container2"
-             android:layout_width="fill_parent"
-             android:layout_height="fill_parent"
-              
-             android:background="#ffffff"
-             android:gravity="center"
-             android:visibility="gone" >
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content" >
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal" >
 
-	      <!-- android:background="#666666" --> 
+                    <RelativeLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="#ffffff" >
 
-	        <ProgressBar
-	            android:id="@+id/pbLoading2"
-	            android:layout_width="wrap_content"
-	            android:layout_height="wrap_content"
-	            android:layout_centerHorizontal="true"
-	            android:layout_centerVertical="true"
-	            android:visibility="visible" />
-	
-	</RelativeLayout>
-         
+                        <com.loopj.android.image.SmartImageView
+                            android:id="@+id/imgvw_avatar_profile"
+                            android:layout_width="95dp"
+                            android:layout_height="95dp"
+                            android:adjustViewBounds="true"
+                            android:scaleType="centerCrop"
+                            android:src="@drawable/ic_avatar_profile" />
+
+                        <!-- android:background="#666666" -->
+
+                        <ProgressBar
+                            android:id="@+id/pbLoading_avatar"
+                            style="?android:attr/progressBarStyleSmall"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerHorizontal="true"
+                            android:layout_centerVertical="true"
+                            android:visibility="gone" />
+
+                    </RelativeLayout>
+
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="95dp"
+                        android:layout_toRightOf="@+id/imgvw_avatar_profile"
+                        android:gravity="center_vertical"
+                        android:orientation="vertical" >
+
+                        <TextView
+                            android:id="@+id/txtvw_highlightscount"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:drawableLeft="@drawable/ic_highl_orange"
+                            android:drawablePadding="2dp"
+                            android:gravity="bottom"
+                            android:text="0 highlights"
+                            android:textColor="@color/uni_grey"
+                            android:textSize="14sp" />
+
+                        <TextView
+                            android:id="@+id/txtvw_followercount"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:drawableLeft="@drawable/ic_follower_orange"
+                            android:drawablePadding="2dp"
+                            android:gravity="bottom"
+                            android:text="0 followers"
+                            android:textColor="@color/uni_grey"
+                            android:textSize="14sp" />
+
+                        <TextView
+                            android:id="@+id/txtvw_followingcount"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:drawableLeft="@drawable/ic_following_orange"
+                            android:drawablePadding="2dp"
+                            android:gravity="bottom"
+                            android:text="0 following"
+                            android:textColor="@color/uni_grey"
+                            android:textSize="14sp" />
+                    </LinearLayout>
+
+                </LinearLayout>
+
+                <RelativeLayout
+                    android:id="@+id/pbLoading_container"
+                    android:layout_width="fill_parent"
+                    android:layout_height="95dp"
+                    android:alpha="0.40"
+                    android:background="#ffffff"
+                    android:visibility="gone" >
+
+                    <!-- android:background="#666666" -->
+                    <ProgressBar
+                        android:id="@+id/pbLoading"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerHorizontal="true"
+                        android:layout_centerVertical="true"
+                        android:visibility="visible" />
+
+
+                </RelativeLayout>
+            </RelativeLayout>
+
+
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical" >
+
+                <LinearLayout
+                    android:id="@+id/buttons_cont1"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:orientation="horizontal"
+                    android:padding="10dp"
+                    android:weightSum="90" >
+
+                    <Button
+                        android:id="@+id/btn_tab_highlights"
+                        android:layout_width="fill_parent"
+                        android:layout_height="match_parent"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:layout_weight="30"
+                        android:background="@drawable/btn_pnl_blue_left1"
+                        android:padding="10dp"
+                        android:text="Highlights"
+                        android:textColor="#ffffff"
+                        android:textSize="14sp" />
+
+                    <Button
+                        android:id="@+id/btn_tab_followers"
+                        android:layout_width="fill_parent"
+                        android:layout_height="match_parent"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:layout_weight="30"
+                        android:background="@drawable/btn_pnl_white_mid1"
+                        android:padding="10dp"
+                        android:text="Followers"
+                        android:textColor="@color/uni_blue"
+                        android:textSize="14sp" />
+
+                    <Button
+                        android:id="@+id/btn_tab_following"
+                        android:layout_width="fill_parent"
+                        android:layout_height="match_parent"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:layout_weight="30"
+                        android:background="@drawable/btn_pnl_white_right1"
+                        android:padding="10dp"
+                        android:text="Following"
+                        android:textColor="@color/uni_blue"
+                        android:textSize="14sp" />
+
+                </LinearLayout>
+
+                <RelativeLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent"
+                    android:layout_below="@+id/buttons_cont1"
+                    android:background="#ffffff"
+                    android:gravity="center|top" >
+
+                    <ListView
+                        android:id="@+id/ptrListViewHighlight"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+
+                        android:cacheColorHint="#00000000" >
+
+                    </ListView>
+
+                    <RelativeLayout
+                        android:id="@+id/pbLoading_container2"
+                        android:layout_width="fill_parent"
+                        android:layout_height="fill_parent"
+
+                        android:background="#ffffff"
+                        android:gravity="center"
+                        android:visibility="gone" >
+
+                        <!-- android:background="#666666" -->
+
+                        <ProgressBar
+                            android:id="@+id/pbLoading2"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerHorizontal="true"
+                            android:layout_centerVertical="true"
+                            android:visibility="visible" />
+
+                    </RelativeLayout>
+
+                </RelativeLayout>
+
+
+
+            </RelativeLayout>
+        </LinearLayout>
     </RelativeLayout>
-    
-      
-         
-         </RelativeLayout>
-       </LinearLayout>
-          </RelativeLayout>
 </LinearLayout>

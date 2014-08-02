@@ -112,13 +112,7 @@ public class ProcessingTask extends AsyncTask<Object, Integer, Integer> {
 		Log.e("ZZZZZZVideoPath", global_Data.getVideoPath() );
 		Log.e("ZZZZZZVideoPath", global_Data.getVideoPath() );
 		Log.e("ZZZZZZVideoPath", global_Data.getVideoPath() );
-		Log.e("ZZZZZZVideoPath", global_Data.getVideoPath() );
-		Log.e("ZZZZZZVideoPath", global_Data.getVideoPath() );
-		Log.e("ZZZZZZVideoPath", global_Data.getVideoPath() );
-		Log.e("ZZZZZZVideoPath", global_Data.getVideoPath() );
-		Log.e("ZZZZZZVideoPath", global_Data.getVideoPath() );
-		
-		
+
 	   // oFile.delete();
 	}
     

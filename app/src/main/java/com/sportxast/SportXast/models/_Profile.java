@@ -22,14 +22,14 @@ public class _Profile {
 	public String avatarPath	= "";
 	public String avatarUrl		= "";
 	public String hasAvatar		= "0";
-	public String avatarCount	= "";
+	public String avatarCount	= "0";
 	public String avatarName	= "";
 	public String fullName		= "";
 	public String displayName	= "";
 	public String userName		= "";
 	public String email			= "";
 	public String aboutMe		= "";
-	public String postCount		= "";
+	public String postCount		= "0";
 	public String favoriteCount	= "0";
 	public String viewCount		= "0";
 	public String isFollowing	= "0";
