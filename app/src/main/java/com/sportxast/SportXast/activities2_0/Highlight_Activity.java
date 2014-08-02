@@ -731,6 +731,7 @@ public class Highlight_Activity extends FragmentActivity{
 
         }
 
+        Log.i("ReloadListView", "appendAdditionalHighlights");
         reloadListView( FArrMediaList );
     }
 
@@ -937,6 +938,7 @@ public class Highlight_Activity extends FragmentActivity{
         DO NOT REMOVE!!!!
         - LAW!!!
          */
+        Log.i("ReloadListView", "Reloading");
         if(FAdapter != null) {
             FAdapter.updateListElements( arrMediaLists );
         }
@@ -1217,6 +1219,7 @@ public class Highlight_Activity extends FragmentActivity{
         boolean highlightHasBeenAdded = false;
 
         int totalNumberOfHighlightsAdded = 0;
+        Log.i("ReloadListView", "nextmediasize: " + arrNextMediaID.size());
         for (int i = 0; i < arrNextMediaID.size(); i++) {
 
             MediaList mediaList = new MediaList();
@@ -1285,6 +1288,7 @@ public class Highlight_Activity extends FragmentActivity{
             totalNumberOfHighlightsAdded = 0;
         }
 
+        Log.i("ReloadListView", "expandCurrentData: " + FArrMediaList.size());
         reloadListView( FArrMediaList );
 
         if( freshUploadShownVideoCount >= FNumberOfVideosRecorded ){
@@ -1293,6 +1297,7 @@ public class Highlight_Activity extends FragmentActivity{
             /** HIDE the progress Loader **/
             header_pb_cont1.setVisibility(View.GONE);
         }
+
         return totalNumberOfHighlightsAdded;
     }
 

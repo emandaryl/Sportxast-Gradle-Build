@@ -18,7 +18,6 @@ import android.text.method.MovementMethod;
 import android.text.style.ClickableSpan;
 import android.util.DisplayMetrics;
 import android.util.Log;
-import android.view.Display;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -72,101 +71,100 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
-public class EventMediaAdapter extends BaseAdapter{
+public class EventMediaAdapter extends BaseAdapter {
 
+    ArrayList<MediaList> FArrMediaList;
     private Global_Data FGlobal_Data;
     private Context context;
-    ArrayList<MediaList> FArrMediaList;
+    private OnClickListener onclickShare = new OnClickListener() {
+
+        @Override
+        public void onClick(View view) {
+            int id = ((ImageButton) view).getId();
+
+            popupWindow.dismiss();
+
+            //Log.i(TAG, "Extra Text: " + view.getTag().toString());
+
+            switch (id) {
+                case R.id.imgbtn_share_email:
+
+                    Intent emailIntent = new Intent(Intent.ACTION_SENDTO);
+                    String uriEmailText =
+                            "mailto:" + Uri.encode("") +
+                                    "?subject=" + Uri.encode(FGlobal_Data.getAppSetting_settings("APP_SHARE_MAIL_SUBJECT")) +
+                                    "&body=" + Uri.encode(view.getTag().toString());
+                    Uri uriEmail = Uri.parse(uriEmailText);
+                    emailIntent.setData(uriEmail);
+                    context.startActivity(Intent.createChooser(emailIntent, "Share Via Email"));
+
+                    break;
+                case R.id.imgbtn_share_sms:
+
+                    Uri uri = Uri.parse("smsto:");
+                    Intent smsIntent = new Intent(Intent.ACTION_VIEW, uri);
+                    smsIntent.putExtra("sms_body", view.getTag().toString());
+                    smsIntent.setType("vnd.android-dir/mms-sms");
+                    context.startActivity(smsIntent);
+
+                    break;
+                case R.id.imgbtn_share_twitter:
+
+                    String tweet = "https://twitter.com/intent/tweet?text=" + view.getTag().toString();
+                    Intent tweetIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(tweet));
+
+                    PackageManager pm = context.getPackageManager();
+                    List<ResolveInfo> infoList = pm.queryIntentActivities(tweetIntent, 0);
+
+                    for (ResolveInfo info : infoList) {
+                        if (info.activityInfo.packageName.toLowerCase().startsWith("com.twitter")) {
+                            tweetIntent.setPackage(info.activityInfo.packageName);
+                            break;
+                        }
+                    }
+
+                    context.startActivity(tweetIntent);
+
+                    break;
+                case R.id.imgbtn_share_facebook:
+                    Highlight_Activity activity = (Highlight_Activity) context;
+                    activity.openUpFacebookFragment(view.getTag().toString());
+                    break;
+            }
+        }
+    };
     //private View commentView;
     private Drawable drawable_avatar;
     private Async_HttpClient async_HttpClient;
     private SportsTags sportsTags;
-
     private ArrayList<String> listTags;
-
-    private PopupWindow popupWindow;
 
     //private int flag = 0;
     //private int screen_w;
     //private int screen_h;
+    private PopupWindow popupWindow;
+    private boolean showListItem = true;
+    private int previouslyAccessedConvertViewID = -1;
+
+    //public EventMediaAdapter(Context context, ArrayList<MediaList> arrMediaLists, View commentView) {
+    public EventMediaAdapter(Context context, ArrayList<MediaList> arrMediaLists) {
+        // TODO Auto-generated constructor stub
+        this.context = context;
+        this.FArrMediaList = arrMediaLists;
+        //this.FArrMediaList = ( (HighlightResult_Activity) context ).FArrMediaList;
+        drawable_avatar = this.context.getResources().getDrawable(R.drawable.ic_avatar);
+        FGlobal_Data = (Global_Data) context.getApplicationContext();
+        async_HttpClient = new Async_HttpClient(context);
+
+    }
 
     //private SharedPreferences sharedPreferences;
     public void updateListElements(ArrayList<MediaList> arrMediaLists) {
         this.FArrMediaList = arrMediaLists;
         //this.FArrMediaList = ( (Highlight_Activity) context ).FArrMediaList;
-        //Triggers the list update  
-        notifyDataSetChanged();
-    }
-
-    private boolean showListItem = true;
-
-    //public EventMediaAdapter(Context context, ArrayList<MediaList> arrMediaLists, View commentView) {
-    public EventMediaAdapter(Context context, ArrayList<MediaList> arrMediaLists) {
-        // TODO Auto-generated constructor stub
-        this.context 	 	= context;
-        this.FArrMediaList  = arrMediaLists;
-        //this.FArrMediaList = ( (HighlightResult_Activity) context ).FArrMediaList;
-        drawable_avatar     = this.context.getResources().getDrawable(R.drawable.ic_avatar);
-        FGlobal_Data 		= (Global_Data)context.getApplicationContext();
-        async_HttpClient	= new Async_HttpClient(context);
-
-    }
-
-    static class ItemHolder{
-        //View conView;
-        SmartImageView imgvw_avatar;
-        TextView txtvw_title;
-        TextView txtvw_date;
-
-        TextView  txtvw_favoriteCount;
-        TextView  txtvw_tagCount;
-        TextView  txtvw_commentCount;
-
-        ClickableTextsTextView  txtvw_favoriteList;
-        ClickableTextsTextView  txtvw_tagList;
-        ClickableTextsTextView  txtvw_commentList;
-
-        ImageView   imgvw_photo;
-        ProgressBar progBar_favorite;
-        ImageButton imgbtn_favorite;
-        ImageButton imgbtn_tag;
-        ImageButton imgbtn_comment;
-        ImageButton imgbtn_shareapp;
-        ImageButton imgbtn_delete;
-        ImageButton imgbtn_expand;
-
-        ImageView imgvw_comment_icon;
-
-        RelativeLayout layout_media;
-        private VideoView video_media;
-
-        ProgressBar progess_medialoading;
-        ImageButton imgbtn_play;
-    }
-
-    public class addClickableSpan extends ClickableSpan{
-
-        String word;
-        public addClickableSpan(String word) {
-            // TODO Auto-generated constructor stub
-            this.word = word;
-        }
-
-        @Override
-        public void updateDrawState(TextPaint ds) {
-            // TODO Auto-generated method stub
-            super.updateDrawState(ds);
-
-            ds.setColor(context.getResources().getColor(R.color.uni_blue));
-            ds.setUnderlineText(false);
-        }
-
-        @Override
-        public void onClick(View widget) {
-            // TODO Auto-generated method stub
-            Toast.makeText(context, word, Toast.LENGTH_SHORT).show();
-        }
-
+        //Triggers the list update
+//        notifyDataSetChanged();
+        Log.i("ReloadLisView", "adapterupdatelist " + FArrMediaList.size());
     }
 
     @Override
@@ -187,89 +185,82 @@ public class EventMediaAdapter extends BaseAdapter{
         return arg0;
     }
 
-
-    private int previouslyAccessedConvertViewID = -1;
-
     @Override
-    public View getView(final int viewPosition,  View convertView, final ViewGroup parentView) {
+    public View getView(final int viewPosition, View convertView, final ViewGroup parentView) {
         // TODO Auto-generated method stub
         final ItemHolder itemHolder;
 
-        //if(convertView == null){
-        LayoutInflater inflater = ((Activity)context).getLayoutInflater();
+        if (convertView == null) {
+            LayoutInflater inflater = ((Activity) context).getLayoutInflater();
 
-        convertView = inflater.inflate(R.layout.list_item_eventmedia, null);
-        int convertViewID = Integer.parseInt( "369" + "7377" + Integer.toString(viewPosition) );
-        convertView.setId( convertViewID );
+            convertView = inflater.inflate(R.layout.list_item_eventmedia, null);
+            int convertViewID = Integer.parseInt("369" + "7377" + Integer.toString(viewPosition));
+            convertView.setId(convertViewID);
 
-        itemHolder = new ItemHolder();
-			
+            itemHolder = new ItemHolder();
+
 			/*
 			itemHolder.imgbtn_play.setVisibility(View.VISIBLE);
 			itemHolder.imgvw_photo.setVisibility(View.VISIBLE);
 			itemHolder.progess_medialoading.setVisibility(View.GONE);
 			*/
-        itemHolder.imgvw_avatar 		= (SmartImageView)	convertView.findViewById(R.id.imgvw_highlight_avatar);
-        itemHolder.txtvw_title 			= (TextView)		convertView.findViewById(R.id.txtvw_highlight_title);
-        itemHolder.txtvw_date 			= (TextView)convertView.findViewById(R.id.txtvw_highlight_date);
-        itemHolder.imgvw_photo 			= (ImageView)convertView.findViewById(R.id.imgvw_highlight_photo);
+            itemHolder.imgvw_avatar = (SmartImageView) convertView.findViewById(R.id.imgvw_highlight_avatar);
+            itemHolder.txtvw_title = (TextView) convertView.findViewById(R.id.txtvw_highlight_title);
+            itemHolder.txtvw_date = (TextView) convertView.findViewById(R.id.txtvw_highlight_date);
+            itemHolder.imgvw_photo = (ImageView) convertView.findViewById(R.id.imgvw_highlight_photo);
 
-        itemHolder.progBar_favorite 	= (ProgressBar)convertView.findViewById(R.id.progBar_favorite);
-        itemHolder.progBar_favorite.setVisibility(View.GONE);
+            itemHolder.progBar_favorite = (ProgressBar) convertView.findViewById(R.id.progBar_favorite);
+            itemHolder.progBar_favorite.setVisibility(View.GONE);
 
-        itemHolder.imgbtn_favorite 		= (ImageButton)convertView.findViewById(R.id.imgbtn_favorite);
-        itemHolder.imgbtn_tag 			= (ImageButton)convertView.findViewById(R.id.imgbtn_tag);
-        itemHolder.imgbtn_comment		= (ImageButton)convertView.findViewById(R.id.imgbtn_comment);
-        itemHolder.imgbtn_shareapp		= (ImageButton)convertView.findViewById(R.id.imgbtn_shareapp);
-        itemHolder.imgbtn_delete 		= (ImageButton)convertView.findViewById(R.id.imgbtn_delete);
-        itemHolder.imgbtn_expand 		= (ImageButton)convertView.findViewById(R.id.imgbtn_expand);
-        itemHolder.imgvw_comment_icon 	= (ImageView)convertView.findViewById(R.id.imgvw_comment_icon);
+            itemHolder.imgbtn_favorite = (ImageButton) convertView.findViewById(R.id.imgbtn_favorite);
+            itemHolder.imgbtn_tag = (ImageButton) convertView.findViewById(R.id.imgbtn_tag);
+            itemHolder.imgbtn_comment = (ImageButton) convertView.findViewById(R.id.imgbtn_comment);
+            itemHolder.imgbtn_shareapp = (ImageButton) convertView.findViewById(R.id.imgbtn_shareapp);
+            itemHolder.imgbtn_delete = (ImageButton) convertView.findViewById(R.id.imgbtn_delete);
+            itemHolder.imgbtn_expand = (ImageButton) convertView.findViewById(R.id.imgbtn_expand);
+            itemHolder.imgvw_comment_icon = (ImageView) convertView.findViewById(R.id.imgvw_comment_icon);
 
-        itemHolder.txtvw_favoriteCount	= (TextView)convertView.findViewById(R.id.txtvw_favoriteCount);
-        itemHolder.txtvw_tagCount 		= (TextView)convertView.findViewById(R.id.txtvw_tagCount);
-        itemHolder.txtvw_commentCount 	= (TextView)convertView.findViewById(R.id.txtvw_commentCount);
+            itemHolder.txtvw_favoriteCount = (TextView) convertView.findViewById(R.id.txtvw_favoriteCount);
+            itemHolder.txtvw_tagCount = (TextView) convertView.findViewById(R.id.txtvw_tagCount);
+            itemHolder.txtvw_commentCount = (TextView) convertView.findViewById(R.id.txtvw_commentCount);
 
-        itemHolder.txtvw_favoriteList 	= (ClickableTextsTextView)convertView.findViewById(R.id.txtvw_favoriteList);
-        itemHolder.txtvw_commentList 	= (ClickableTextsTextView)convertView.findViewById(R.id.txtvw_commentList);
-        itemHolder.txtvw_tagList 		= (ClickableTextsTextView)convertView.findViewById(R.id.txtvw_tagList);
+            itemHolder.txtvw_favoriteList = (ClickableTextsTextView) convertView.findViewById(R.id.txtvw_favoriteList);
+            itemHolder.txtvw_commentList = (ClickableTextsTextView) convertView.findViewById(R.id.txtvw_commentList);
+            itemHolder.txtvw_tagList = (ClickableTextsTextView) convertView.findViewById(R.id.txtvw_tagList);
 
-        itemHolder.layout_media 		= (RelativeLayout)convertView.findViewById(R.id.layout_media);
+            itemHolder.layout_media = (RelativeLayout) convertView.findViewById(R.id.layout_media);
 
-        itemHolder.video_media 			= (VideoView)convertView.findViewById(R.id.video_media);
-        int videoMediaID = Integer.parseInt( 	"313" + "7377" + Integer.toString(viewPosition));
-        itemHolder.video_media.setId( videoMediaID  );
+            itemHolder.video_media = (VideoView) convertView.findViewById(R.id.video_media);
+            int videoMediaID = Integer.parseInt("313" + "7377" + Integer.toString(viewPosition));
+            itemHolder.video_media.setId(videoMediaID);
 
-        itemHolder.progess_medialoading = (ProgressBar)convertView.findViewById(R.id.progress_medialoading);
-        int progressLoaderID = Integer.parseInt("323" + "7377" + Integer.toString(viewPosition) );
-        itemHolder.progess_medialoading.setId( progressLoaderID  );
+            itemHolder.progess_medialoading = (ProgressBar) convertView.findViewById(R.id.progress_medialoading);
+            int progressLoaderID = Integer.parseInt("323" + "7377" + Integer.toString(viewPosition));
+            itemHolder.progess_medialoading.setId(progressLoaderID);
 
-        itemHolder.imgbtn_play 			= (ImageButton)convertView.findViewById(R.id.imgbtn_play);
-        int buttonPlayID = Integer.parseInt( 	"333" + "7377" + Integer.toString(viewPosition) );
-        itemHolder.imgbtn_play.setId( buttonPlayID  );
+            itemHolder.imgbtn_play = (ImageButton) convertView.findViewById(R.id.imgbtn_play);
+            int buttonPlayID = Integer.parseInt("333" + "7377" + Integer.toString(viewPosition));
+            itemHolder.imgbtn_play.setId(buttonPlayID);
 
-        //itemHolder.conView 				= convertView;
-        convertView.setTag(itemHolder);
-			/* 
-		}
-		else{
-			itemHolder = (ItemHolder)convertView.getTag();
-		} 
-		*/
+            //itemHolder.conView 				= convertView;
+            convertView.setTag(itemHolder);
 
-        if(CommonFunctions_1.parseToInteger(FArrMediaList.get(viewPosition).user.avatarCount) > 0){
+        } else {
+            itemHolder = (ItemHolder) convertView.getTag();
+        }
+
+
+        if (CommonFunctions_1.parseToInteger(FArrMediaList.get(viewPosition).user.avatarCount) > 0) {
             itemHolder.imgvw_avatar.getLayoutParams().height = drawable_avatar.getMinimumHeight();
             itemHolder.imgvw_avatar.getLayoutParams().width = drawable_avatar.getMinimumWidth();
             itemHolder.imgvw_avatar.setImageUrl(FArrMediaList.get(viewPosition).user.avatarUrl);
         }
 
-        Log.i("TwitterCardURL", "url: " + FArrMediaList.get(viewPosition).twitterCardUrl);
-
-        if(FArrMediaList.get(viewPosition).user.fullName.length() > 0){
+        if (FArrMediaList.get(viewPosition).user.fullName.length() > 0) {
             itemHolder.txtvw_title.setText(FArrMediaList.get(viewPosition).user.fullName);
-        }else if(FArrMediaList.get(viewPosition).user.userName.length() > 0){
+        } else if (FArrMediaList.get(viewPosition).user.userName.length() > 0) {
             itemHolder.txtvw_title.setText(FArrMediaList.get(viewPosition).user.userName);
-        }
-        else{
+        } else {
             itemHolder.txtvw_title.setText("userId: " + FArrMediaList.get(viewPosition).user.userId);
             //	itemHolder.txtvw_title.setText( "userId" );
         }
@@ -280,10 +271,10 @@ public class EventMediaAdapter extends BaseAdapter{
             @Override
             public void onClick(View v) {
                 // TODO Auto-generated method stub
-                Intent intentPr = new Intent(context,Profile_Activity.class);
+                Intent intentPr = new Intent(context, Profile_Activity.class);
                 intentPr.putExtra("userId", FArrMediaList.get(viewPosition).mediaUserId);
                 intentPr.putExtra("userDisplayname", FArrMediaList.get(viewPosition).user.displayName);
-                ((Activity)context).startActivity(intentPr);
+                ((Activity) context).startActivity(intentPr);
             }
         });
 
@@ -328,26 +319,25 @@ public class EventMediaAdapter extends BaseAdapter{
         AQuery androidQuery = new AQuery(context);
         File localImageFile = new File(FArrMediaList.get(viewPosition).imageLocalPath);
         String coverImagePath = "";
-        if( localImageFile.exists() ){
+        if (localImageFile.exists()) {
             //Toast.makeText(context, "image exists: " + viewPosition, Toast.LENGTH_LONG).show();
             coverImagePath = FArrMediaList.get(viewPosition).imageLocalPath;
-        }else{
+        } else {
             coverImagePath = FArrMediaList.get(viewPosition).coverImage;
         }
 
-        androidQuery.id(itemHolder.imgvw_photo).image( coverImagePath, false, true);
+        androidQuery.id(itemHolder.imgvw_photo).image(coverImagePath, false, true);
         //aq.id(itemHolder.imgvw_photo).image( FArrMediaList.get(viewPosition).coverImage, false, true);
 
-        itemHolder.txtvw_favoriteCount.setText(FArrMediaList.get(viewPosition).userInFavorites.size()+" Favorites");
+        itemHolder.txtvw_favoriteCount.setText(FArrMediaList.get(viewPosition).userInFavorites.size() + " Favorites");
 
-        if(FArrMediaList.get(viewPosition).userInFavorites.size()>0){
+        if (FArrMediaList.get(viewPosition).userInFavorites.size() > 0) {
             itemHolder.txtvw_favoriteList.setVisibility(View.VISIBLE);
             itemHolder.txtvw_favoriteList.setText("");
             for (int i = 0; i < FArrMediaList.get(viewPosition).userInFavorites.size(); i++) {
-                itemHolder.txtvw_favoriteList.append("@"+FArrMediaList.get(viewPosition).userInFavorites.get(i).displayName+" ");
+                itemHolder.txtvw_favoriteList.append("@" + FArrMediaList.get(viewPosition).userInFavorites.get(i).displayName + " ");
             }
-        }
-        else{
+        } else {
             itemHolder.txtvw_favoriteList.setVisibility(View.GONE);
         }
 
@@ -359,10 +349,10 @@ public class EventMediaAdapter extends BaseAdapter{
             @Override
             public void onTextLinkClick(View textView, String clickedString) {
                 // TODO Auto-generated method stub
-                Intent intentPr = new Intent(context,Profile_Activity.class);
+                Intent intentPr = new Intent(context, Profile_Activity.class);
                 intentPr.putExtra("userId", clickedString.substring(1, clickedString.length()));
                 intentPr.putExtra("userDisplayname", FArrMediaList.get(viewPosition).user.displayName);
-                ((Activity)context).startActivity(intentPr);
+                ((Activity) context).startActivity(intentPr);
             }
         });
 
@@ -373,31 +363,30 @@ public class EventMediaAdapter extends BaseAdapter{
             }
 
         }
-        String combinecomments   = "";
-        itemHolder.txtvw_commentCount.setText(FArrMediaList.get(viewPosition).comments.size()+" Comments");
-        if(FArrMediaList.get(viewPosition).comments.size() > 0){
+        String combinecomments = "";
+        itemHolder.txtvw_commentCount.setText(FArrMediaList.get(viewPosition).comments.size() + " Comments");
+        if (FArrMediaList.get(viewPosition).comments.size() > 0) {
             itemHolder.txtvw_commentList.setVisibility(View.VISIBLE);
             //itemHolder.txtvw_commentList.setText("");
 
-            int len  = FArrMediaList.get(viewPosition).comments.size()>=5?5:FArrMediaList.get(viewPosition).comments.size();
+            int len = FArrMediaList.get(viewPosition).comments.size() >= 5 ? 5 : FArrMediaList.get(viewPosition).comments.size();
             for (int i = 0; i < len; i++) {
 
-                if(len==5 && i==0){
-                    combinecomments =combinecomments + "View all "+FArrMediaList.get(viewPosition).comments.size()+" Comments";
-                    combinecomments = combinecomments+"\n";
+                if (len == 5 && i == 0) {
+                    combinecomments = combinecomments + "View all " + FArrMediaList.get(viewPosition).comments.size() + " Comments";
+                    combinecomments = combinecomments + "\n";
                     //itemHolder.txtvw_commentList.append("View all "+FArrMediaList.get(viewPosition).comments.size()+" Comments");
                     //itemHolder.txtvw_commentList.append("\n");
                 }
-                combinecomments = combinecomments+"@"+FArrMediaList.get(viewPosition).comments.get(i).commentUserName;
-                combinecomments = combinecomments+" "+FArrMediaList.get(viewPosition).comments.get(i).commentBody;
+                combinecomments = combinecomments + "@" + FArrMediaList.get(viewPosition).comments.get(i).commentUserName;
+                combinecomments = combinecomments + " " + FArrMediaList.get(viewPosition).comments.get(i).commentBody;
                 //itemHolder.txtvw_commentList.append("@"+FArrMediaList.get(viewPosition).comments.get(i).commentUserName);
                 //itemHolder.txtvw_commentList.append(" "+FArrMediaList.get(viewPosition).comments.get(i).commentBody);
-                if(i<(len-1))
-                    combinecomments = combinecomments+"\n";
+                if (i < (len - 1))
+                    combinecomments = combinecomments + "\n";
                 //itemHolder.txtvw_commentList.append("\n");
             }
-        }
-        else{
+        } else {
             itemHolder.txtvw_commentList.setVisibility(View.GONE);
         }
 
@@ -409,10 +398,10 @@ public class EventMediaAdapter extends BaseAdapter{
             @Override
             public void onTextLinkClick(View textView, String clickedString) {
                 // TODO Auto-generated method stub
-                Intent intentPr = new Intent(context,Profile_Activity.class);
+                Intent intentPr = new Intent(context, Profile_Activity.class);
                 intentPr.putExtra("userId", clickedString.substring(1, clickedString.length()));
                 intentPr.putExtra("userDisplayname", FArrMediaList.get(viewPosition).user.displayName);
-                ((Activity)context).startActivity(intentPr);
+                ((Activity) context).startActivity(intentPr);
             }
         });
 
@@ -423,15 +412,14 @@ public class EventMediaAdapter extends BaseAdapter{
             }
         }
 
-        itemHolder.txtvw_tagCount.setText(FArrMediaList.get(viewPosition).tags.size()+" Tags");
-        if(FArrMediaList.get(viewPosition).tags.size()>0){
+        itemHolder.txtvw_tagCount.setText(FArrMediaList.get(viewPosition).tags.size() + " Tags");
+        if (FArrMediaList.get(viewPosition).tags.size() > 0) {
             itemHolder.txtvw_tagList.setVisibility(View.VISIBLE);
             itemHolder.txtvw_tagList.setText("");
             for (int i = 0; i < FArrMediaList.get(viewPosition).tags.size(); i++) {
-                itemHolder.txtvw_tagList.append("#"+FArrMediaList.get(viewPosition).tags.get(i).name+" ");
+                itemHolder.txtvw_tagList.append("#" + FArrMediaList.get(viewPosition).tags.get(i).name + " ");
             }
-        }
-        else{
+        } else {
             itemHolder.txtvw_tagList.setVisibility(View.GONE);
         }
 
@@ -443,15 +431,15 @@ public class EventMediaAdapter extends BaseAdapter{
             @Override
             public void onTextLinkClick(View textView, String clickedString) {
                 // TODO Auto-generated method stub
-					
+
 					/*
-				    int isToday = 0; 
+				    int isToday = 0;
 					Intent intent = new Intent(context, Highlight_Activity.class);
 					intent.putExtra("eventId","");
 					intent.putExtra("hashtag", clickedString.substring(1, clickedString.length()));
-					
+
 					intent.putExtra("eventTeams", "sampleTeamTitle");
-					 
+
 					intent.putExtra("isToday", ""+isToday);
 					((Activity)context).startActivity(intent);
 					*/
@@ -476,36 +464,35 @@ public class EventMediaAdapter extends BaseAdapter{
                 //######################################################################
                 /** Stop the Previous video(s) from playing **/
 
-                if( previouslyAccessedConvertViewID == -1 ){
-                }else{
+                if (previouslyAccessedConvertViewID == -1) {
+                } else {
                     int heyhey = previouslyAccessedConvertViewID;
-                    View previouslyAccesssedConvertView = parentView.findViewById( previouslyAccessedConvertViewID );
+                    View previouslyAccesssedConvertView = parentView.findViewById(previouslyAccessedConvertViewID);
 
-                    if( previouslyAccesssedConvertView != null )
-                    {
+                    if (previouslyAccesssedConvertView != null) {
                         //int videoMediaID = itemHolder.video_media.getId();
-                        String[] convertViewIdData = Integer.toString( previouslyAccessedConvertViewID ).split("7377");
+                        String[] convertViewIdData = Integer.toString(previouslyAccessedConvertViewID).split("7377");
 
-                        int videoMediaID = Integer.parseInt( 	"313" + "7377" + convertViewIdData[1].toString() );
-                        VideoView vidView = (VideoView) previouslyAccesssedConvertView.findViewById( videoMediaID );
-                        if(vidView != null){
+                        int videoMediaID = Integer.parseInt("313" + "7377" + convertViewIdData[1].toString());
+                        VideoView vidView = (VideoView) previouslyAccesssedConvertView.findViewById(videoMediaID);
+                        if (vidView != null) {
                             vidView.setMediaController(null);
                             vidView.stopPlayback();
                         }
 
-                        int buttonPlayID = Integer.parseInt( 	"333" + "7377" + convertViewIdData[1].toString() );
+                        int buttonPlayID = Integer.parseInt("333" + "7377" + convertViewIdData[1].toString());
 
-                        ImageButton buttonPlay = (ImageButton) previouslyAccesssedConvertView.findViewById( buttonPlayID );
-                        if(buttonPlay != null){
+                        ImageButton buttonPlay = (ImageButton) previouslyAccesssedConvertView.findViewById(buttonPlayID);
+                        if (buttonPlay != null) {
                             buttonPlay.setVisibility(View.VISIBLE);
                         }
 
-                        int progressLoaderID = Integer.parseInt("323" + "7377" + convertViewIdData[1].toString() );
-                        ProgressBar progressLoader = (ProgressBar) previouslyAccesssedConvertView.findViewById( progressLoaderID );
-                        if(progressLoader != null)
+                        int progressLoaderID = Integer.parseInt("323" + "7377" + convertViewIdData[1].toString());
+                        ProgressBar progressLoader = (ProgressBar) previouslyAccesssedConvertView.findViewById(progressLoaderID);
+                        if (progressLoader != null)
                             progressLoader.setVisibility(View.GONE);
 
-                    }else{
+                    } else {
                         previouslyAccessedConvertViewID = -1;
                     }
                 }
@@ -517,22 +504,22 @@ public class EventMediaAdapter extends BaseAdapter{
 
                 File localVideoFile = new File(FArrMediaList.get(viewPosition).videoLocalPath);
 
-                if( localVideoFile.exists() ){
+                if (localVideoFile.exists()) {
                     // Toast.makeText(context, "local file found", Toast.LENGTH_LONG).show();
                     String path = FArrMediaList.get(viewPosition).videoLocalPath;
                     //itemHolder.video_media.setVideoURI(null);
                     itemHolder.video_media.setVideoPath(path);
 
-                }else{
+                } else {
 
                     String path = FArrMediaList.get(viewPosition).mediaUrl;
-                    if(path.length() > 0){ //if URL from server is there
+                    if (path.length() > 0) { //if URL from server is there
                         String rawStringURL = path.replace("https", "http");
-                        Uri videoPath = Uri.parse( rawStringURL );
+                        Uri videoPath = Uri.parse(rawStringURL);
                         itemHolder.video_media.setVideoURI(videoPath);
                         //  itemHolder.video_media.setVideoPath(null);
 
-                    }else{ //Play from local
+                    } else { //Play from local
                         path = FArrMediaList.get(viewPosition).videoLocalPath;
                         //  itemHolder.video_media.setVideoURI(null);
                         itemHolder.video_media.setVideoPath(path);
@@ -541,12 +528,10 @@ public class EventMediaAdapter extends BaseAdapter{
                 }
 
                 // video_media.setMediaController(mediaController);
-                itemHolder.video_media.setMediaController(new MediaController(context) );
+                itemHolder.video_media.setMediaController(new MediaController(context));
                 itemHolder.video_media.requestFocus();
-                itemHolder.video_media.setOnPreparedListener(new MediaPlayer.OnPreparedListener()
-                {
-                    public void onPrepared(MediaPlayer mp)
-                    {
+                itemHolder.video_media.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
+                    public void onPrepared(MediaPlayer mp) {
                         //Toast.makeText(getApplicationContext(), "heyho", Toast.LENGTH_LONG).show();
                         itemHolder.imgvw_photo.setVisibility(View.GONE);
                         //itemHolder.imgbtn_play.setVisibility(View.GONE);
@@ -556,10 +541,10 @@ public class EventMediaAdapter extends BaseAdapter{
 
                         //################################################################################
                         int videoMediaID = itemHolder.video_media.getId();
-                        String[] videoMediaIdData = Integer.toString( videoMediaID ).split("7377");
+                        String[] videoMediaIdData = Integer.toString(videoMediaID).split("7377");
 
                         // Toast.makeText(context, "Previously Played video ID: "+previouslyAccessedConvertViewID, Toast.LENGTH_LONG).show();
-                        int currentConvertViewID = Integer.parseInt( "369" + "7377" + videoMediaIdData[1].toString() );
+                        int currentConvertViewID = Integer.parseInt("369" + "7377" + videoMediaIdData[1].toString());
                         previouslyAccessedConvertViewID = currentConvertViewID;
 
                     }
@@ -593,8 +578,6 @@ public class EventMediaAdapter extends BaseAdapter{
         });
 
 
-
-
         itemHolder.progess_medialoading.setOnClickListener(new OnClickListener() {
 
             @Override
@@ -620,25 +603,25 @@ public class EventMediaAdapter extends BaseAdapter{
                 itemHolder.progess_medialoading.setVisibility(View.GONE);
 
                 Intent intent = new Intent(context, VideoFullScreenActivity.class);
-                intent.putExtra("mediaUrl",  FArrMediaList.get(viewPosition).mediaUrl);
-                ((Activity)context).startActivity(intent);
-                ((Activity)context).overridePendingTransition(R.anim.slide_in_top, R.anim.slide_out_top);
+                intent.putExtra("mediaUrl", FArrMediaList.get(viewPosition).mediaUrl);
+                ((Activity) context).startActivity(intent);
+                ((Activity) context).overridePendingTransition(R.anim.slide_in_top, R.anim.slide_out_top);
 
             }
         });
 
-        if(CommonFunctions_1.parseToInteger(FArrMediaList.get(viewPosition).currentUserHasInFavorites)==0){
+        if (CommonFunctions_1.parseToInteger(FArrMediaList.get(viewPosition).currentUserHasInFavorites) == 0) {
             // flag=1;
             itemHolder.imgbtn_favorite.setImageResource(R.drawable.ic_favorite_blue);
-        }else{
+        } else {
             // flag=0;
             itemHolder.imgbtn_favorite.setImageResource(R.drawable.ic_favorite_blue_selected);
         }
 
-        if(CommonFunctions_1.parseToInteger(FArrMediaList.get(viewPosition).currentUserIsOwner)==0){
+        if (CommonFunctions_1.parseToInteger(FArrMediaList.get(viewPosition).currentUserIsOwner) == 0) {
 
             itemHolder.imgbtn_delete.setImageResource(R.drawable.selector_report);
-        }else{
+        } else {
 
             itemHolder.imgbtn_delete.setImageResource(R.drawable.selector_delete);
         }
@@ -650,7 +633,7 @@ public class EventMediaAdapter extends BaseAdapter{
                 //CommonFunctions_1.favoriteHighlight( context, FArrMediaList, (ImageButton) v, FArrMediaList.get(viewPosition).mediaId, viewPosition );
 					/*
 				    if(context instanceof Highlight_Activity){
-				    	itemHolder.progBar_favorite.setVisibility(View.VISIBLE); 
+				    	itemHolder.progBar_favorite.setVisibility(View.VISIBLE);
 				    	((Highlight_Activity) context).favoriteHighlight( (ImageButton) v, FArrMediaList.get(viewPosition).mediaId, viewPosition );
 				     }  */
                 v.setEnabled(false);
@@ -658,22 +641,22 @@ public class EventMediaAdapter extends BaseAdapter{
                 params.put("mediaId", FArrMediaList.get(viewPosition).mediaId);
 
                 Async_HttpClient async_HttpClient = new Async_HttpClient(context);
-                async_HttpClient.GET("MediaToFavorites", params, new JsonHttpResponseHandler(){
+                async_HttpClient.GET("MediaToFavorites", params, new JsonHttpResponseHandler() {
                     @Override
                     public void onSuccess(JSONObject response) {
                         // TODO Auto-generated method stub
                         super.onSuccess(response);
                         try {
-                            if( CommonFunctions_1.parseToInteger(response.get("error").toString()) == 0 ){
-                                if(CommonFunctions_1.parseToInteger(FArrMediaList.get(viewPosition).currentUserHasInFavorites)==0){
+                            if (CommonFunctions_1.parseToInteger(response.get("error").toString()) == 0) {
+                                if (CommonFunctions_1.parseToInteger(FArrMediaList.get(viewPosition).currentUserHasInFavorites) == 0) {
                                     FArrMediaList.get(viewPosition).currentUserHasInFavorites = "1";
                                     UserInFavorites userInFavorites = new UserInFavorites();
-                                    userInFavorites.displayName= GlobalVariablesHolder.X_USER_NAME;
-                                    userInFavorites.userId 	= GlobalVariablesHolder.X_USER_ID;
-                                    userInFavorites.userName 	= GlobalVariablesHolder.X_USER_NAME;
-                                    FArrMediaList.get(viewPosition).userInFavorites.add(0,userInFavorites);
-                                }else{
-                                    FArrMediaList.get(viewPosition).currentUserHasInFavorites="0";
+                                    userInFavorites.displayName = GlobalVariablesHolder.X_USER_NAME;
+                                    userInFavorites.userId = GlobalVariablesHolder.X_USER_ID;
+                                    userInFavorites.userName = GlobalVariablesHolder.X_USER_NAME;
+                                    FArrMediaList.get(viewPosition).userInFavorites.add(0, userInFavorites);
+                                } else {
+                                    FArrMediaList.get(viewPosition).currentUserHasInFavorites = "0";
                                     FArrMediaList.get(viewPosition).userInFavorites.remove(0);
                                 }
 
@@ -718,7 +701,7 @@ public class EventMediaAdapter extends BaseAdapter{
 
 //					Log.i("sharebtn", "x: " + locAnchor[0]);
 //					Log.i("sharebtn", "y: " + locAnchor[1]);
-                LayoutInflater layoutInflater = ((Activity)context).getLayoutInflater();
+                LayoutInflater layoutInflater = ((Activity) context).getLayoutInflater();
                 View popupLayout = layoutInflater.inflate(R.layout.popup_share, null);
                 popupWindow = new PopupWindow(context);
                 popupWindow.setContentView(popupLayout);
@@ -729,7 +712,7 @@ public class EventMediaAdapter extends BaseAdapter{
                 popupWindow.setFocusable(true);
                 popupWindow.setAnimationStyle(R.style.PopupAnimation);
 
-                if(point.y <= 520) {
+                if (point.y <= 520) {
 						/*
 						 * Almost touching the Header/ActionBar.
 						 * Popup below the anchor. Add offset 100.
@@ -747,10 +730,10 @@ public class EventMediaAdapter extends BaseAdapter{
                     popupWindow.showAtLocation(popupLayout, Gravity.NO_GRAVITY, point.x, point.y - offSet());
                 }
 
-                ImageButton imgbtnShareEmail 	= (ImageButton) popupLayout.findViewById(R.id.imgbtn_share_email);
-                ImageButton imgbtnShareSms 	= (ImageButton) popupLayout.findViewById(R.id.imgbtn_share_sms);
+                ImageButton imgbtnShareEmail = (ImageButton) popupLayout.findViewById(R.id.imgbtn_share_email);
+                ImageButton imgbtnShareSms = (ImageButton) popupLayout.findViewById(R.id.imgbtn_share_sms);
                 ImageButton imgbtnShareTwitter = (ImageButton) popupLayout.findViewById(R.id.imgbtn_share_twitter);
-                ImageButton imgbtnShareFacebook= (ImageButton) popupLayout.findViewById(R.id.imgbtn_share_facebook);
+                ImageButton imgbtnShareFacebook = (ImageButton) popupLayout.findViewById(R.id.imgbtn_share_facebook);
 
                 imgbtnShareEmail.setOnClickListener(onclickShare);
                 imgbtnShareSms.setOnClickListener(onclickShare);
@@ -783,13 +766,14 @@ public class EventMediaAdapter extends BaseAdapter{
 					 * index 4 = media id
 					 * Pass it to setTag()
 					 */
-                imgbtnShareFacebook.setTag(shareMsg + Constants.SEPARATOR + additionalTag);}
+                imgbtnShareFacebook.setTag(shareMsg + Constants.SEPARATOR + additionalTag);
+            }
         });
 
-                itemHolder.imgbtn_delete.setOnClickListener(new OnClickListener() {
+        itemHolder.imgbtn_delete.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-					
+
 					/*
 				    if(context instanceof Highlight_Activity){
 				    	((Highlight_Activity) context).showDeleteSectionPanel( true, FArrMediaList.get(viewPosition).mediaId, viewPosition );
@@ -803,7 +787,7 @@ public class EventMediaAdapter extends BaseAdapter{
 
                 // set the custom dialog components - text, image and button
 
-                Button btn_delete = ( Button ) dialog.findViewById(R.id.btn_delete);
+                Button btn_delete = (Button) dialog.findViewById(R.id.btn_delete);
                 btn_delete.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -813,7 +797,7 @@ public class EventMediaAdapter extends BaseAdapter{
                         RequestParams params = new RequestParams();
                         params.put("mediaId", FArrMediaList.get(viewPosition).mediaId);
 
-                        async_HttpClient.GET("DeleteMedia", params, new JsonHttpResponseHandler(){
+                        async_HttpClient.GET("DeleteMedia", params, new JsonHttpResponseHandler() {
 
                             @Override
                             public void onSuccess(int statusCode,
@@ -824,12 +808,13 @@ public class EventMediaAdapter extends BaseAdapter{
                                 Toast.makeText(context, "Deleted successfully.", Toast.LENGTH_SHORT).show();
                                 FArrMediaList.remove(viewPosition);
 									/*
-									showDeleteSectionPanel(false, "", -1); 
-									reloadListView(FArrMediaList); 
+									showDeleteSectionPanel(false, "", -1);
+									reloadListView(FArrMediaList);
 									*/
                                 notifyDataSetChanged();
                                 dialog.dismiss();
                             }
+
                             @Override
                             public void onFailure(int statusCode,
                                                   Throwable e,
@@ -854,7 +839,7 @@ public class EventMediaAdapter extends BaseAdapter{
                     }
                 });
 
-                View view_outside = ( View ) dialog.findViewById(R.id.view_outside);
+                View view_outside = (View) dialog.findViewById(R.id.view_outside);
                 view_outside.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -883,7 +868,7 @@ public class EventMediaAdapter extends BaseAdapter{
                 // set the custom dialog components - text, image and button
                 final EditTextBackEvent edittext_comment = (EditTextBackEvent) dialog.findViewById(R.id.edittext_comment);
 
-                Button btn_send = ( Button ) dialog.findViewById(R.id.btn_send);
+                Button btn_send = (Button) dialog.findViewById(R.id.btn_send);
                 btn_send.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -891,26 +876,26 @@ public class EventMediaAdapter extends BaseAdapter{
                         //Toast.makeText(context, edittext_comment.getText().toString(), Toast.LENGTH_LONG).show();
 
                         RequestParams requestParams = new RequestParams();
-                        requestParams.put("parentId",	FArrMediaList.get(viewPosition).mediaId);
-                        requestParams.put("type",		"media");
-                        requestParams.put("comment", 	edittext_comment.getText().toString());
+                        requestParams.put("parentId", FArrMediaList.get(viewPosition).mediaId);
+                        requestParams.put("type", "media");
+                        requestParams.put("comment", edittext_comment.getText().toString());
 
-                        async_HttpClient.POST("AddComment", requestParams, new JsonHttpResponseHandler(){
+                        async_HttpClient.POST("AddComment", requestParams, new JsonHttpResponseHandler() {
                             @Override
                             public void onSuccess(JSONObject response) {
                                 // TODO Auto-generated method stub
                                 super.onSuccess(response);
                                 //Toast.makeText(getApplicationContext(), "COMMENT ADDED MAH NIGGA.", Toast.LENGTH_SHORT).show();
-                                Log.e("comment", "Success comment"+response.toString());
-                                Comments comments 		= new Comments();
-                                comments.commentBody 	= edittext_comment.getText().toString();
-                                comments.commentUserId 	= GlobalVariablesHolder.X_USER_ID;
-                                comments.commentUserName= GlobalVariablesHolder.X_USER_NAME;
+                                Log.e("comment", "Success comment" + response.toString());
+                                Comments comments = new Comments();
+                                comments.commentBody = edittext_comment.getText().toString();
+                                comments.commentUserId = GlobalVariablesHolder.X_USER_ID;
+                                comments.commentUserName = GlobalVariablesHolder.X_USER_NAME;
 
-                                FArrMediaList.get( viewPosition ).comments.add(0, comments);
+                                FArrMediaList.get(viewPosition).comments.add(0, comments);
 
                                 //HIDE keyboard
-                                ((InputMethodManager)context.getSystemService(Context.INPUT_METHOD_SERVICE)).hideSoftInputFromWindow(edittext_comment.getWindowToken(), 0);
+                                ((InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE)).hideSoftInputFromWindow(edittext_comment.getWindowToken(), 0);
 
                                 dialog.dismiss();
                                 notifyDataSetChanged();
@@ -929,13 +914,13 @@ public class EventMediaAdapter extends BaseAdapter{
                 });
 
 
-                View view_outside = ( View ) dialog.findViewById(R.id.view_outside);
+                View view_outside = (View) dialog.findViewById(R.id.view_outside);
                 view_outside.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         // TODO Auto-generated method stub
                         //HIDE keyboard
-                        ((InputMethodManager)context.getSystemService(Context.INPUT_METHOD_SERVICE)).hideSoftInputFromWindow(edittext_comment.getWindowToken(), 0);
+                        ((InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE)).hideSoftInputFromWindow(edittext_comment.getWindowToken(), 0);
                         //getWindow().setSoftInputMode(  WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
                         dialog.dismiss();
                     }
@@ -944,14 +929,14 @@ public class EventMediaAdapter extends BaseAdapter{
 
                 dialog.show();
                 InputMethodManager imm = (InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE);
-                imm.showSoftInput( edittext_comment, InputMethodManager.SHOW_IMPLICIT );
+                imm.showSoftInput(edittext_comment, InputMethodManager.SHOW_IMPLICIT);
 
                 edittext_comment.setFocusableInTouchMode(true);
                 edittext_comment.setCursorVisible(true);
                 edittext_comment.requestFocus();
 
                 //SHOW keyboard
-                ((InputMethodManager)context.getSystemService(Context.INPUT_METHOD_SERVICE)).toggleSoftInput(InputMethodManager.SHOW_FORCED, InputMethodManager.HIDE_IMPLICIT_ONLY);
+                ((InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE)).toggleSoftInput(InputMethodManager.SHOW_FORCED, InputMethodManager.HIDE_IMPLICIT_ONLY);
             }
         });
 
@@ -969,11 +954,11 @@ public class EventMediaAdapter extends BaseAdapter{
 
                 //Log.i(TAG, "hashtag to split" + itemHolder.txtvw_tagList.getText().toString());
                 String[] arrTagsSelected = itemHolder.txtvw_tagList.getText().toString().split("#");
-                for(int i=0; i<arrTagsSelected.length; i++) {
+                for (int i = 0; i < arrTagsSelected.length; i++) {
                     listTags.remove(arrTagsSelected[i].trim());
                 }
 
-                for(int i=0; i<listTags.size(); i++) {
+                for (int i = 0; i < listTags.size(); i++) {
                     popupMenu.getMenu().add(0, i, i, listTags.get(i));
                 }
 
@@ -987,8 +972,8 @@ public class EventMediaAdapter extends BaseAdapter{
                         requestParams.put("mediaId", FArrMediaList.get(viewPosition).mediaId);
                         requestParams.put("tagName", itemTag);
 
-//						itemHolder.imgbtn_tag.setTag(itemTag + ","); 
-                        async_HttpClient.POST("SaveMediaTag", requestParams, new JsonHttpResponseHandler(){
+//						itemHolder.imgbtn_tag.setTag(itemTag + ",");
+                        async_HttpClient.POST("SaveMediaTag", requestParams, new JsonHttpResponseHandler() {
                             @Override
                             public void onSuccess(JSONObject response) {
                                 super.onSuccess(response);
@@ -996,7 +981,7 @@ public class EventMediaAdapter extends BaseAdapter{
                                 Tag tag = new Tag();
                                 tag.name = itemTag;
 
-                                FArrMediaList.get(viewPosition).tags.add(0,tag);
+                                FArrMediaList.get(viewPosition).tags.add(0, tag);
                                 notifyDataSetChanged();
                                 parentView.invalidate();
 
@@ -1005,7 +990,7 @@ public class EventMediaAdapter extends BaseAdapter{
                             }
 
                             @Override
-                            public void onFailure(Throwable arg3,JSONObject response) {
+                            public void onFailure(Throwable arg3, JSONObject response) {
                                 super.onFailure(arg3, response);
                                 Toast.makeText(context, "fail to add tag. try again.", Toast.LENGTH_SHORT).show();
                             }
@@ -1017,105 +1002,103 @@ public class EventMediaAdapter extends BaseAdapter{
                 });
 
 
-
-
             }
         });
 
-
-        if((FArrMediaList.get(viewPosition).mediaId.length() <= 0) &&
-                (FArrMediaList.get(viewPosition).eventId.length() <= 0)&&
-                (FArrMediaList.get(viewPosition).sportId.length() <= 0)&&
-                (FArrMediaList.get(viewPosition).mediaUserId.length() <= 0)&&
-                (FArrMediaList.get(viewPosition).videoLocalPath.length() <= 0)&&
-                (FArrMediaList.get(viewPosition).imageLocalPath.length() <= 0) ){
-            convertView.setVisibility(View.INVISIBLE);
-        }
+//
+//        if ((FArrMediaList.get(viewPosition).mediaId.length() <= 0) &&
+//                (FArrMediaList.get(viewPosition).eventId.length() <= 0) &&
+//                (FArrMediaList.get(viewPosition).sportId.length() <= 0) &&
+//                (FArrMediaList.get(viewPosition).mediaUserId.length() <= 0) &&
+//                (FArrMediaList.get(viewPosition).videoLocalPath.length() <= 0) &&
+//                (FArrMediaList.get(viewPosition).imageLocalPath.length() <= 0)) {
+//            convertView.setVisibility(View.INVISIBLE);
+//        }
 
         return convertView;
     }
 
-    public int parseToInteger(String s){
+    public int parseToInteger(String s) {
         int i = 0;
         try {
-            i= Integer.parseInt(s);
+            i = Integer.parseInt(s);
         } catch (Exception e) {
             // TODO: handle exception
-            i=0;
+            i = 0;
         }
         return i;
     }
 
-    private OnClickListener onclickShare = new OnClickListener() {
-
-        @Override
-        public void onClick(View view) {
-            int id = ((ImageButton) view).getId();
-
-            popupWindow.dismiss();
-
-            //Log.i(TAG, "Extra Text: " + view.getTag().toString());
-
-            switch(id) {
-                case R.id.imgbtn_share_email:
-
-                    Intent emailIntent = new Intent(Intent.ACTION_SENDTO);
-                    String uriEmailText =
-                            "mailto:" + Uri.encode("") +
-                                    "?subject=" + Uri.encode(FGlobal_Data.getAppSetting_settings("APP_SHARE_MAIL_SUBJECT")) +
-                                    "&body=" + Uri.encode(view.getTag().toString());
-                    Uri uriEmail = Uri.parse(uriEmailText);
-                    emailIntent.setData(uriEmail);
-                    context.startActivity(Intent.createChooser(emailIntent, "Share Via Email"));
-
-                    break;
-                case R.id.imgbtn_share_sms:
-
-                    Uri uri = Uri.parse("smsto:");
-                    Intent smsIntent = new Intent(Intent.ACTION_VIEW, uri);
-                    smsIntent.putExtra("sms_body", view.getTag().toString());
-                    smsIntent.setType("vnd.android-dir/mms-sms");
-                    context.startActivity(smsIntent);
-
-                    break;
-                case R.id.imgbtn_share_twitter:
-
-                    String tweet = "https://twitter.com/intent/tweet?text=" + view.getTag().toString();
-                    Intent tweetIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(tweet));
-
-                    PackageManager pm = context.getPackageManager();
-                    List<ResolveInfo> infoList = pm.queryIntentActivities(tweetIntent, 0);
-
-                    for(ResolveInfo info : infoList) {
-                        if(info.activityInfo.packageName.toLowerCase().startsWith("com.twitter")) {
-                            tweetIntent.setPackage(info.activityInfo.packageName);
-                            break;
-                        }
-                    }
-
-                    context.startActivity(tweetIntent);
-
-                    break;
-                case R.id.imgbtn_share_facebook:
-                    Highlight_Activity activity = (Highlight_Activity) context;
-                    activity.openUpFacebookFragment(view.getTag().toString());
-                    break;
-            }
-        }
-    };
     private int offSet() {
         int densityDpi = context.getResources().getDisplayMetrics().densityDpi;
-        if(densityDpi == DisplayMetrics.DENSITY_MEDIUM) {
+        if (densityDpi == DisplayMetrics.DENSITY_MEDIUM) {
             return 50;
-        } else if(densityDpi == DisplayMetrics.DENSITY_HIGH) {
+        } else if (densityDpi == DisplayMetrics.DENSITY_HIGH) {
             return 100;
-        } else if(densityDpi == DisplayMetrics.DENSITY_XHIGH) {
+        } else if (densityDpi == DisplayMetrics.DENSITY_XHIGH) {
             return 150;
-        } else if(densityDpi == DisplayMetrics.DENSITY_XXHIGH) {
+        } else if (densityDpi == DisplayMetrics.DENSITY_XXHIGH) {
             return 220;
         } else {
             return 20;
         }
+    }
+
+    static class ItemHolder {
+        //View conView;
+        SmartImageView imgvw_avatar;
+        TextView txtvw_title;
+        TextView txtvw_date;
+
+        TextView txtvw_favoriteCount;
+        TextView txtvw_tagCount;
+        TextView txtvw_commentCount;
+
+        ClickableTextsTextView txtvw_favoriteList;
+        ClickableTextsTextView txtvw_tagList;
+        ClickableTextsTextView txtvw_commentList;
+
+        ImageView imgvw_photo;
+        ProgressBar progBar_favorite;
+        ImageButton imgbtn_favorite;
+        ImageButton imgbtn_tag;
+        ImageButton imgbtn_comment;
+        ImageButton imgbtn_shareapp;
+        ImageButton imgbtn_delete;
+        ImageButton imgbtn_expand;
+
+        ImageView imgvw_comment_icon;
+
+        RelativeLayout layout_media;
+        ProgressBar progess_medialoading;
+        ImageButton imgbtn_play;
+        private VideoView video_media;
+    }
+
+    public class addClickableSpan extends ClickableSpan {
+
+        String word;
+
+        public addClickableSpan(String word) {
+            // TODO Auto-generated constructor stub
+            this.word = word;
+        }
+
+        @Override
+        public void updateDrawState(TextPaint ds) {
+            // TODO Auto-generated method stub
+            super.updateDrawState(ds);
+
+            ds.setColor(context.getResources().getColor(R.color.uni_blue));
+            ds.setUnderlineText(false);
+        }
+
+        @Override
+        public void onClick(View widget) {
+            // TODO Auto-generated method stub
+            Toast.makeText(context, word, Toast.LENGTH_SHORT).show();
+        }
+
     }
 }
 
