@@ -262,6 +262,8 @@ public class EventMediaAdapter extends BaseAdapter{
             itemHolder.imgvw_avatar.setImageUrl(FArrMediaList.get(viewPosition).user.avatarUrl);
         }
 
+        Log.i("TwitterCardURL", "url: " + FArrMediaList.get(viewPosition).twitterCardUrl);
+
         if(FArrMediaList.get(viewPosition).user.fullName.length() > 0){
             itemHolder.txtvw_title.setText(FArrMediaList.get(viewPosition).user.fullName);
         }else if(FArrMediaList.get(viewPosition).user.userName.length() > 0){

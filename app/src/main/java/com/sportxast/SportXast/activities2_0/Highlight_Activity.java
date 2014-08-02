@@ -313,6 +313,7 @@ public class Highlight_Activity extends FragmentActivity{
             mediaList.currentUserIsOwner = "";
             mediaList.currentUserHasInFavorites = "";
             mediaList.transcoderJobStatus = "";
+            mediaList.twitterCardUrl = "";
 
             mediaList.user				= new User();
             mediaList.comments 			= new ArrayList<Comments>();
@@ -1261,6 +1262,7 @@ public class Highlight_Activity extends FragmentActivity{
             mediaList.currentUserIsOwner= "";
             mediaList.currentUserHasInFavorites = "";
             mediaList.transcoderJobStatus= "";
+            mediaList.twitterCardUrl = arrNextMediaID.get(i).getTwitterCardUrl();
 
             FArrMediaList.add(0, mediaList);
 

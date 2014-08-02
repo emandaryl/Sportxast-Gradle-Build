@@ -213,6 +213,7 @@ public class _MediaLists {
 						mediaList.currentUserIsOwner = ""+m.get("currentUserIsOwner");
 						mediaList.currentUserHasInFavorites =  ""+m.get("currentUserHasInFavorites");
 						mediaList.transcoderJobStatus = ""+m.get("transcoderJobStatus");
+                        mediaList.twitterCardUrl = "" + m.get("twitterCardUrl");
 				
 						aq.cache( m.getString("coverImage"), 0);
 					} catch (JSONException e) {
