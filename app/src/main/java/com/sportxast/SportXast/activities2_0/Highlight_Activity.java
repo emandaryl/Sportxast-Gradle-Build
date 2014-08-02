@@ -330,6 +330,7 @@ public class Highlight_Activity extends FragmentActivity{
         //FPullToRefreshListView.setOnItemClickListener(onitemListener);
         //FPullToRefreshListView.setOnRefreshListener(onRefreshListener);
 
+        FPullToRefreshListView.setVisibility(View.GONE);
     }
 
 
@@ -943,6 +944,7 @@ public class Highlight_Activity extends FragmentActivity{
             FAdapter.updateListElements( arrMediaLists );
         }
 
+        FPullToRefreshListView.setVisibility(View.VISIBLE);
         FPullToRefreshListView.invalidateViews();
         FPullToRefreshListView.setCacheColorHint(Color.TRANSPARENT);
 

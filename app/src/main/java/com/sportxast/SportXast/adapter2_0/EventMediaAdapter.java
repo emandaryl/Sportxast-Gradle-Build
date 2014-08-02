@@ -200,7 +200,7 @@ public class EventMediaAdapter extends BaseAdapter {
             itemHolder = new ItemHolder();
 
 			/*
-			itemHolder.imgbtn_play.setVisibility(View.VISIBLE);
+            itemHolder.imgbtn_play.setVisibility(View.VISIBLE);
 			itemHolder.imgvw_photo.setVisibility(View.VISIBLE);
 			itemHolder.progess_medialoading.setVisibility(View.GONE);
 			*/
