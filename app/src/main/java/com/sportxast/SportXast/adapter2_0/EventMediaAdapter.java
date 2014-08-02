@@ -18,6 +18,7 @@ import android.text.method.MovementMethod;
 import android.text.style.ClickableSpan;
 import android.util.DisplayMetrics;
 import android.util.Log;
+import android.view.Display;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -72,14 +73,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class EventMediaAdapter extends BaseAdapter{
-
-    String[] defaultTags =	new String[]{"save", "win", "foul", "goal", "offsides", "ouch", "defense", "offense"};
-    String[] basketballTags = new String[]{"layup", "jumpShot", "3pt", "dunk", "freeThrow", "assist", "foul", "steal", "turnOver", "block", "rebound", "flop"};
-    //sportID = 4;
-    String[] soccerTags = new String[]{"goal", "shot", "dribble", "pass", "offside", "freeKick", "save", "defense", "wow", "ouch"};
-    // sportID = 19;
-    String[] hockeyTags = new String[]{"goal", "shot", "assist", "icing", "save", "check", "steal", "penalty"};
-    // sportID = 88;
 
     private Global_Data FGlobal_Data;
     private Context context;
@@ -1116,8 +1109,10 @@ public class EventMediaAdapter extends BaseAdapter{
             return 100;
         } else if(densityDpi == DisplayMetrics.DENSITY_XHIGH) {
             return 150;
+        } else if(densityDpi == DisplayMetrics.DENSITY_XXHIGH) {
+            return 220;
         } else {
-            return 250;
+            return 20;
         }
     }
 }
