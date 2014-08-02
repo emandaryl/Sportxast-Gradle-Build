@@ -398,6 +398,7 @@ public class SportX2_Main extends Activity {
         async_HttpClient = new Async_HttpClient(this);
 
         FPullToRefreshListView = (PullToRefreshListView) findViewById(R.id.listvw_events);
+        nonRefreshList = (ListView) findViewById(R.id.listvwEvents);
         headervw = getLayoutInflater().inflate(R.layout.list_header, null);
         footervw = getLayoutInflater().inflate(R.layout.progressbar_small, null);
 
