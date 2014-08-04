@@ -550,6 +550,7 @@ public class SportX2_Main extends Activity {
                         @Override
                         public void onStart() { // TODO Auto-generated method stub
                             super.onStart();
+                            footervw.setVisibility(View.VISIBLE);
                         }
 
                         @Override
@@ -611,7 +612,7 @@ public class SportX2_Main extends Activity {
                             // TODO Auto-generated method stub
                             super.onFinish();
 
-
+                            footervw.setVisibility(View.GONE);
                         }
 
                         @Override
