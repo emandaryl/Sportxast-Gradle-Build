@@ -382,10 +382,14 @@ public class _EventLists {
 					
 					  
 					if(isRefresh){
-						eventLists.add(i,eLists);
+                        if(hasDuplicate(eLists) == false) {
+                            eventLists.add(i,eLists);
+                        }
 					}
 					else{
-						eventLists.add(eLists);
+                        if(hasDuplicate(eLists) == false) {
+                            eventLists.add(eLists);
+                        }
 					}
 					 
 					if(eventIsOpenString_.equals("CHECK IN")){//if latest event
@@ -407,6 +411,17 @@ public class _EventLists {
 	public EventLists getLatestEvent(){
 		return this.FLatestEvent;
 	}
+
+    private boolean hasDuplicate(EventLists listObject) {
+        if(eventLists.isEmpty() == false) {
+            for(int i=0; i<eventLists.size(); i++) {
+                if(eventLists.get(i).eventId.equals(listObject.eventId)) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
 
 }
 

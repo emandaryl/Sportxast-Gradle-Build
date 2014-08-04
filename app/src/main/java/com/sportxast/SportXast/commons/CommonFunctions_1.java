@@ -1347,7 +1347,6 @@ public class CommonFunctions_1 {
 							mediaList.currentUserHasInFavorites =  ""+m.get("currentUserHasInFavorites");
 							mediaList.transcoderJobStatus = ""+m.get("transcoderJobStatus");
                             mediaList.twitterCardUrl = "" + m.get("twitterCardUrl");
-                            Log.i("TwitterCardURL Parsing", "url" + mediaList.twitterCardUrl);
 
                             //	aq.cache( m.getString("coverImage"), 0);
 						} catch (JSONException e) {
