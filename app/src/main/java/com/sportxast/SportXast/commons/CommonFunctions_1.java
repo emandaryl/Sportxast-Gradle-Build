@@ -17,6 +17,7 @@ import android.view.Display;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.Toast;
 
 import com.sportxast.SportXast.Global_Data;
 import com.sportxast.SportXast.Global_Data.Coordinate;
@@ -1345,8 +1346,9 @@ public class CommonFunctions_1 {
 							mediaList.currentUserIsOwner = ""+m.get("currentUserIsOwner");
 							mediaList.currentUserHasInFavorites =  ""+m.get("currentUserHasInFavorites");
 							mediaList.transcoderJobStatus = ""+m.get("transcoderJobStatus");
-					
-						//	aq.cache( m.getString("coverImage"), 0);
+                            mediaList.twitterCardUrl = "" + m.get("twitterCardUrl");
+
+                            //	aq.cache( m.getString("coverImage"), 0);
 						} catch (JSONException e) {
 							e.printStackTrace();
 							}
@@ -1510,7 +1512,8 @@ public class CommonFunctions_1 {
 						mediaList.score 			= m.getString("score");
 						mediaList.currentUserIsOwner= ""+m.get("currentUserIsOwner");
 						mediaList.currentUserHasInFavorites = ""+m.get("currentUserHasInFavorites");
-						mediaList.transcoderJobStatus= ""+m.get("transcoderJobStatus");  
+						mediaList.transcoderJobStatus= ""+m.get("transcoderJobStatus");
+                        mediaList.twitterCardUrl = "" + m.get("twitterCardUrl");
 						
 						//aq.cache( m.getString("coverImage"), 0); 
 						

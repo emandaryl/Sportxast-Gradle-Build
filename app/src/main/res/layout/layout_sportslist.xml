@@ -39,6 +39,8 @@
             android:background="@drawable/shape_btn_white"
             android:drawableLeft="@drawable/ic_search_small"
             android:hint="Search"
+            android:singleLine="true"
+            android:imeOptions="actionGo"
             android:paddingLeft="4dp"
             android:textColor="@color/black"
             android:textSize="14sp" />

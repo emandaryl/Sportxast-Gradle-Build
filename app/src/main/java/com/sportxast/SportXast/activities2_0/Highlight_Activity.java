@@ -313,6 +313,7 @@ public class Highlight_Activity extends FragmentActivity{
             mediaList.currentUserIsOwner = "";
             mediaList.currentUserHasInFavorites = "";
             mediaList.transcoderJobStatus = "";
+            mediaList.twitterCardUrl = "";
 
             mediaList.user				= new User();
             mediaList.comments 			= new ArrayList<Comments>();
@@ -329,6 +330,7 @@ public class Highlight_Activity extends FragmentActivity{
         //FPullToRefreshListView.setOnItemClickListener(onitemListener);
         //FPullToRefreshListView.setOnRefreshListener(onRefreshListener);
 
+        FPullToRefreshListView.setVisibility(View.GONE);
     }
 
 
@@ -730,6 +732,7 @@ public class Highlight_Activity extends FragmentActivity{
 
         }
 
+        Log.i("ReloadListView", "appendAdditionalHighlights");
         reloadListView( FArrMediaList );
     }
 
@@ -930,7 +933,16 @@ public class Highlight_Activity extends FragmentActivity{
 	 */
 
     public void reloadListView( ArrayList<MediaList> arrMediaLists ) {
-        FAdapter.updateListElements( arrMediaLists );
+        /*
+        DO NOT REMOVE!!!!
+        - LAW!!!
+         */
+        Log.i("ReloadListView", "Reloading");
+        if(FAdapter != null) {
+            FAdapter.updateListElements( arrMediaLists );
+        }
+
+        FPullToRefreshListView.setVisibility(View.VISIBLE);
         FPullToRefreshListView.invalidateViews();
         FPullToRefreshListView.setCacheColorHint(Color.TRANSPARENT);
 
@@ -1207,6 +1219,7 @@ public class Highlight_Activity extends FragmentActivity{
         boolean highlightHasBeenAdded = false;
 
         int totalNumberOfHighlightsAdded = 0;
+        Log.i("ReloadListView", "nextmediasize: " + arrNextMediaID.size());
         for (int i = 0; i < arrNextMediaID.size(); i++) {
 
             MediaList mediaList = new MediaList();
@@ -1252,6 +1265,7 @@ public class Highlight_Activity extends FragmentActivity{
             mediaList.currentUserIsOwner= "";
             mediaList.currentUserHasInFavorites = "";
             mediaList.transcoderJobStatus= "";
+            mediaList.twitterCardUrl = arrNextMediaID.get(i).getTwitterCardUrl();
 
             FArrMediaList.add(0, mediaList);
 
@@ -1274,6 +1288,7 @@ public class Highlight_Activity extends FragmentActivity{
             totalNumberOfHighlightsAdded = 0;
         }
 
+        Log.i("ReloadListView", "expandCurrentData: " + FArrMediaList.size());
         reloadListView( FArrMediaList );
 
         if( freshUploadShownVideoCount >= FNumberOfVideosRecorded ){
@@ -1282,6 +1297,7 @@ public class Highlight_Activity extends FragmentActivity{
             /** HIDE the progress Loader **/
             header_pb_cont1.setVisibility(View.GONE);
         }
+
         return totalNumberOfHighlightsAdded;
     }
 
@@ -1310,6 +1326,14 @@ public class Highlight_Activity extends FragmentActivity{
     @Override
     public void onStop() {
         super.onStop();
+
+        /*
+        Important!
+        Do not
+        Remove!
+        -Law
+         */
+        FAdapter = null;
         stopTimer();
     }
 

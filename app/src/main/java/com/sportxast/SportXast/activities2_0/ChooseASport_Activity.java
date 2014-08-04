@@ -1,12 +1,16 @@
 package com.sportxast.SportXast.activities2_0;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -21,6 +25,7 @@ import com.sportxast.SportXast.models._SportsList.Sports;
 import com.sportxast.SportXast.models._SportsList.SportsInLetter;
 import com.sportxast.SportXast.thirdparty_class.Async_HttpClient;
 import com.sportxast.SportXast.thirdparty_class.HeaderListView;
+import android.widget.TextView.OnEditorActionListener;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -33,11 +38,13 @@ public class ChooseASport_Activity extends Activity {
     // TODO: Display Lists of Sports.
     // TODO: Use HeaderListView class for ListView
 
-    /** Called when the activity is first created. */
-    private HeaderUIClass 	headerUIClass;
-    private RelativeLayout 	sx_header_wrapper;
-    private HeaderListView 	headerListView;
-    private EditText 		edittxt_search;
+    /**
+     * Called when the activity is first created.
+     */
+    private HeaderUIClass headerUIClass;
+    private RelativeLayout sx_header_wrapper;
+    private HeaderListView headerListView;
+    private EditText edittxt_search;
 
     private _SportsList searchsportsList = new _SportsList();
     private _SportsList mainsportsList = new _SportsList();
@@ -48,25 +55,27 @@ public class ChooseASport_Activity extends Activity {
 
     private String FSportChosenStr;
     private RelativeLayout pbLoading_container;
+    private RelativeLayout suggested_text_cont;
+    private TextView suggested_text;
 
-    public void exitActivity( Sports sportChosen ){
+    public void exitActivity(Sports sportChosen) {
         this.JSONSportChosen = new JSONObject();
         //sample Jason outpud:
         // {"shareUrl":"http:\/\/goo.gl\/1GdDMn","mediaId":"11929","shareText":"Watch this highlight captured by SportXast","added":"new media added","imagePath":"db\/event_media\/2014\/06\/02\/11929.jpg","videoPath":"db\/event_media\/2014\/06\/02\/11929.mp4"}
         try {
-            this.JSONSportChosen.put("sportId", 		sportChosen.sportId);
-            this.JSONSportChosen.put("sportName", 		sportChosen.sportName);
-            this.JSONSportChosen.put("sportFirstLetter",sportChosen.sportFirstLetter);
-            this.JSONSportChosen.put("sportLogo",		sportChosen.sportLogo);
-            this.JSONSportChosen.put("sportWhiteLogo",	sportChosen.sportWhiteLogo);
+            this.JSONSportChosen.put("sportId", sportChosen.sportId);
+            this.JSONSportChosen.put("sportName", sportChosen.sportName);
+            this.JSONSportChosen.put("sportFirstLetter", sportChosen.sportFirstLetter);
+            this.JSONSportChosen.put("sportLogo", sportChosen.sportLogo);
+            this.JSONSportChosen.put("sportWhiteLogo", sportChosen.sportWhiteLogo);
 
-        }catch (JSONException e) {
+        } catch (JSONException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
         //######################################################
         Intent returnIntent = new Intent();
-        returnIntent.putExtra("JSONSportChosen", this.JSONSportChosen.toString() );
+        returnIntent.putExtra("JSONSportChosen", this.JSONSportChosen.toString());
         setResult(RESULT_OK, returnIntent);
         //######################################################
 
@@ -74,24 +83,26 @@ public class ChooseASport_Activity extends Activity {
         //	return jsonObject;
     }
 
-    /** Called when the activity is first created. */
+    /**
+     * Called when the activity is first created.
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         // TODO Auto-generated method stub
         super.onCreate(savedInstanceState);
         setContentView(R.layout.layout_sportslist);
-		/*
+        /*
 		initActionBarObjects();
-		getActionbar_Menu_Item("Sports"); 
+		getActionbar_Menu_Item("Sports");
 		*/
         prepareHeader();
         initContentView();
         initSearch();
     }
 
-    private void prepareHeader(){
+    private void prepareHeader() {
 
-        this.sx_header_wrapper = (RelativeLayout)findViewById(R.id.sx_header_wrapper);
+        this.sx_header_wrapper = (RelativeLayout) findViewById(R.id.sx_header_wrapper);
         this.headerUIClass = new HeaderUIClass(this, sx_header_wrapper);
         this.headerUIClass.setMenuTitle("Sports");
         this.headerUIClass.showMenuButton(false);
@@ -103,7 +114,7 @@ public class ChooseASport_Activity extends Activity {
 
     }
 
-    private void addHeaderButtonListener(){
+    private void addHeaderButtonListener() {
         this.headerUIClass.setOnHeaderButtonClickedListener(new HeaderUIClass.OnHeaderButtonClickedListener() {
 
             @Override
@@ -162,7 +173,8 @@ public class ChooseASport_Activity extends Activity {
 
     /**
      * @category Custom Method
-     * Custom function for initializing content view and declared objects */
+     * Custom function for initializing content view and declared objects
+     */
     public void initContentView() {
 
         pbLoading_container = (RelativeLayout) findViewById(R.id.pbLoading_container);
@@ -176,16 +188,15 @@ public class ChooseASport_Activity extends Activity {
         gatherSportsList();
     }
 
-    private RelativeLayout suggested_text_cont;
-    private TextView suggested_text;
     /**
      * @category Custom Method
-     * Custom function for initializing edittxt_search and add a TextChangedListener to it to read edittxt_search input event. */
+     * Custom function for initializing edittxt_search and add a TextChangedListener to it to read edittxt_search input event.
+     */
     public void initSearch() {
 
         this.suggested_text_cont = (RelativeLayout) findViewById(R.id.suggested_text_cont);
         this.suggested_text_cont.setVisibility(View.GONE);
-        this.suggested_text 	 = (TextView) suggested_text_cont.findViewById(R.id.suggested_text);
+        this.suggested_text = (TextView) suggested_text_cont.findViewById(R.id.suggested_text);
         this.suggested_text.setTag("");
         this.suggested_text.setOnClickListener(new View.OnClickListener() {
 
@@ -194,14 +205,14 @@ public class ChooseASport_Activity extends Activity {
                 // TODO Auto-generated method stub
                 String customSportName = v.getTag().toString();
 
-                Sports sports 		= new Sports();
+                Sports sports = new Sports();
 
-                sports.sportId	 	= "-69";
-                sports.sportName 	= customSportName;
-                sports.sportLogo 	= "";
+                sports.sportId = "-69";
+                sports.sportName = customSportName;
+                sports.sportLogo = "";
                 sports.sportFirstLetter = customSportName.substring(0, 1);
 
-                exitActivity( sports );
+                exitActivity(sports);
             }
         });
 
@@ -236,11 +247,37 @@ public class ChooseASport_Activity extends Activity {
 
             }
         });
+
+        edittxt_search.setOnEditorActionListener(new OnEditorActionListener() {
+
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+
+                if (actionId == EditorInfo.IME_ACTION_GO) {
+                    if (v.getText().toString().length() > 0) {
+                        hideKeyboard();
+//						Toast.makeText(ChooseASport_Activity.this, "Go Search " + v.getText().toString(), Toast.LENGTH_LONG).show();
+                        getSearchResult(v.getText().toString().trim());
+
+                    }
+
+
+                }
+                return false;
+            }
+        });
+    }
+
+    private void hideKeyboard() {
+        InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm.hideSoftInputFromWindow(edittxt_search.getWindowToken(), 0);
     }
 
 
-    /** @category Custom Method
-     *  Called after edittxt_search text changes to display results on headerListView.  **/
+    /**
+     * @category Custom Method
+     * Called after edittxt_search text changes to display results on headerListView.  *
+     */
 	/*
 	public void getSearchResultORIGINAL(String search) {
 		searchsportsList = new _SportsList();
@@ -266,13 +303,14 @@ public class ChooseASport_Activity extends Activity {
 		headerListView.setAdapter(new ChooseASportListAdapter(this, searchsportsList)); 
 	}
 	*/
-
-    private void filter_SportsNamesArrayList(){
+    private void filter_SportsNamesArrayList() {
 
     }
 
-    /** @category Custom Method
-     *  Called after edittxt_search text changes to display results on headerListView.  **/
+    /**
+     * @category Custom Method
+     * Called after edittxt_search text changes to display results on headerListView.  *
+     */
     public void getSearchResult(String search) {
 
         this.suggested_text_cont.setVisibility(View.GONE);
@@ -287,7 +325,7 @@ public class ChooseASport_Activity extends Activity {
 		 */
         boolean matchIsFound = false;
         //FIRST STEP IN SEARCHING: searching for initial/firsts characters of the FIRST WORD of the string
-        SportsInLetter sportsInLetter_= new SportsInLetter();
+        SportsInLetter sportsInLetter_ = new SportsInLetter();
         for (int i = 0; i < mainsportsList.sports.size(); i++) {
             SportsInLetter sportsInLetter = mainsportsList.sports.get(i);
 
@@ -295,15 +333,15 @@ public class ChooseASport_Activity extends Activity {
                 Sports sports = sportsInLetter.sportsInLetter.get(j);
 
                 int strToSearchLength_ = strToSearchLength;
-                if(strToSearchLength_ > sports.sportName.length() )
+                if (strToSearchLength_ > sports.sportName.length())
                     strToSearchLength_ = sports.sportName.length();
 
                 String sportName_ = sports.sportName;
                 String sportDataID = sports.sportId;
-                String sportNameInitialChars = sports.sportName.substring( 0, strToSearchLength_ ).toLowerCase();
+                String sportNameInitialChars = sports.sportName.substring(0, strToSearchLength_).toLowerCase();
                 //sportNameInitialChars = sportNameInitialChars.toLowerCase();
 
-                if( sportNameInitialChars.equals(search) ){
+                if (sportNameInitialChars.equals(search)) {
                     sportsInLetter_.sportsInLetter.add(sports);
                     matchIsFound = true;
                 }
@@ -311,11 +349,10 @@ public class ChooseASport_Activity extends Activity {
             }
         }
 
-        if(matchIsFound){
+        if (matchIsFound) {
             searchsportsList.sports.add(sportsInLetter_);
-            searchsportsList.letters.add( search );
-        }
-        else if(matchIsFound == false){ //IF NO MATCH FOUND on the first SEARCH
+            searchsportsList.letters.add(search);
+        } else if (matchIsFound == false) { //IF NO MATCH FOUND on the first SEARCH
 
             //SECOND STEP IN SEARCHING: searching for initial/firsts characters of the SECOND WORD of the string
             for (int i = 0; i < mainsportsList.sports.size(); i++) {
@@ -325,7 +362,7 @@ public class ChooseASport_Activity extends Activity {
 
                     String[] sportWordElements = sports.sportName.split("\\s+");
 
-                    if(sportWordElements.length < 2)
+                    if (sportWordElements.length < 2)
                         continue;
 				/*
 				Pattern p = Pattern.compile("[^a-zA-Z0-9]");
@@ -334,22 +371,22 @@ public class ChooseASport_Activity extends Activity {
 				*/
                     int strToSearchLength_ = strToSearchLength;
 
-                    if(strToSearchLength_ > sportWordElements[1].toString().length() )
+                    if (strToSearchLength_ > sportWordElements[1].toString().length())
                         strToSearchLength_ = sportWordElements[1].toString().length();
 
                     //String sportNameInitialChars = sportWordElements[1].toString().substring( 0, strToSearchLength ).toLowerCase();
-                    String sportNameInitialChars = sportWordElements[1].toString().substring( 0, strToSearchLength_ ).toLowerCase();
+                    String sportNameInitialChars = sportWordElements[1].toString().substring(0, strToSearchLength_).toLowerCase();
 
-                    if( sportNameInitialChars.equals(search) ){
+                    if (sportNameInitialChars.equals(search)) {
                         sportsInLetter_.sportsInLetter.add(sports);
                         matchIsFound = true;
                     }
                 }
             }
 
-            if(matchIsFound){ //if match IS FOUND on the SECOND SEARCH
+            if (matchIsFound) { //if match IS FOUND on the SECOND SEARCH
                 searchsportsList.sports.add(sportsInLetter_);
-                searchsportsList.letters.add( search );
+                searchsportsList.letters.add(search);
             }
 
         }
@@ -361,7 +398,7 @@ public class ChooseASport_Activity extends Activity {
         //searchsportsList.letters.add( "No results found" );
         //searchsportsList.letters.add( "Add " +  "\""+search+"\"");
 
-        searchsportsList.letters.add( search );
+        searchsportsList.letters.add(search);
 		 
 		/*
 		this.suggested_text_cont = (RelativeLayout) findViewById(R.id.suggested_text_cont); 
@@ -376,14 +413,14 @@ public class ChooseASport_Activity extends Activity {
 
         headerListView.setAdapter(new ChooseASportListAdapter(this, searchsportsList));
 
-        if(matchIsFound == false){
+        if (matchIsFound == false) {
             //Toast.makeText(getApplicationContext(), "wala bai", Toast.LENGTH_SHORT).show();
             headerListView.setVisibility(View.GONE);
 
-            suggested_text.setText("Add \""+search+"\"?");
-            suggested_text.setTag( search );
+            suggested_text.setText("Add \"" + search + "\"?");
+            suggested_text.setTag(search);
             this.suggested_text_cont.setVisibility(View.VISIBLE);
-        }else{
+        } else {
 
             //Toast.makeText(getApplicationContext(), "naa bai", Toast.LENGTH_SHORT).show();
             headerListView.setVisibility(View.VISIBLE);
@@ -393,11 +430,13 @@ public class ChooseASport_Activity extends Activity {
     }
 
 
-    /** @category Custom Method
-     * Fetch list of sport from server.**/
+    /**
+     * @category Custom Method
+     * Fetch list of sport from server.*
+     */
     public void gatherSportsList() {
 
-        if(pbLoading_container != null)
+        if (pbLoading_container != null)
             pbLoading_container.setVisibility(View.VISIBLE);
 
         Async_HttpClient async_HttpClient = new Async_HttpClient(this);
@@ -439,15 +478,17 @@ public class ChooseASport_Activity extends Activity {
                                 + error);
 
                     }
-                });
+                }
+        );
     }
 
 
-
-    /** @category Custom Method
-     *  Parse string result.
-     *  @param (String) response - the string result.
-     * **/
+    /**
+     * @param (String) response - the string result.
+     *                 *
+     * @category Custom Method
+     * Parse string result.
+     */
     public void parseSportList(String reponse) {
 
         try {
@@ -490,7 +531,6 @@ public class ChooseASport_Activity extends Activity {
         headerListView.setAdapter(new ChooseASportListAdapter(this,
                 mainsportsList));
     }
-
 
 
 }

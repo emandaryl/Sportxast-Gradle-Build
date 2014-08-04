@@ -37,6 +37,8 @@
             android:name="com.facebook.LoginActivity"
             android:theme="@android:style/Theme.Holo.Light.NoActionBar" />
 
+        <activity android:name=".activities2_0.FansTagsActivity" />
+
         <activity
             android:name="com.sportxast.SportXast.Splash_Activity"
             android:configChanges="orientation|screenSize"

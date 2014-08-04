@@ -171,7 +171,7 @@ public class FansAdapter extends BaseAdapter {
 								sharedEditor.putString(fan.id, fan.name).apply();
 							} else {
 								// TYPE_FOLLOWING
-								sharedEditor.putString(follow.userId, follow.displayName);
+								sharedEditor.putString(follow.userId, follow.displayName).apply();
 							}
 							
 							

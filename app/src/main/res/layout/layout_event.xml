@@ -24,7 +24,7 @@
 
     </com.sportxast.SportXast.thirdparty_class.PullToRefreshListView>
 
-    <!-- 
+
     <ListView
         android:id="@+id/listvwEvents"
         android:layout_width="match_parent"
@@ -32,7 +32,7 @@
         android:layout_below="@+id/sx_header_wrapper"
         android:divider="@null"
         />
-         -->
+
 
     <RelativeLayout
         android:id="@+id/pbLoading_container"
