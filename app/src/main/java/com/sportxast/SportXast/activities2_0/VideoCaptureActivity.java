@@ -51,6 +51,7 @@ import android.widget.ScrollView;
 import android.widget.TableLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.VideoView;
 
 import com.coremedia.iso.IsoFile;
 import com.loopj.android.http.JsonHttpResponseHandler;
@@ -90,7 +91,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Timer;
-import java.util.TimerTask;
 
 public class VideoCaptureActivity extends FragmentActivity implements CaptureListener {
 
@@ -146,6 +146,8 @@ public class VideoCaptureActivity extends FragmentActivity implements CaptureLis
     /** Tooltip resources **/
     //private RelativeLayout tooltip_frame;
     private RelativeLayout tooltip_cont1;
+    private RelativeLayout tooltip_cont2;
+
     private RelativeLayout portraitview_cover;
 
     //private boolean FFromTutorial;
@@ -174,17 +176,17 @@ public class VideoCaptureActivity extends FragmentActivity implements CaptureLis
     /** withPendingHighlight(true(1) or false(0)) - means that a highlight is already capture, but waiting for an event to be created **/
     public void gotoCreateEventPage( final int withPendingHighlight ){
         Intent intent = new Intent(VideoCaptureActivity.this, Create_Activity.class);
-       // intent.putExtra("withPendingHighlight",	withPendingHighlight);
+        // intent.putExtra("withPendingHighlight",	withPendingHighlight);
 
         intent.putExtra("withPendingHighlight",	1);
 
         // getNextMediaId( FEventId, FNextMediaIdData.localVideoFilePath, FNextMediaIdData.localImageFilePath, FNextMediaIdData.localVideoFileName, FNextMediaIdData.localImageFileName);
 
         intent.putExtra("highlightInitialData",	   FEventId
-                                            +"||"+ FNextMediaIdData.localVideoFilePath
-                                            +"||"+ FNextMediaIdData.localImageFilePath
-                                            +"||"+ FNextMediaIdData.localVideoFileName
-                                            +"||"+ FNextMediaIdData.localImageFileName );
+                +"||"+ FNextMediaIdData.localVideoFilePath
+                +"||"+ FNextMediaIdData.localImageFilePath
+                +"||"+ FNextMediaIdData.localVideoFileName
+                +"||"+ FNextMediaIdData.localImageFileName );
 
         startActivity(intent);
         //runThreadUploader();
@@ -413,6 +415,7 @@ public class VideoCaptureActivity extends FragmentActivity implements CaptureLis
 //########################################################################## 
         // this.tooltip_frame 	= (RelativeLayout) findViewById(R.id.tooltip_frame);
         this.tooltip_cont1 	= (RelativeLayout) findViewById(R.id.tooltip_cont1);
+        this.tooltip_cont2 	= (RelativeLayout) findViewById(R.id.tooltip_cont2);
 //########################################################################## 
 
         this.captureButton_cont = (LinearLayout) findViewById(R.id.captureButton_cont);
@@ -435,7 +438,7 @@ public class VideoCaptureActivity extends FragmentActivity implements CaptureLis
                 // TODO Auto-generated method stub
                 if (btnContTag == 1) {
                     captureButton_cont.setTag(0); //<= tag 1 means CLICKABLE, tag 0 means DISABLED
-                    showTooltip( false );
+                    showTooltip( false, tooltip_cont1 );
                     FCurrentCapture = new _MediaStorage();
                     FCurrentCapture.mediaEventID = FEventId;
                     FCurrentCapture.mediaDateShortFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date());
@@ -445,7 +448,6 @@ public class VideoCaptureActivity extends FragmentActivity implements CaptureLis
 
                     counter_X = counter_X  + 1;
                     captureRecordedMedia();
-
                 }
                 //canClickCapture = false;
             }
@@ -481,14 +483,10 @@ public class VideoCaptureActivity extends FragmentActivity implements CaptureLis
         layout_commentDelete_field_cont = (RelativeLayout) findViewById(R.id.layout_commentDelete_field_cont);
         layout_commentDelete_field_cont.setVisibility(View.GONE);
 
-
-
         this.btnDelete 	= (ImageButton) findViewById(R.id.btn_delete);
-
         btnDelete.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 if(FLatestHighlightMediaId.length() <= 0){
                     //Toast.makeText(getApplicationContext(), "OOOOOPS", Toast.LENGTH_LONG).show();
                 }
@@ -647,7 +645,7 @@ public class VideoCaptureActivity extends FragmentActivity implements CaptureLis
 					 * Pass it to setTag()
 					 */
                 imgbtnShareFacebook.setTag(shareMsg + Constants.SEPARATOR + additionalTag);
-                }
+            }
         });
 
 
@@ -659,12 +657,10 @@ public class VideoCaptureActivity extends FragmentActivity implements CaptureLis
         });
 
 
-                this.btn_add_tag 	= (ImageButton) findViewById(R.id.btn_add_tag);
+        this.btn_add_tag 	= (ImageButton) findViewById(R.id.btn_add_tag);
         this.btn_add_tag.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-
-
                 if(FLatestHighlightMediaId.length() <= 0){
                     //Toast.makeText(getApplicationContext(), "OOOOOPS", Toast.LENGTH_LONG).show();
                 }
@@ -677,10 +673,11 @@ public class VideoCaptureActivity extends FragmentActivity implements CaptureLis
         this.snapshot.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                startPreview(true);
+
+                showTooltip(false, tooltip_cont2);
+                startPreview(0);
             }
         });
-
 
         //###################################################
         this.btn_add_comment	= (ImageButton) findViewById(R.id.btn_add_comment);
@@ -735,18 +732,15 @@ public class VideoCaptureActivity extends FragmentActivity implements CaptureLis
             }
         } );
     }
+
     private PopupWindow popupWindow;
-
     private OnClickListener onclickShare = new OnClickListener() {
-
         @Override
         public void onClick(View view) {
             int id = ((ImageButton) view).getId();
 
             popupWindow.dismiss();
-
             //Log.i(TAG, "Extra Text: " + view.getTag().toString());
-
             switch(id) {
                 case R.id.imgbtn_share_email:
 
@@ -788,7 +782,7 @@ public class VideoCaptureActivity extends FragmentActivity implements CaptureLis
 
                     break;
                 case R.id.imgbtn_share_facebook:
-                   // Highlight_Activity activity = (Highlight_Activity) context;
+                    // Highlight_Activity activity = (Highlight_Activity) context;
                     openUpFacebookFragment(view.getTag().toString());
                     break;
             }
@@ -818,7 +812,7 @@ public class VideoCaptureActivity extends FragmentActivity implements CaptureLis
 
 
     public void showTagsSectionPanel( boolean showPanel, final String mediaId  ){
-            if(showPanel == false){
+        if(showPanel == false){
             if( layout_commentDelete_field_cont != null ){
                 layout_commentDelete_field_cont.removeAllViews();
                 layout_commentDelete_field_cont.setVisibility(View.GONE);
@@ -1192,6 +1186,28 @@ public class VideoCaptureActivity extends FragmentActivity implements CaptureLis
         //#########################################################################
     }
 
+    private void showTooltip( boolean showTooltip, RelativeLayout currentToolTip ){
+        //Toast.makeText(getApplicationContext(), "wala na", Toast.LENGTH_LONG).show();
+
+        if( GlobalVariablesHolder.firstTimeUseOfVideoCapture ){
+
+            if(currentToolTip == null)
+                return;
+
+            if(showTooltip){
+                //  Toast.makeText(getApplicationContext(), "hey", Toast.LENGTH_LONG).show();
+                currentToolTip.setVisibility(View.VISIBLE);
+            } else 	{
+                currentToolTip.setVisibility(View.GONE);
+            }
+        }else{
+            if(currentToolTip == null)
+                return;
+
+            currentToolTip.setVisibility(View.GONE);
+        }
+    }
+    /*
     private void showTooltip( boolean showTooltip ){
         //Toast.makeText(getApplicationContext(), "wala na", Toast.LENGTH_LONG).show();
         if( GlobalVariablesHolder.firstTimeUseOfVideoCapture ){
@@ -1209,6 +1225,7 @@ public class VideoCaptureActivity extends FragmentActivity implements CaptureLis
             tooltip_cont1.setVisibility(View.GONE);
         }
     }
+    */
 
     private void releaseResources() {
         this.releaseMediaRecorder();
@@ -1507,7 +1524,7 @@ public class VideoCaptureActivity extends FragmentActivity implements CaptureLis
             //this.FMediaRecorder.setAudioSource(MediaRecorder.AudioSource.CAMCORDER);
             this.FMediaRecorder.setAudioSource(MediaRecorder.AudioSource.MIC);
             this.FMediaRecorder.setVideoSource(MediaRecorder.VideoSource.CAMERA);
-	        
+
 	        /*
 	        if(CamcorderProfile.hasProfile(CamcorderProfile.QUALITY_480P)){
 	        	 this.FMediaRecorder.setProfile(CamcorderProfile.get(CamcorderProfile.QUALITY_480P));
@@ -1774,7 +1791,7 @@ public class VideoCaptureActivity extends FragmentActivity implements CaptureLis
 	    	} */
 
             try {
-	    		
+
 	    		/*
 			    @SuppressWarnings("resource")
 				IsoFile isoFile = new IsoFile(renameTo.getAbsolutePath());
@@ -1784,7 +1801,7 @@ public class VideoCaptureActivity extends FragmentActivity implements CaptureLis
 		                isoFile.getMovieBox().getMovieHeaderBox().getTimescale();
 		        */
                 double length = 1.000;
-		        
+
 			    /*      
 		        isoFile.close();
 				double startTime = length - sampleLength ;
@@ -1833,7 +1850,7 @@ public class VideoCaptureActivity extends FragmentActivity implements CaptureLis
             // startRecording();
 
             snapshot.setImageBitmap( bitmapSnapshot );
-            //ORIGINAL saveSnapshot( bitmapSnapshot );
+
             new saveSnapshotTask(bitmapSnapshot, "").execute();
         }
     }
@@ -1879,99 +1896,6 @@ public class VideoCaptureActivity extends FragmentActivity implements CaptureLis
             new ProcessingTask(VideoCaptureActivity.this, vcListner, currentLocalFilename).execute();
         }
     }
-
-    private void saveSnapshotORIGINAL(final Bitmap snapshot) {
-        currentLocalFilename = Utils.getCurrentLocalFilename();
-        new AsyncTask<Object, Object, Object>() {
-
-            @Override
-            protected void onPreExecute() {
-                super.onPreExecute();
-                captureButton_cont.setVisibility(View.VISIBLE);
-            }
-
-            @Override
-            protected Object doInBackground(Object... params) {
-
-                try {
-                    FileOutputStream fos = new FileOutputStream(TrimVideoUtils.getLocalImagesPath(VideoCaptureActivity.this) + "/" + currentLocalFilename + ".jpg");
-
-                    snapshot.compress(Bitmap.CompressFormat.PNG, 90, fos);
-
-                    fos.close();
-                    //canClickCapture = true;
-                    captureButton_cont.setTag(1); //<= tag 1 means CLICKABLE
-
-                    //System.out.println("CLICK CAPTURE" + canClickCapture);
-
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-                return params;
-            }
-
-            @Override
-            protected void onPostExecute(Object obj) {
-                new ProcessingTask(VideoCaptureActivity.this, vcListner, currentLocalFilename).execute();
-            }
-
-        }.execute();
-    }
-	
-	/*
-    private void startSaveServiceORIGINAL() { 
-	try { 
-		stopRecording();
-		captureButton_cont.setVisibility(View.GONE);
-		//captureButton.setVisibility(View.GONE);
-		Log.e("========= STOP REC", this.file.getAbsolutePath());
-        renameTo        = new File(TrimVideoUtils.getLocalTmpPath(this), "tmp_rec_tmp.mp4");
-        this.file.renameTo(renameTo);
-        startRecording();
-        Log.e("========= Renamed", renameTo.getAbsolutePath());
-        
-        new AsyncTask<Void, Void, Bitmap>() {
-            @Override
-            protected Bitmap doInBackground(Void... params) {
-            	
-            	try {
-            		runOnUiThread(new Runnable() {
-					
-						@Override
-						public void run() {
-							// TODO Auto-generated method stub
-							captureButton_cont.setVisibility(View.GONE);
-	                		//captureButton.setVisibility(View.GONE);
-							}
-						
-						});
-                		} 
-            		catch (Exception e) {
-            			//exception error message
-            		}
-            	
-            	return getVideoFrame();
-            }
- 
-            @Override
-            protected void onPostExecute(Bitmap obj) {
-            	setSnapshot(obj);
-            	 
-            }
-            
-        }.execute();
-        
-        } catch (Exception e) { 
-            // TODO: handle exception 
-        	//canClickCapture = true;
-        	captureButton_cont.setTag(1); //<= tag 1 means CLICKABLE
-        	
-        	showUi(false);
-        	//hideUi();
-            e.printStackTrace(); 
-        } 
-    }
-    */
 
     //Global_Data global_Data;
     private Bitmap getVideoFrame() {
@@ -2103,6 +2027,9 @@ public class VideoCaptureActivity extends FragmentActivity implements CaptureLis
             super.onPostExecute(result);
             //captureButton_cont.setVisibility(View.VISIBLE);
             previewPlay.setVisibility(View.VISIBLE);
+
+            showTooltip(true, tooltip_cont2);
+
             pb_snapshotLoader.setVisibility(View.GONE);
 
             //#########add initial data to FNextMediaIdData
@@ -2113,7 +2040,15 @@ public class VideoCaptureActivity extends FragmentActivity implements CaptureLis
             FNextMediaIdData.localImageFilePath = this.localImageFilePath;
             FNextMediaIdData.localVideoFileName = this.localVideoFileName;
             FNextMediaIdData.localImageFileName = this.localImageFileName;
-            //#############################################
+
+            if( GlobalVariablesHolder.firstTimeUseOfVideoCapture ){
+                //startTimerOnVideoProcessingComplete();
+                startPreview(1);
+          //      return;
+            }
+
+            //#######################################################################################
+            //#######################################################################################
 
             if(FCallingActivityID == Constants.requestCode_Menu_Activity){
                 if( GlobalVariablesHolder.FLatestEvent != null){
@@ -2123,7 +2058,6 @@ public class VideoCaptureActivity extends FragmentActivity implements CaptureLis
                     }
                     else // if NOT checked into an event
                     {
-
                         if( messagePromptAlreadyAppeared ){
                             //do nothing
                         }
@@ -2138,6 +2072,29 @@ public class VideoCaptureActivity extends FragmentActivity implements CaptureLis
             getNextMediaId( FEventId, this.localVideoFilePath, this.localImageFilePath, this.localVideoFileName, this.localImageFileName);
             //new getNextMediaIdTask( FEventId, this.localVideoFilePath, this.localImageFilePath, this.localVideoFileName, this.localImageFileName).execute();
         }
+    }
+
+    private void continueProcessAfterAutoPreview(){
+        if(FCallingActivityID == Constants.requestCode_Menu_Activity){
+            if( GlobalVariablesHolder.FLatestEvent != null){
+
+                if(GlobalVariablesHolder.alreadyCheckedIntoAnEvent){
+
+                }
+                else // if NOT checked into an event
+                {
+                    if( messagePromptAlreadyAppeared ){
+                        //do nothing
+                    }
+                    else {
+                        showCheckIntoDialog(1, GlobalVariablesHolder.FLatestEvent.eventName);
+                        return;
+                    }
+                }
+            }
+        }
+
+        getNextMediaId( FEventId, FNextMediaIdData.localVideoFilePath, FNextMediaIdData.localImageFilePath, FNextMediaIdData.localVideoFileName, FNextMediaIdData.localImageFileName);
     }
 
     public void showCheckIntoDialog( final int promptMessageType, String eventName ){
@@ -2268,18 +2225,13 @@ public class VideoCaptureActivity extends FragmentActivity implements CaptureLis
                                 e.printStackTrace();
                             }
 
-                            if( GlobalVariablesHolder.firstTimeUseOfVideoCapture ){
-                                //startTimerOnVideoProcessingComplete();
-                                startPreview(true);
-                            }
-
                             GlobalVariablesHolder.pauseBackgroundService = false;
                             FGlobal_Data.runThreadUploader(VideoCaptureActivity.this);
 
                             btn_add_fav.setTag(0); //btn_add_fav Tag: 1 - already favorited, 0 - not yet favorited
                         } else {
                             FLatestHighlightMediaId = "";
-						
+
 						/*
 						capture.inQueue = "0";
 					    DB.createUpdateCapture(capture);
@@ -2385,12 +2337,6 @@ public class VideoCaptureActivity extends FragmentActivity implements CaptureLis
                                 } catch (Exception e) {
                                     e.printStackTrace();
                                 }
-
-                                if( GlobalVariablesHolder.firstTimeUseOfVideoCapture ){
-                                    //startTimerOnVideoProcessingComplete();
-                                    startPreview(true);
-                                }
-
 
                             } else {
                                 FLatestHighlightMediaId = "";
@@ -2532,7 +2478,10 @@ public class VideoCaptureActivity extends FragmentActivity implements CaptureLis
         if( videoCaptureModeIsOn ){
 
         }else{
-            portraitview_cover.setVisibility(View.GONE);
+
+            if(portraitview_cover != null)
+                portraitview_cover.setVisibility(View.GONE);
+
             if(this.FCallingActivityID == Constants.requestCode_Menu_Activity){
                 /*
                 if( GlobalVariablesHolder.FLatestEvent != null){
@@ -2546,7 +2495,6 @@ public class VideoCaptureActivity extends FragmentActivity implements CaptureLis
                     }
                 }
                 */
-
             }
 
             this.waitText.setVisibility(View.VISIBLE);
@@ -2557,7 +2505,6 @@ public class VideoCaptureActivity extends FragmentActivity implements CaptureLis
             System.out.println("------------------------------------------------------------ ON RESUME");
             new prepareCameraTask().execute();
             videoCaptureModeIsOn = true;
-
             //Toast.makeText(getApplicationContext(), "EVENT ID: " + FEventId, Toast.LENGTH_LONG).show();
         }
     }
@@ -2672,7 +2619,7 @@ public class VideoCaptureActivity extends FragmentActivity implements CaptureLis
 
         captureButton_cont.setVisibility(View.VISIBLE);
         //this.captureButton.setVisibility(View.VISIBLE); 
-        showTooltip( true );
+        showTooltip( true, tooltip_cont1 );
         // startRecording();
         // enable just the record button
     }
@@ -2684,7 +2631,7 @@ public class VideoCaptureActivity extends FragmentActivity implements CaptureLis
 
     @Override
     public void onDeleteCapture(_MediaStorage capture) {
-		
+
 		/*
 		 
 		// TODO Auto-generated method stub
@@ -2703,7 +2650,7 @@ public class VideoCaptureActivity extends FragmentActivity implements CaptureLis
 
     @Override
     public void onCommentAdd(_MediaStorage capture) {
-		
+
 		/*
 		// TODO Auto-generated method stub
 		btn_add_comment.setImageResource(R.drawable.bbtn_comment_on);
@@ -2719,7 +2666,7 @@ public class VideoCaptureActivity extends FragmentActivity implements CaptureLis
 
     @Override
     public void onFavoriteSuccess(_MediaStorage capture) {
-		
+
 		/*
 		
 		// TODO Auto-generated method stub
@@ -2746,9 +2693,8 @@ public class VideoCaptureActivity extends FragmentActivity implements CaptureLis
 
 
     public void onShareSuccess(_MediaStorage capture) {
-		
+
 		/*
-		
 		// TODO Auto-generated method stub
 		btn_add_tag.setImageResource(R.drawable.bbtn_share_on);
 		btn_add_tag.setEnabled(false);
@@ -2785,50 +2731,130 @@ public class VideoCaptureActivity extends FragmentActivity implements CaptureLis
         }
     }
 
-    public void startPreview(boolean autoPlay) {
+    private RelativeLayout videovw_preview_cont1;
+    private VideoView videovw_preview;
+
+    /** autoPlay: 1 - true, 0- false **/
+    /*
+    public void startPreviewXXXXXXXXXXXXXXXXXXX(final int autoPlay) {
         //Toast.makeText(getApplicationContext(), previewPath, Toast.LENGTH_LONG).show();
         if ( (canPlayPreview && ! previewPath.equals(""))   ) {
-            //Toast.makeText(getApplicationContext(), "NAKASULOD!", Toast.LENGTH_LONG).show();
-            Intent tostart = new Intent(this, VideoFullScreenActivity.class);
-            tostart.putExtra("mediaUrl", previewPath);
-            tostart.putExtra("callingActivityID", Constants.requestCode_VideoCapture_Activity);
-            startActivityForResult(tostart, Constants.requestCode_VideoPreviewActivity);
+
+           releaseResources();
+
+            //devCamera.stopPreview();
+
+            //stopRecording();
+            //this.devCamera.stopPreview();
+
+            videovw_preview_cont1 = (RelativeLayout) findViewById(R.id.videovw_preview_cont1);
+            videovw_preview = (VideoView) videovw_preview_cont1.findViewById(R.id.videovw_preview);
+            //Uri uri = Uri.parse(path);
+            videovw_preview.setVideoPath(previewPath);
+
+            final MediaController mc = new MediaController(this);
+            mc.setAnchorView(videovw_preview);
+            mc.setMediaPlayer(videovw_preview);
+            videovw_preview.setMediaController(mc);
+            //videoView.setVideoURI(uri);
+            videovw_preview.start();
+            videovw_preview.requestFocus();
+            videovw_preview.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
+
+                @Override
+                public void onPrepared(MediaPlayer mp) {
+                    // TODO Auto-generated method stub
+                                          mp.setOnBufferingUpdateListener(new MediaPlayer.OnBufferingUpdateListener() {
+
+                        @Override
+                        public void onBufferingUpdate(MediaPlayer mp, int percent) {
+                            // TODO Auto-generated method stub
+                            if(percent==100){
+                                findViewById(R.id.txtvw_menutitle).setVisibility(View.GONE);
+                                findViewById(R.id.progress_refresh).setVisibility(View.GONE);
+                                mc.show(0);
+                            }
+                        }
+
+                    });
+                }
+            });
+
+            videovw_preview.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+                @Override
+                public void onCompletion(MediaPlayer mediaPlayer) {
+
+                    if (mediaPlayer != null) {
+                        mediaPlayer.stop();
+                        mediaPlayer.release();
+                        //mediaPlayer = null;
+                    }
+
+                    if(autoPlay == 1)
+                        continueProcessAfterAutoPreview();
+
+
+                    // Clear the background resource when the video is prepared to play.
+                    videovw_preview.setBackgroundResource(0);
+
+
+                    videovw_preview_cont1.setVisibility(View.GONE);
+
+                    //cameraPreviewFrame.requestLayout();
+
+                    beginVideoCaptureMode();
+                }
+            });
+
+            Button imgbtn_exit_fullscreen = (Button) videovw_preview_cont1.findViewById(R.id.imgbtn_exit_fullscreen);
+            imgbtn_exit_fullscreen.setOnClickListener(new OnClickListener() {
+                @Override
+                public void onClick(View view) {
+
+                    if(autoPlay == 1)
+                        continueProcessAfterAutoPreview();
+
+                    if (videovw_preview != null) {
+                        // this.camera.lock(); // unnecessary in API >= 14
+                        videovw_preview.stopPlayback();
+                        //  this.devCamera.release();
+                        videovw_preview = null;
+                        //  this.cameraPreviewFrame.removeView(this.FCameraPreview);
+                    }
+
+                    videovw_preview_cont1.setVisibility(View.GONE);
+
+                    beginVideoCaptureMode();
+
+                }
+            });
+
+            videovw_preview_cont1.setVisibility(View.VISIBLE);
+            //############################################################
+            //############################################################
+            //############################################################
+
             videoCaptureModeIsOn = false;
         }
     }
+*/
+    /** autoPlay: 1 - true, 0- false **/
+    public void startPreview(int autoPlay) {
+        //Toast.makeText(getApplicationContext(), previewPath, Toast.LENGTH_LONG).show();
+        if ( (canPlayPreview && ! previewPath.equals(""))   ) {
 
-    private Timer FRefresherTimer;
-    public void startTimerOnVideoProcessingCompleteXXXXXXXXX(){
-        //final long timerWaitingTime = 700;
-        // #######################################
-        FRefresherTimer = new Timer();
-        FRefresherTimer.schedule(new TimerTask() {
-            @Override
-            public void run() {
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
+            //Toast.makeText(getApplicationContext(), "NAKASULOD!", Toast.LENGTH_LONG).show();
+            Intent tostart = new Intent(this, VideoFullScreenActivity.class);
+            tostart.putExtra("mediaUrl", previewPath);
 
-                        if(previewPath.length() > 0){
-                            stopTimer();
-                            startPreview(true);
-                            //Toast.makeText(getApplicationContext(), previewPath, Toast.LENGTH_LONG).show();
-                        }
-                    }
-                });
-            }
-        }, 1000, 1000); //<== 700 interval, very important, do not change
-        // ########################################
-    }
+            tostart.putExtra("isAutoPlay", autoPlay);
+            tostart.putExtra("callingActivityID", Constants.requestCode_VideoCapture_Activity);
+            startActivityForResult(tostart, Constants.requestCode_VideoPreviewActivity);
 
-
-    public void stopTimer() {
-        if (FRefresherTimer == null)
-            return;
-        // FRecordTimeLapse = 0;
-        FRefresherTimer.cancel();
-        FRefresherTimer.purge();
-        FRefresherTimer = null;
+            //###################################################################
+            //this thing is very, very importante, DO NOT change this
+            videoCaptureModeIsOn = false;
+        }
     }
 
     @Override
@@ -2850,18 +2876,35 @@ public class VideoCaptureActivity extends FragmentActivity implements CaptureLis
                     FCurrentCapture.isSharedOnSms = "1";
                     break;
                 case Constants.requestCode_VideoPreviewActivity:
-                    //Toast.makeText(getApplicationContext(), "balik na brad", Toast.LENGTH_LONG).show();
+                //    Toast.makeText(getApplicationContext(), "balik na brad", Toast.LENGTH_LONG).show();
                     GlobalVariablesHolder.firstTimeUseOfVideoCapture = false;
-                    showTooltip( false );
+                    showTooltip( false, tooltip_cont1 );
 
                     beginVideoCaptureMode();
+                    int isAutoPlay = data.getIntExtra("isAutoPlay", 0);
+                    if( isAutoPlay  == 1 ){
+                     //   continueProcessAfterAutoPreview();
+                    }
+
                     break;
             }
             FCurrentCapture.modified = "1";
             //DB.createUpdateCapture(FCurrentCapture);
         }
     }
-	 
+
+    private Timer FRefresherTimer;
+
+    public void stopTimer() {
+        if (FRefresherTimer == null)
+            return;
+        // FRecordTimeLapse = 0;
+        FRefresherTimer.cancel();
+        FRefresherTimer.purge();
+        FRefresherTimer = null;
+    }
+
+
 	 /*
 	@Override
    protected void onResume() {

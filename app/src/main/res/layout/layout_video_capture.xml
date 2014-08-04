@@ -11,7 +11,7 @@
         android:layout_height="match_parent"
         android:layout_centerInParent="true"
         android:background="#000000"
-        tools:ignore="MergeRootFrame" >
+        tools:ignore="MergeRootFrame">
 
 	<TextView
 	    android:id="@+id/waitText"
@@ -124,18 +124,27 @@
     android:layout_alignParentLeft="true"
     android:visibility="gone" >
 
-   <LinearLayout
+    <RelativeLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_toLeftOf="@+id/preview_panel1"
+        android:layout_alignParentBottom="true">
+
+    <LinearLayout
        android:layout_width="fill_parent"
        android:layout_height="wrap_content"
        android:layout_alignParentBottom="true"
        android:layout_centerHorizontal="true"
        android:layout_centerVertical="false"
-       android:layout_toLeftOf="@+id/preview_panel1"
+
        android:background="@color/opaque_black2"
        android:gravity="center"
        android:orientation="horizontal"
        android:padding="10dp"
-       android:weightSum="100" >
+       android:weightSum="100"
+       android:id="@+id/XXXXXXXXXXXXX"
+       android:keepScreenOn="false">
              
 <RelativeLayout
     android:layout_width="fill_parent"
@@ -275,8 +284,68 @@
 	    android:visibility="gone" />
 	
 	 </RelativeLayout>
+
+
+
 	  </LinearLayout>
-    
+
+
+
+        <RelativeLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="false"
+
+
+            android:orientation="horizontal"
+            android:padding="8dp"
+
+            android:keepScreenOn="false">
+
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="false"
+                android:layout_centerHorizontal="true"
+                android:layout_centerVertical="false"
+
+                android:background="@drawable/tooltip_bg_2"
+                android:gravity="center"
+                android:orientation="horizontal"
+                android:padding="10dp"
+
+                android:id="@+id/tooltip_cont2"
+                android:keepScreenOn="false"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentLeft="false"
+                android:visibility="gone">
+
+
+                <TextView
+                android:id="@+id/tooltip2_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:text="Tap to watch the last highlight' displays"
+                android:textColor="#FFFFFF"
+                android:textSize="14dp"
+                android:layout_centerInParent="true"
+                android:textAllCaps="false"
+                    android:layout_marginRight="8dp" />
+        </RelativeLayout>
+
+        </RelativeLayout>
+
+
+</RelativeLayout>
+
+
+
+
+
     <RelativeLayout
         android:id="@+id/preview_panel1"
         android:layout_width="wrap_content"
@@ -458,7 +527,7 @@
         android:id="@+id/portraitview_cover"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        android:background="#000000" >
+        android:background="#000000">
 
 <RelativeLayout
     android:id="@+id/actionbar_header1"
@@ -467,7 +536,8 @@
     android:layout_gravity="fill_horizontal"
     android:background="@drawable/layerlist_whiteshapewithlinebelow"
     android:paddingBottom="7dp"
-    android:paddingTop="7dp" >
+    android:paddingTop="7dp"
+    android:hapticFeedbackEnabled="false">
 
     <RelativeLayout
         android:id="@+id/layout_left"
@@ -531,5 +601,73 @@
 	    </RelativeLayout>
 
 	</RelativeLayout>
-    
+
+
+    <RelativeLayout
+        android:id="@+id/videovw_preview_cont1"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/black"
+        android:visibility="gone">
+
+
+        <RelativeLayout
+            android:id="@+id/layout_menubar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="fill_horizontal"
+            android:background="@drawable/layerlist_whiteshapewithlinebelow"
+            android:paddingBottom="7dp"
+            android:paddingTop="7dp"
+            android:hapticFeedbackEnabled="false">
+
+            <RelativeLayout
+                android:id="@+id/layout_left1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="8dp" >
+
+                <Button
+                    android:id="@+id/imgbtn_exit_fullscreen"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:background="@android:color/transparent"
+                    android:drawableLeft="@drawable/ic_btn_back"
+                    android:textColor="@color/white"
+                    android:textSize="14sp" />
+
+            </RelativeLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="false"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="40dp"
+                android:layout_marginRight="40dp"
+                android:gravity="center"
+                android:orientation="vertical" >
+
+                <TextView
+                    android:id="@+id/actionbar_preview_menutitle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:ellipsize="end"
+                    android:gravity="center"
+                    android:text="Event"
+                    android:textColor="@color/uni_blue" />
+            </LinearLayout>
+        </RelativeLayout>
+
+        <VideoView
+            android:id="@+id/videovw_preview"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_below="@+id/layout_menubar" />
+
+    </RelativeLayout>
 </RelativeLayout>

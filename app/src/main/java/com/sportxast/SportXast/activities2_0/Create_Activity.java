@@ -426,13 +426,11 @@ public class Create_Activity extends Activity {
             public void onBackClicked() {
                 // TODO Auto-generated method stub
 
-                if( FNextMediaIdData != null ){//means there pending captured highlight
+                if( FNextMediaIdData != null ){//means there's pending captured highlight
                     getNextMediaId( BACKBUTTON_CALLING_CODE, null, FNextMediaIdData.localVideoFilePath, FNextMediaIdData.localImageFilePath, FNextMediaIdData.localVideoFileName, FNextMediaIdData.localImageFileName);
                 } else {
-
                     finish();
                 }
-
                 //finish();
             }
 

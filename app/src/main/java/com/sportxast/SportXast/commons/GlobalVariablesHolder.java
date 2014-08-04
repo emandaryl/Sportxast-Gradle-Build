@@ -17,8 +17,9 @@ public class GlobalVariablesHolder {
 	
 	/** default value SHOULD be 0 **/
 	public static double user_Longitude = 0;
-	
-	public static boolean firstTimeUseOfVideoCapture = false;
+
+    /**default is TRUE**/
+	public static boolean firstTimeUseOfVideoCapture = true;
 	
 	public static String X_DEVICE_ID  	= "";
 	public static String X_SESSION_ID 	= ""; 
