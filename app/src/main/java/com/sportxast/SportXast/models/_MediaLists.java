@@ -279,7 +279,7 @@ public class _MediaLists {
 		ArrayList<Comments> m_comment = new ArrayList<Comments>();
 		
 		try {
-			JSONArray c = json.getJSONArray("comments");
+			JSONArray c = json.getJSONArray("list");
 			for (int j = 0; j < c.length(); j++) {
 				JSONObject json_c = c.getJSONObject(j);
 				Comments comment = new Comments();
