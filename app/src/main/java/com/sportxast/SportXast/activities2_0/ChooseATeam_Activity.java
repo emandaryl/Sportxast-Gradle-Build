@@ -1,6 +1,7 @@
 package com.sportxast.SportXast.activities2_0;
 
 //import com.sportxast.SportXast.Global_Data;
+
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
@@ -13,6 +14,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup.LayoutParams;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -36,10 +39,14 @@ import java.util.ArrayList;
 
 public class ChooseATeam_Activity extends Activity {
     //TODO : Display available Teams to List
-    /** Called when the activity is first created. */
+    /**
+     * Called when the activity is first created.
+     */
 
     private HeaderUIClass headerUIClass;
     private RelativeLayout sx_header_wrapper;
+    private Button btnCancel;
+    private ChooseATeamListAdapter adapterChooseTeam;
 
     private HeaderListView headerListView;
     private EditText edittxt_search;
@@ -51,11 +58,35 @@ public class ChooseATeam_Activity extends Activity {
     private int team = 0;
 
     private JSONObject JSONSportChosen;
-    public void exitActivity( String teamName ){
+    private View.OnClickListener onclickCancel = new View.OnClickListener() {
+
+        @Override
+        public void onClick(View view) {
+            hideKeyboard();
+            edittxt_search.setText("");
+
+            lists_team_filtered.clear();
+            lists_team.clear();
+            adapterChooseTeam.notifyDataSetChanged();
+        }
+    };
+
+    private int FTeamNumber;
+    private RelativeLayout pbLoading_container;
+    private RelativeLayout suggested_text_cont;
+    private TextView suggested_text;
+    private SharedPreferences FSharedpreferences;
+    private String FRecentTeamsKey = "knG7QubcZbyK39";
+    private LinearLayout recentteam_cont1;
+    private LinearLayout recentteam_list_cont1;
+    private ChooseATeamListAdapter listTeamAdapter;
+    private ArrayList<_SearchHashtag> FTeamList;
+
+    public void exitActivity(String teamName) {
 
         this.JSONSportChosen = new JSONObject();
         try {
-            this.JSONSportChosen.put("team"+Integer.toString(FTeamNumber), teamName);
+            this.JSONSportChosen.put("team" + Integer.toString(FTeamNumber), teamName);
         } catch (JSONException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
@@ -63,7 +94,7 @@ public class ChooseATeam_Activity extends Activity {
 
         //######################################################
         Intent returnIntent = new Intent();
-        returnIntent.putExtra("teamChosen", this.JSONSportChosen.toString() );
+        returnIntent.putExtra("teamChosen", this.JSONSportChosen.toString());
         returnIntent.putExtra("teamNumber", FTeamNumber);
         setResult(RESULT_OK, returnIntent);
         //######################################################
@@ -71,13 +102,14 @@ public class ChooseATeam_Activity extends Activity {
         finish();
     }
 
-    private int FTeamNumber;
+    private void hideKeyboard() {
+        InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm.hideSoftInputFromWindow(edittxt_search.getWindowToken(), 0);
+    }
 
-    private RelativeLayout pbLoading_container;
-    private RelativeLayout suggested_text_cont;
-    private TextView suggested_text;
-
-    /** Called when the activity is first created. */
+    /**
+     * Called when the activity is first created.
+     */
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -104,46 +136,45 @@ public class ChooseATeam_Activity extends Activity {
         gatherRecentTeams();
     }
 
-    private SharedPreferences FSharedpreferences;
-    private String FRecentTeamsKey = "knG7QubcZbyK39";
-
-    /** retrieved locally saved Recent Created Events **/
-    public void gatherRecentTeams(){
+    /**
+     * retrieved locally saved Recent Created Events *
+     */
+    public void gatherRecentTeams() {
         //ArrayList<_RecentEvent> arrRecentEvents = new ArrayList<_RecentEvent>();
         FSharedpreferences = getSharedPreferences("com.sportxast.SportXast.recentTeamsLocal", Context.MODE_PRIVATE);
-        if ( FSharedpreferences.contains( FRecentTeamsKey ) ){
+        if (FSharedpreferences.contains(FRecentTeamsKey)) {
 
             String highlightDataInString = FSharedpreferences.getString(FRecentTeamsKey, "");
-            String[] arrHighlightsData	= highlightDataInString.split("\\|\\|");
+            String[] arrHighlightsData = highlightDataInString.split("\\|\\|");
 
-            if(arrHighlightsData.length > 0 ){
+            if (arrHighlightsData.length > 0) {
                 recentteam_cont1.setVisibility(View.VISIBLE);
-            }else{
+            } else {
                 recentteam_cont1.setVisibility(View.GONE);
             }
 
             LayoutInflater infalInflater = (LayoutInflater) getBaseContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
             int loopLimit = 0;
-            if(arrHighlightsData.length > 5)
+            if (arrHighlightsData.length > 5)
                 loopLimit = arrHighlightsData.length - 5;
 
             for (int i = (arrHighlightsData.length - 1); i >= loopLimit; i--) {
                 // for (int i = 0; i < arrHighlightsData.length; i++) {
-                RelativeLayout lyt1 = (RelativeLayout) infalInflater.inflate( R.layout.list_item_information, null);
-                TextView recentTeamTextview = (TextView)lyt1.findViewById(R.id.txtvw_listabout);
+                RelativeLayout lyt1 = (RelativeLayout) infalInflater.inflate(R.layout.list_item_information, null);
+                TextView recentTeamTextview = (TextView) lyt1.findViewById(R.id.txtvw_listabout);
                 //recentTeamTextview.setTextColor( Color.parseColor("#fc4c06") ); //fc4c06 - uni orange
-                recentTeamTextview.setText( arrHighlightsData[i].toString() );
+                recentTeamTextview.setText(arrHighlightsData[i].toString());
                 recentTeamTextview.setOnClickListener(new View.OnClickListener() {
 
                     @Override
                     public void onClick(View v) {
                         // TODO Auto-generated method stub
-                        exitActivity( ((TextView)v ).getText().toString() );
+                        exitActivity(((TextView) v).getText().toString());
                     }
                 });
 
-                ( (ImageView) lyt1.findViewById(R.id.imgvw_next) ).setVisibility(View.GONE);
+                ((ImageView) lyt1.findViewById(R.id.imgvw_next)).setVisibility(View.GONE);
                 //recentteam_list_cont1.setPadding(20, 20, 20, 20);
                 this.recentteam_list_cont1.addView(lyt1, new RelativeLayout.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT));
 
@@ -151,23 +182,20 @@ public class ChooseATeam_Activity extends Activity {
         }
     }
 
-    private LinearLayout recentteam_cont1;
-    private LinearLayout recentteam_list_cont1;
-
-    private void initializeResources(){
-        pbLoading_container = (RelativeLayout) findViewById( R.id.pbLoading_container );
-        edittxt_search 		= (EditText) findViewById( R.id.edittext_search );
+    private void initializeResources() {
+        pbLoading_container = (RelativeLayout) findViewById(R.id.pbLoading_container);
+        edittxt_search = (EditText) findViewById(R.id.edittext_search);
         edittxt_search.addTextChangedListener(new TextWatcher() {
             @Override
             public void afterTextChanged(Editable arg0) {
                 // TODO Auto-generated method stub
                 if (arg0.toString().length() > 2) {
-                    ( (RelativeLayout) findViewById(R.id.rl_listvw_cont1) ).setVisibility(View.VISIBLE);
+                    ((RelativeLayout) findViewById(R.id.rl_listvw_cont1)).setVisibility(View.VISIBLE);
                     recentteam_cont1.setVisibility(View.GONE);
                     gatherSearchResults();
-                }else{
+                } else {
                     //	suggested_text_cont.setVisibility(View.GONE);
-                    ( (RelativeLayout) findViewById(R.id.rl_listvw_cont1) ).setVisibility(View.GONE);
+                    ((RelativeLayout) findViewById(R.id.rl_listvw_cont1)).setVisibility(View.GONE);
                     recentteam_cont1.setVisibility(View.VISIBLE);
                 }
             }
@@ -188,7 +216,7 @@ public class ChooseATeam_Activity extends Activity {
 
         this.suggested_text_cont = (RelativeLayout) findViewById(R.id.suggested_text_cont);
         this.suggested_text_cont.setVisibility(View.GONE);
-        suggested_text =  (TextView) suggested_text_cont.findViewById(R.id.suggested_text);
+        suggested_text = (TextView) suggested_text_cont.findViewById(R.id.suggested_text);
         this.suggested_text.setTag("");
         suggested_text.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -196,23 +224,26 @@ public class ChooseATeam_Activity extends Activity {
                 // TODO Auto-generated method stub
                 //Toast.makeText(getApplicationContext(),  ( (TextView) v ).getText().toString() , Toast.LENGTH_LONG).show();
                 //exitActivity( ( (TextView) v ).getText().toString() );
-                exitActivity( ( (TextView) v ).getTag().toString() );
+                exitActivity(((TextView) v).getTag().toString());
             }
         });
 
-        recentteam_cont1 =  (LinearLayout) findViewById(R.id.recentteam_cont1);
-        recentteam_list_cont1 =  (LinearLayout) recentteam_cont1.findViewById(R.id.recentteam_list_cont1);
+        recentteam_cont1 = (LinearLayout) findViewById(R.id.recentteam_cont1);
+        recentteam_list_cont1 = (LinearLayout) recentteam_cont1.findViewById(R.id.recentteam_list_cont1);
 
         headerListView = (HeaderListView) findViewById(R.id.listvw_sportlists);
-        if(FTeamList == null)
+        if (FTeamList == null)
             FTeamList = new ArrayList<_SearchHashtag>();
 
         listTeamAdapter = new ChooseATeamListAdapter(ChooseATeam_Activity.this, FTeamList, team);
-        headerListView.setAdapter( listTeamAdapter );
+        headerListView.setAdapter(listTeamAdapter);
+
+        btnCancel = (Button) findViewById(R.id.btn_cancel);
+        btnCancel.setVisibility(View.VISIBLE);
+        btnCancel.setOnClickListener(onclickCancel);
     }
 
-    private ChooseATeamListAdapter listTeamAdapter;
-    private void gatherSearchResults(){
+    private void gatherSearchResults() {
         this.pbLoading_container.setVisibility(View.VISIBLE);
 
         /**https://dev.sportxast.com/phone/apiV2/Search?limit=10&page=1&q=stan&type=team **/
@@ -221,8 +252,8 @@ public class ChooseATeam_Activity extends Activity {
         requestParams.put("page", "1");
 
         //requestParams.put("q", "team");
-        final String stringToSearch =  edittxt_search.getText().toString();
-        requestParams.put("q", stringToSearch );
+        final String stringToSearch = edittxt_search.getText().toString();
+        requestParams.put("q", stringToSearch);
         requestParams.put("type", "team");
 
         //Log.e("team", requestParams.toString());
@@ -243,14 +274,14 @@ public class ChooseATeam_Activity extends Activity {
 
                         pbLoading_container.setVisibility(View.GONE);
                         //Toast.makeText(getApplicationContext(), "HEYZ-- "+ response.toString(), Toast.LENGTH_LONG).show();
-                        if( !parseTeamData(response) ){
+                        if (!parseTeamData(response)) {
                             headerListView.setVisibility(View.GONE);
 
                             //Toast.makeText(getApplicationContext(), "nops", Toast.LENGTH_LONG).show();
                             suggested_text_cont.setVisibility(View.VISIBLE);
-                            suggested_text.setText("Add \""+stringToSearch + "\"?" );
+                            suggested_text.setText("Add \"" + stringToSearch + "\"?");
                             suggested_text.setTag(stringToSearch);
-                        }else{
+                        } else {
                             headerListView.setVisibility(View.VISIBLE);
                             recentteam_cont1.setVisibility(View.GONE);
                         }
@@ -269,11 +300,13 @@ public class ChooseATeam_Activity extends Activity {
                         super.onFailure(responseBody, error);
                         Log.v("onFailure", "onFailure :" + responseBody + " : " + error);
                     }
-                });
+                }
+        );
     }
 
-    private ArrayList<_SearchHashtag> FTeamList;
-    /** returns: if empty? true or false **/
+    /**
+     * returns: if empty? true or false *
+     */
     public boolean parseTeamData(JSONObject response) {
 
         boolean listCreated = false;
@@ -281,12 +314,12 @@ public class ChooseATeam_Activity extends Activity {
         try {
             JSONArray jsonArray_response = response.getJSONArray("list");
             for (int i = 0; i < jsonArray_response.length(); i++) {
-                JSONObject object 	= jsonArray_response.getJSONObject(i);
+                JSONObject object = jsonArray_response.getJSONObject(i);
                 _SearchHashtag team = new _SearchHashtag();
-                team.id 			= "" + object.get("id");
-                team.name 			= "" + object.get("name");
-                team.avatarPath 	= "" + object.get("avatarPath");
-                team.type 			= "" + object.get("type");
+                team.id = "" + object.get("id");
+                team.name = "" + object.get("name");
+                team.avatarPath = "" + object.get("avatarPath");
+                team.type = "" + object.get("type");
                 FTeamList.add(team);
             }
 
@@ -295,11 +328,11 @@ public class ChooseATeam_Activity extends Activity {
             e.printStackTrace();
         }
 
-        if( FTeamList.size() > 0 ){
+        if (FTeamList.size() > 0) {
             listCreated = true;
             //Toast.makeText(getApplicationContext(), "size:-- " + FTeamList.size(), Toast.LENGTH_LONG).show();
-            listTeamAdapter.updateListElements( FTeamList );
-        }else{
+            listTeamAdapter.updateListElements(FTeamList);
+        } else {
             listCreated = false;
             //Toast.makeText(getApplicationContext(), "walay nakuha brad", Toast.LENGTH_LONG).show();
         }
@@ -307,24 +340,24 @@ public class ChooseATeam_Activity extends Activity {
         return listCreated;
     }
 
-    private void prepareHeader(){
+    private void prepareHeader() {
 
-        this.sx_header_wrapper = (RelativeLayout)findViewById(R.id.sx_header_wrapper);
+        this.sx_header_wrapper = (RelativeLayout) findViewById(R.id.sx_header_wrapper);
         this.headerUIClass = new HeaderUIClass(this, sx_header_wrapper);
         this.headerUIClass.setMenuTitle("Teams");
-        this.headerUIClass.showBackButton(	 true);
-        this.headerUIClass.showAddButton(	 false);
-        this.headerUIClass.showMenuButton(	 false);
+        this.headerUIClass.showBackButton(true);
+        this.headerUIClass.showAddButton(false);
+        this.headerUIClass.showMenuButton(false);
         this.headerUIClass.showRefreshButton(false);
-        this.headerUIClass.showAboutButton(	 false);
-        this.headerUIClass.showSearchButton( false);
-        this.headerUIClass.showDoneButton(	 false);
-        this.headerUIClass.showCameraButton( false);
-        this.headerUIClass.showMenuTitle(	 true);
+        this.headerUIClass.showAboutButton(false);
+        this.headerUIClass.showSearchButton(false);
+        this.headerUIClass.showDoneButton(false);
+        this.headerUIClass.showCameraButton(false);
+        this.headerUIClass.showMenuTitle(true);
         addHeaderButtonListener();
     }
 
-    private void addHeaderButtonListener(){
+    private void addHeaderButtonListener() {
         this.headerUIClass.setOnHeaderButtonClickedListener(new HeaderUIClass.OnHeaderButtonClickedListener() {
 
             @Override
@@ -393,37 +426,39 @@ public class ChooseATeam_Activity extends Activity {
 
                 String[] sportWordElements = placeName_full.split("\\s+");
 
-                if(sportWordElements.length < (j+1) )
+                if (sportWordElements.length < (j + 1))
                     continue;
 
                 String placeName_sub = sportWordElements[j].toString().toLowerCase();
 
                 int strToSearchLength_ = strToSearchLength;
-                if(strToSearchLength_ > placeName_sub.length() )
+                if (strToSearchLength_ > placeName_sub.length())
                     strToSearchLength_ = placeName_sub.length();
 
-                String placeNameInitialChars = placeName_sub.substring( 0, strToSearchLength_ ).toLowerCase();
+                String placeNameInitialChars = placeName_sub.substring(0, strToSearchLength_).toLowerCase();
                 //sportNameInitialChars = sportNameInitialChars.toLowerCase();
 
-                if( placeNameInitialChars.equals(search) ){
-                    lists_team_filtered.add( (_SearchHashtag) lists_team.get(i) );
+                if (placeNameInitialChars.equals(search)) {
+                    lists_team_filtered.add((_SearchHashtag) lists_team.get(i));
                     //sportsInLetter_.sportsInLetter.add(sports);
                     //matchIsFound = true;
                 }
             }
-			
+
 			/*
-			if(matchIsFound)
+            if(matchIsFound)
 				 break;
 			*/
         }
 
-        headerListView.setAdapter(new ChooseATeamListAdapter(this, lists_team_filtered, team ));
+        headerListView.setAdapter(new ChooseATeamListAdapter(this, lists_team_filtered, team));
     }
 
 
-    /** @category Custom Method
-     * Fetch list of available team from server.**/
+    /**
+     * @category Custom Method
+     * Fetch list of available team from server.*
+     */
     public void fetchData() {
         RequestParams requestParams = new RequestParams();
         requestParams.put("q", edittxt_search.getText().toString());
@@ -462,7 +497,8 @@ public class ChooseATeam_Activity extends Activity {
                                 + error);
 
                     }
-                });
+                }
+        );
     }
 
     public void parseData(JSONObject response) {
@@ -471,12 +507,12 @@ public class ChooseATeam_Activity extends Activity {
             JSONArray jsonArray_response = response.getJSONArray("list");
             for (int i = 0; i < jsonArray_response.length(); i++) {
 
-                JSONObject object 	= jsonArray_response.getJSONObject(i);
+                JSONObject object = jsonArray_response.getJSONObject(i);
                 _SearchHashtag team = new _SearchHashtag();
-                team.id 			= "" + object.get("id");
-                team.name 			= "" + object.get("name");
-                team.avatarPath 	= "" + object.get("avatarPath");
-                team.type 			= "" + object.get("type");
+                team.id = "" + object.get("id");
+                team.name = "" + object.get("name");
+                team.avatarPath = "" + object.get("avatarPath");
+                team.type = "" + object.get("type");
                 lists_team.add(team);
 
             }
