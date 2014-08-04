@@ -10,14 +10,18 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup.LayoutParams;
+import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.TextView.OnEditorActionListener;
 
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
@@ -104,6 +108,11 @@ public class ChooseATeam_Activity extends Activity {
         gatherRecentTeams();
     }
 
+    private void hideKeyboard() {
+        InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm.hideSoftInputFromWindow(edittxt_search.getWindowToken(), 0);
+    }
+
     private SharedPreferences FSharedpreferences;
     private String FRecentTeamsKey = "knG7QubcZbyK39";
 
@@ -186,6 +195,25 @@ public class ChooseATeam_Activity extends Activity {
 
         });
 
+        edittxt_search.setOnEditorActionListener(new OnEditorActionListener() {
+
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+
+                if(actionId == EditorInfo.IME_ACTION_GO) {
+                    if(v.getText().toString().length() > 0) {
+                        hideKeyboard();
+//						Toast.makeText(ChooseATeam_Activity.this, "Go Search " + v.getText().toString(), Toast.LENGTH_LONG).show();
+                        getSearchResult(v.getText().toString().trim());
+
+                    }
+
+
+                }
+                return false;
+            }
+        });
+
         this.suggested_text_cont = (RelativeLayout) findViewById(R.id.suggested_text_cont);
         this.suggested_text_cont.setVisibility(View.GONE);
         suggested_text =  (TextView) suggested_text_cont.findViewById(R.id.suggested_text);
@@ -243,14 +271,14 @@ public class ChooseATeam_Activity extends Activity {
 
                         pbLoading_container.setVisibility(View.GONE);
                         //Toast.makeText(getApplicationContext(), "HEYZ-- "+ response.toString(), Toast.LENGTH_LONG).show();
-                        if( !parseTeamData(response) ){
+                        if (!parseTeamData(response)) {
                             headerListView.setVisibility(View.GONE);
 
                             //Toast.makeText(getApplicationContext(), "nops", Toast.LENGTH_LONG).show();
                             suggested_text_cont.setVisibility(View.VISIBLE);
-                            suggested_text.setText("Add \""+stringToSearch + "\"?" );
+                            suggested_text.setText("Add \"" + stringToSearch + "\"?");
                             suggested_text.setTag(stringToSearch);
-                        }else{
+                        } else {
                             headerListView.setVisibility(View.VISIBLE);
                             recentteam_cont1.setVisibility(View.GONE);
                         }
@@ -269,7 +297,8 @@ public class ChooseATeam_Activity extends Activity {
                         super.onFailure(responseBody, error);
                         Log.v("onFailure", "onFailure :" + responseBody + " : " + error);
                     }
-                });
+                }
+        );
     }
 
     private ArrayList<_SearchHashtag> FTeamList;
