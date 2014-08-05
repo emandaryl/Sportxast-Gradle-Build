@@ -55,6 +55,7 @@ import com.sportxast.SportXast.commons.Constants;
 import com.sportxast.SportXast.commons.GlobalVariablesHolder;
 import com.sportxast.SportXast.models.EditTextBackEvent;
 import com.sportxast.SportXast.models.SportsTags;
+import com.sportxast.SportXast.models._EventLists;
 import com.sportxast.SportXast.models._MediaLists.Comments;
 import com.sportxast.SportXast.models._MediaLists.MediaList;
 import com.sportxast.SportXast.models._MediaLists.Tag;
@@ -431,6 +432,10 @@ public class EventMediaAdapter extends BaseAdapter {
             @Override
             public void onTextLinkClick(View textView, String clickedString) {
                 // TODO Auto-generated method stub
+//                Intent intent = new Intent(context, Highlight_Activity.class);
+//                _EventLists.EventLists eventList = FGlobal_Data.getEventList();
+//                intent.putExtra("eventParcel", CommonFunctions_1.parseToEventParcel(eventList));
+//                context.startActivity(intent);
 
 					/*
 				    int isToday = 0;
