@@ -296,11 +296,12 @@ public class EventMediaAdapter extends BaseAdapter {
             @Override
             public void onClick(View v) {
                 // TODO Auto-generated method stub
-                Intent intent = new Intent(context, Fav_Tag_Comment_Activity.class);
-                intent.putExtra("mediaId", FArrMediaList.get(viewPosition).mediaId);
-                intent.putExtra("listType", "tag");
 
-                ((Activity) context).startActivity(intent);
+//                Intent intent = new Intent(context, Fav_Tag_Comment_Activity.class);
+//                intent.putExtra("mediaId", FArrMediaList.get(viewPosition).mediaId);
+//                intent.putExtra("listType", "tag");
+//
+//                ((Activity) context).startActivity(intent);
             }
         });
 
@@ -432,7 +433,7 @@ public class EventMediaAdapter extends BaseAdapter {
             public void onTextLinkClick(View textView, String clickedString) {
                 // TODO Auto-generated method stub
 
-					/*
+
 				    int isToday = 0;
 					Intent intent = new Intent(context, Highlight_Activity.class);
 					intent.putExtra("eventId","");
@@ -441,8 +442,8 @@ public class EventMediaAdapter extends BaseAdapter {
 					intent.putExtra("eventTeams", "sampleTeamTitle");
 
 					intent.putExtra("isToday", ""+isToday);
-					((Activity)context).startActivity(intent);
-					*/
+					context.startActivity(intent);
+
 
             }
         });
