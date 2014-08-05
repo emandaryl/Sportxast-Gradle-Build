@@ -2,14 +2,50 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:layout_gravity="center"
     android:background="@color/black" >
+
+    <VideoView
+        android:id="@+id/videovw_expand"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:layout_centerVertical="true" />
+
+    <RelativeLayout
+        android:id="@+id/tooltip_frame"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:visibility="gone" >
+
+        <RelativeLayout
+            android:id="@+id/tooltip_cont1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:background="@drawable/tooltip_bg_1"
+            android:gravity="center" >
+
+            <TextView
+                android:id="@+id/tooltip1_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:text="Watch your first highlight!"
+                android:textColor="#FFFFFF"
+                android:textSize="14dp" />
+        </RelativeLayout>
+
+    </RelativeLayout>
 
     <RelativeLayout
         android:id="@+id/layout_menubar"
         android:layout_width="match_parent"
         android:layout_height="48dp"
         android:layout_alignParentTop="true"
-        android:background="@color/uni_grey" >
+        android:background="@color/uni_grey_bg" >
 
         <Button
             android:id="@+id/imgbtn_back"
@@ -20,36 +56,65 @@
             android:background="@android:color/transparent"
             android:onClick="onDone"
             android:text="Done"
-            android:textColor="@color/white"
+            android:textColor="@color/black"
             android:textSize="14sp" />
 
-        <TextView
-            android:id="@+id/txtvw_menutitle"
+        <LinearLayout
+            android:id="@+id/progbar_prepare_cont1"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_alignParentTop="true"
             android:layout_centerInParent="true"
-            android:layout_marginRight="50dp"
-            android:ellipsize="end"
+            android:background="@color/uni_grey_bg"
             android:gravity="center"
-            android:singleLine="true"
-            android:text="loading..."
-            android:textColor="@color/white"
-            android:textSize="18sp" />
+            android:orientation="horizontal" >
 
-        <ProgressBar
-            android:id="@+id/progress_refresh"
-            style="?android:attr/progressBarStyleSmall"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="30dp"
-            android:layout_toLeftOf="@+id/txtvw_menutitle" />
+            <ProgressBar
+                android:id="@+id/progbar_prepare"
+                style="?android:attr/progressBarStyleSmall"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="30dp"
+                android:layout_toLeftOf="@+id/txtvw_menutitle" />
+            <TextView
+                android:id="@+id/txtvw_menutitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:layout_marginRight="50dp"
+                android:ellipsize="end"
+                android:gravity="center"
+                android:singleLine="true"
+                android:text="loading..."
+                android:textColor="@color/black"
+                android:textSize="18sp" />
+
+        </LinearLayout>
+
+
+
+
     </RelativeLayout>
 
-    <VideoView
-        android:id="@+id/videovw_expand"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_centerVertical="true" />
 
+    <RelativeLayout
+        android:id="@+id/pbLoading_container"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:alpha="0.60"
+        android:background="#ffffff"
+        android:visibility="gone" >
+
+        <!-- android:background="#666666" -->
+        <ProgressBar
+            android:id="@+id/pbLoading"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:visibility="visible" />
+
+
+    </RelativeLayout>
 </RelativeLayout>

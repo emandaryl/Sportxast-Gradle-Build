@@ -1,80 +1,91 @@
 package com.sportxast.SportXast.activities2_0;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.media.MediaPlayer;
-import android.media.MediaPlayer.OnBufferingUpdateListener;
-import android.media.MediaPlayer.OnPreparedListener;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.view.Window;
 import android.widget.MediaController;
+import android.widget.RelativeLayout;
 import android.widget.VideoView;
 
 import com.sportxast.SportXast.R;
+import com.sportxast.SportXast.commons.GlobalVariablesHolder;
 
 public class VideoFullScreenActivity extends Activity {
 
-	VideoView videoView;
+	private VideoView videoView;
 
+    private int isAutoPlay;
+
+    private VideoView videovw_expand;
+
+    private int FCallingActivityID;
 	/** Called when the activity is first created. */
 	@Override
-	public void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		requestWindowFeature(Window.FEATURE_NO_TITLE);
-		setContentView(R.layout.video_fullscreen);
-		// TODO Auto-generated method stub
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        requestWindowFeature(Window.FEATURE_NO_TITLE);
+        setContentView(R.layout.video_fullscreen);
+        // TODO Auto-generated method stub
 
-		videoView = (VideoView) findViewById(R.id.videovw_expand);
-		String path = getIntent().getExtras().getString("mediaUrl");//
-		
-		//Uri uri = Uri.parse(path);
-		videoView.setVideoPath(path);
-		  
-		final MediaController mc = new MediaController(this);
-		mc.setAnchorView(videoView);
-		mc.setMediaPlayer(videoView);
-		videoView.setMediaController(mc);
-		//videoView.setVideoURI(uri);
-		videoView.start();
-		videoView.requestFocus();
-		videoView.setOnPreparedListener(new OnPreparedListener() {
+        videovw_expand = (VideoView) findViewById(R.id.videovw_expand);
+        RelativeLayout layout_menubar = (RelativeLayout) findViewById(R.id.layout_menubar);
+        layout_menubar.setVisibility(View.GONE);
+        String path = getIntent().getExtras().getString("mediaUrl");//
 
-			@Override
-			public void onPrepared(MediaPlayer mp) {
-				// TODO Auto-generated method stub
-				
-				mp.setOnBufferingUpdateListener(new OnBufferingUpdateListener() {
+        this.isAutoPlay = getIntent().getExtras().getInt("isAutoPlay", 0);//
 
-					@Override
-					public void onBufferingUpdate(MediaPlayer mp,
-							int percent) {
-						// TODO Auto-generated method stub
-						
-					
-						if(percent==100){
-							findViewById(R.id.txtvw_menutitle).setVisibility(View.GONE);
-							findViewById(R.id.progress_refresh).setVisibility(View.GONE);
-							mc.show(0);
-						}
-						
-					}
-					
-					
-				});
-				
-			
-				
-			}
-			
-			
-			
-		});
-		
-	
-	}
 
-	
-	public void onDone(View v){
+        FCallingActivityID = getIntent().getExtras().getInt("callingActivityID", -1);
+
+        if( GlobalVariablesHolder.firstTimeUseOfVideoCapture ){
+            ((RelativeLayout) findViewById(R.id.tooltip_frame)).setVisibility(View.VISIBLE);
+        }else{
+            ((RelativeLayout) findViewById(R.id.tooltip_frame)).setVisibility(View.GONE);
+        }
+
+		/*
+		if(FCallingActivityID == Constants.requestCode_Tutorial_Activity){
+			((RelativeLayout) findViewById(R.id.tooltip_frame)).setVisibility(View.VISIBLE);
+		}else{
+			((RelativeLayout) findViewById(R.id.tooltip_frame)).setVisibility(View.GONE);
+		}
+		*/
+
+        MediaController mc = new MediaController(this);
+        videovw_expand.setMediaController(mc);
+        videovw_expand.setVideoURI(Uri.parse(path));
+        videovw_expand.requestFocus();
+        videovw_expand.start();
+        videovw_expand.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+            @Override
+            public void onCompletion(MediaPlayer mp) {
+                //######################################################
+                Intent returnIntent = new Intent();
+
+                returnIntent.putExtra("isAutoPlay", isAutoPlay);
+                setResult(RESULT_OK, returnIntent);
+                //######################################################
+                finish();
+            }
+        });
+
+    }
+
+    @Override
+    protected void onDestroy() {
+        // TODO Auto-generated method stub
+        super.onDestroy();
+
+        GlobalVariablesHolder.firstTimeUseOfVideoCapture = false;
+    }
+
+
+	public void onDone(View v)
+    {
 		finish();
 	}
 }

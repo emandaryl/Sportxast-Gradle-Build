@@ -591,7 +591,6 @@ public class SportX2_Main extends Activity {
                                 GlobalVariablesHolder.FLatestEvent = eventLists.getLatestEvent();
 
                                 if(GlobalVariablesHolder.alreadyCheckedIntoAnEvent){
-
                                 }else{
 
                                     if( eventLists.getLatestEvent() == null ){
@@ -727,14 +726,15 @@ public class SportX2_Main extends Activity {
                 }
             } else {
                 intent = new Intent(SportX2_Main.this, Create_Activity.class);
-
+                intent.putExtra("withPendingHighlight",		0);
+                intent.putExtra("highlightInitialData",		"");
             }
 
             startActivity(intent);
             overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
         };
     };
-	
+
 	/*
 	//ORIGINAL
 	OnItemClickListener onitemListener = new OnItemClickListener() {

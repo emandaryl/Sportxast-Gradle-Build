@@ -838,7 +838,6 @@ public class Highlight_Activity extends FragmentActivity{
                                 + " : " + error);
                         isLoad = false;
                         isRefresh = false;
-
                         //FPullToRefreshListView.onRefreshComplete();
 						
 						/*
@@ -894,7 +893,6 @@ public class Highlight_Activity extends FragmentActivity{
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-
                         sharedpreferences = getSharedPreferences("com.sportxast.SportXast.highlights", Highlight_Activity.this.MODE_PRIVATE);
                         String highlightDataInString = sharedpreferences.getString(FEventId, "");
                         String[] arrHighlightsData = highlightDataInString.split("\\|\\|");

@@ -180,7 +180,7 @@ public class Tutorial_Activity extends Activity {
 				} 
 				
 				if( arg0 == (pagerAdapter.getCount()-1) ){
-					btn_next.setText("Done");
+					btn_next.setText("X");
 					//btn_next.setVisibility(View.INVISIBLE);
 					//btn_allowaccess.setVisibility(View.VISIBLE);
 					
@@ -224,7 +224,6 @@ public class Tutorial_Activity extends Activity {
 					}
 					//#####################################################################################
 					//#####################################################################################
-					  
 					finish();
 					startActivity(new Intent(Tutorial_Activity.this, SportX2_Main.class));
 				}else{

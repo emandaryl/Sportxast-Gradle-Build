@@ -112,7 +112,7 @@ public class Splash_Activity extends Activity {
 		GlobalVariablesHolder.X_DEVICE_ID  = Secure.getString(Splash_Activity.this.getContentResolver(), Secure.ANDROID_ID); 
 		GlobalVariablesHolder.FLatestEvent = null;   
 		GlobalVariablesHolder.alreadyCheckedIntoAnEvent = false;  
-		GlobalVariablesHolder.firstTimeUseOfVideoCapture = false;
+		GlobalVariablesHolder.firstTimeUseOfVideoCapture = true;
 		
 		GlobalVariablesHolder.threadUploaderIsRunning = false; 	 
 		/** default value SHOULD be 0 **/
@@ -182,7 +182,6 @@ public class Splash_Activity extends Activity {
 		}
 		    
 	  editor.commit();
-	  
 	}
 	      
 	private void supplyDeviceUserDataORIGINAL( Header[] headers ){
@@ -235,8 +234,8 @@ public class Splash_Activity extends Activity {
 	 * Called on onCreate method.Fetch application settings data( if success - goto parseSetting()) * */
 	public void getAppSettings() {  
 
-        //GlobalVariablesHolder.APISubDomain = "dev"; //<-- subdomain/change this
-		GlobalVariablesHolder.APISubDomain = "test"; //<-- subdomain/change this
+        GlobalVariablesHolder.APISubDomain = "dev"; //<-- subdomain/change this
+		//GlobalVariablesHolder.APISubDomain = "test"; //<-- subdomain/change this
 		 
 		Async_HttpClient async_HttpClient2 = new Async_HttpClient(this); 
 		async_HttpClient2.GET("Settings", new RequestParams(),

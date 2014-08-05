@@ -1064,6 +1064,24 @@ public class Profile_Activity extends Activity {
                 // TODO Auto-generated method stub
                 super.onSuccess(statusCode, headers, response);
                 Log.e("saveinfo", " "+response.toString());
+                /* sample error response:
+                {"message":"This username is already taken","error":1}
+                */
+
+                String error = "0";
+                try {
+                    if( response.has("error") )
+                        error = response.getString("error");
+                } catch (JSONException e) {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+                }
+
+                if(error.equals("1")){
+                    showProgressCover(View.VISIBLE, View.GONE);
+                    return;
+                 }
+
                 parseData(response);
                 /** HIDE progress bar **/
                 pbLoading_container.setVisibility(View.GONE);

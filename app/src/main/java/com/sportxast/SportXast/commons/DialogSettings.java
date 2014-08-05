@@ -88,20 +88,18 @@ public class DialogSettings extends  android.app.Dialog{
 					}
 				}
 			});
-		
-		
+
 			this.prompt_btn_no = (Button)findViewById(R.id.prompt_btn_no);
 			this.prompt_btn_no.setOnClickListener(new View.OnClickListener() { 
 				@Override
 				public void onClick(View arg0) {
 					// TODO Auto-generated method stub
 					DialogSettings.this.dismiss();
-
                     //############################################
                     if(mContext instanceof VideoCaptureActivity){
                         //Proceed to Saving, WITHOUT EVENT OR NOT CHECKED INTO AN EVENT
                         ( (VideoCaptureActivity)mContext ).supplyChosenEvent( null, "-1" );
-                    }
+                }
 				}
 			});
 		
